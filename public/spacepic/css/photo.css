@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.tool-btn {
+    padding: 10px 20px;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.tool-btn:hover {
+    background: #0056b3;
+}
+
+.photo-section {
+    margin-top: 20px;
+}
+
+.viewer-section {
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.canvas-container {
+    background: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.canvas-container h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+#drawingCanvas {
+    background: transparent;
+    border-radius: 5px;
+}
+
+.drawing-tools {
+    min-width: 120px;
+}
+
+#colorPicker {
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#backBtn {
+    margin-top: auto;
+    background-color: #dc3545;
+}
+
+#backBtn:hover {
+    background-color: #c82333;
+}

@@ -1,0 +1,699 @@
+/*
+* location2.CSS
+* 
+* This location2.CSS contains the styling for all elements on the location2.html page.
+* 
+* Class:      SER 402
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+/** body elements
+*
+*/
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url(/img/asteroid.png);
+    background-position: center;
+    background-size: cover;
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-size: 1000% 1000%;
+    animation: gradient 10s ease 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    max-width: 2560px;
+    margin: 0 auto;
+}
+
+/** header elements
+*
+*/
+header {
+    height: 30vh;
+    width: 100%;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#page-header {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    background: none;
+    height: 20vh !important;
+    position: relative;
+}
+
+#logo {
+    padding-top: 1rem;
+    display: block;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/** div1 elements
+*
+*/
+#ss-image {
+    max-width: 100%;
+}
+
+#location-title {
+    width: 40%;
+    margin-top: -15%;
+}
+
+#div1{
+    text-align: center;
+    padding: 3rem;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    color: white;
+    background-color: black;
+    border-radius: 1rem;
+    p{
+        font-size: 2rem;
+    }
+}
+
+#div1 p, #div2 p{
+    padding: 3rem;
+    font-weight: 600;
+}
+
+/** div2 elements
+*
+*/
+#div2 {
+    position: relative; 
+    margin-top: 2rem;
+    width: 80%;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    border-radius: 1rem;
+    overflow: hidden; 
+    background: black; 
+    color: white;
+    z-index: 1; 
+    
+    h3{
+        font-size: 50px;
+    }
+    p{
+    font-size: 40px;
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+#test{
+    padding: 3%;
+    width: 95%;
+    margin-bottom: 5%;
+    margin-top: 3rem;
+    border-radius: 1rem;
+    position: relative;
+    background-color: black;
+    color: white;
+    font-size: 60px;
+    overflow: visible;
+}
+
+#test::after, #test::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent, white);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 10px;
+    border-radius: 1rem;
+    animation: 3s spin linear infinite;
+}
+
+#test::before {
+    filter: blur(1.5rem);
+    opacity: 0.7;
+}
+
+@keyframes spin {
+    from
+    {
+        --angle: 0deg;
+    } 
+    to
+    {
+        --angle:360deg;
+    }
+}
+
+/** div3 elements
+*
+*/
+#div3 {
+    width: 100%;
+    padding: 5rem;
+    color: white;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-rows: auto;
+    text-align: center;
+    div{
+        height: 500px;
+    }
+}
+
+#div3 h1 {
+    color: black;
+    font-size: 3rem;
+    grid-column: 1 / 4;
+    grid-row: 1;
+}
+
+#div2 h3 {
+    padding-top: 3rem;
+}
+
+#div3 h4 {
+    padding-bottom: 1rem;
+}
+
+#div3 div {
+    margin: 1rem;
+    padding: 10%;
+    border-radius: 1rem;
+    h4{
+        font-size: 2.5rem;
+        margin-top: 3rem;
+    }
+
+    p{
+        margin-top: 3rem;
+        font-size: 30px;
+    }
+}
+
+/*grid content*/
+#mercury {
+    background-image: url(../img/mercury.jpg);
+    background-size: cover;
+}
+
+#venus {
+    background-image: url(../img/venus.jpg);
+    background-size: cover;
+}
+
+#earth {
+    background-image: url(../img/Earth.jpg);
+    background-size: cover;
+}
+
+#mars {
+    background-image: url(../img/mars.jpg);
+    background-size: cover;
+}
+
+#psyche-location {
+    background-image: url(../img/psyche.jpg);
+    background-size: cover;
+}
+
+#jupiter {
+    background-image: url(../img/jupiter.jpg);
+    background-size: cover;
+}
+
+#saturn {
+    background-image: url(../img/saturn.jpg);
+    background-size: cover;
+}
+
+#uranus {
+    background-image: url(../img/uranus.jpg);
+    background-size: cover;
+}
+
+#neptune {
+    background-image: url(../img/neptune.jpg);
+    background-size: cover;
+}
+
+#pluto {
+    background-image: url(../img/pluto.jpg);
+    background-size: cover;
+}
+
+/** div4 elements
+*
+*/
+#div4 {
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2rem;
+    height: 900px;
+    width: 90%;
+    text-align: center;
+    font-size: 3rem;
+}
+
+#solar-system-map {
+    width: 100%;
+    height: 800px;
+    margin-top: 1.5rem;
+    border-radius: 1rem;
+}
+
+/** footer elements
+*
+*/
+footer {
+    margin-top: 3rem;
+    height: 30vh;
+    width: 100%;
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+}
+
+/** loading animation
+*
+*/
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover; 
+    z-index: -1;
+    opacity: 0; 
+}
+
+/* Media Queries */
+
+@media (min-width: 375px){
+    #logo {
+        width: 50%;
+    }
+
+    #page-header{
+        margin-top: -60%;
+        height: 35vh !important;
+        width: 150%;
+    }
+
+    #ss-image{
+        transform: scale(1.25);
+    }
+
+    #div1 {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    #div1 p {
+        width: 70% !important;
+        font-size: .75rem !important;
+    }
+
+    #test {
+        font-size: 1rem !important;
+    }
+
+    #div2 p {
+        font-size: .75rem;
+        line-height: 1.75;
+    }
+
+    #div3 h1, #div4 h3{
+        font-size: 1rem;
+    }
+
+    #div3 div {
+        height: 200px;
+        margin: 0.25rem;
+        padding: 2.5%;
+    }
+    #div3 div h4{
+        font-size: 1rem;
+    }
+
+    #div3 div p {
+        margin-top:0.5rem;
+        font-size: 0.6rem;
+    }
+
+    #pluto, #neptune, #uranus, #saturn, #jupiter, #psyche-location, #mars, #earth, #venus, #mercury{
+        background-size: cover;
+        background-position: center;
+    }
+
+    #div4 {
+        margin-top: -3rem !important;
+    }
+
+    #solar-system-map {
+        height: 900px;
+    }
+}
+
+@media (min-width: 400px){
+    #logo {
+        width: 50%;
+    }
+
+    #page-header{
+        margin-top: -60%;
+        height: 25vh !important;
+        width: 150%;
+    }
+
+    #ss-image{
+        transform: scale(1.25);
+    }
+
+    #div1 {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    #div1 p {
+        width: 70% !important;
+        font-size: .75rem !important;
+    }
+
+    #test {
+        font-size: 1rem !important;
+    }
+
+    #div2 p {
+        font-size: .75rem;
+        line-height: 1.75;
+    }
+
+    #div3 {
+        margin-top: -2rem !important;
+    }
+
+    #div3 h1, #div4 h3{
+        font-size: 1rem;
+    }
+
+    #div3 div {
+        height: 200px;
+        margin: 0.25rem;
+        padding: 2.5%;
+    }
+    #div3 div h4{
+        font-size: 1rem;
+    }
+
+    #div3 div p {
+        margin-top:0.5rem;
+        font-size: 0.6rem;
+    }
+
+    #pluto, #neptune, #uranus, #saturn, #jupiter, #psyche-location, #mars, #earth, #venus, #mercury{
+        background-size: cover;
+        background-position: center;
+    }
+
+    #div4 {
+        margin-top: -3rem !important;
+    }
+
+    #solar-system-map {
+        height: 900px;
+    }
+}
+
+@media (min-width: 768px){
+    #logo {
+        width: 40%;
+    }
+
+    #page-header{
+        margin-top: -40%;
+        height: 30vh !important;
+        width: 150%;
+    }
+
+    #ss-image{
+        transform: scale(1);
+    }
+
+    #div1 {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    #div1 p {
+        width: 70% !important;
+        font-size: 1rem !important;
+    }
+
+    #test {
+        font-size: 1.5rem !important;
+    }
+
+    #div2 p {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    #div3 {
+        margin-top: -2rem !important;
+    }
+
+    #div3 h1, #div4 h3{
+        font-size: 1.5rem;
+    }
+
+    #div3 div {
+        height: 200px;
+        margin: 0.25rem;
+        padding: 2.5%;
+    }
+    #div3 div h4{
+        font-size: 1rem;
+        background-color: rgb(0,0,0,0.3);
+    }
+
+    #div3 div p {
+        margin-top:0.5rem;
+        font-size: 1rem;
+        background-color: rgb(0,0,0,0.2);
+    }
+
+    #pluto, #neptune, #uranus, #saturn, #jupiter, #psyche-location, #mars, #earth, #venus, #mercury{
+        background-size: cover;
+        background-position: center;
+    }
+
+    #div4 {
+        margin-top: -3rem !important;
+        margin-bottom: 3rem;
+    }
+
+    #solar-system-map {
+        height: 900px;
+    }
+    footer{
+        height: 20vh !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    #logo {
+        width: 35%;
+    }
+    #page-header{
+        width: 100%;
+        padding-top: 2rem;
+        height: 25vh !important;
+    }
+
+    #div1 {
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #div1 p {
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+        line-height: 2;
+    }
+
+    #div3 div h4{
+        font-size: 1.5rem;
+    }
+
+    #div3 div p {
+        font-size: 1rem;
+    }
+
+    footer {
+        height: 20vh !important;
+    }
+}
+
+@media (min-width: 1100px){
+    #page-header{
+        margin-top: -25%;
+        height: 25vh !important;
+    }
+
+    #div1 p {
+        font-size: 1.25rem !important;
+    }
+
+    #test {
+        font-size: 1.5rem !important;
+    }
+
+    #div2 p {
+        font-size: 1.25rem;
+        line-height: 1.75;
+    }
+
+    #div3 h1, #div4 h3{
+        font-size: 2rem;
+    }
+
+    #div3 div {
+        height: 300px;
+        margin: 0.5rem;
+        padding: 5%;
+    }
+    #div3 div h4{
+        font-size: 1.5rem;
+    }
+    #div3 div p {
+        font-size: 1rem;
+    }
+    #solar-system-map {
+        height: 600px;
+    }
+}
+
+@media (min-width: 1280px){
+    #page-header{
+        margin-top: -20%;
+        height: 25vh !important;
+    }
+
+    #div1 p {
+        font-size: 1.5rem !important;
+    }
+
+    #test {
+        font-size: 2rem !important;
+    }
+
+    #div2 p {
+        font-size: 1.5rem;
+        line-height: 1.5;
+    }
+
+    #div3 div {
+        height: 300px;
+        margin: 0.5rem;
+        padding: 5%;
+    }
+    #div3 div h4{
+        font-size: 2rem;
+    }
+    #div3 div p {
+        font-size: 1.1rem;
+    }
+
+    #solar-system-map {
+        height: 600px;
+    }
+}
+
+@media (min-width: 1440px){
+    #page-header{
+        margin-top: -15%;
+        height: 25vh !important;
+    }
+
+    #div3 div {
+        margin: 0.5rem;
+        padding: 5%;
+    }
+}
+
+@media (min-width: 1512px) {
+    #page-header {
+        padding-top: 7rem;
+        padding-bottom: 5rem;
+
+    }
+}
+
+@media (min-width: 1707px) {
+    #page-header{
+        margin-top: -5.5%;
+    }
+
+    #div3 div {
+        margin: 0.5rem;
+        padding: 5%;
+    }
+}
+
+@media (min-width: 1920px) and (max-width: 2530px) {
+    #page-header{
+        margin-top: -0.5%;
+    }
+
+    #div3 div {
+        margin: 0.75rem;
+        padding: 7.5%;
+    }
+}
+
+@media (min-width: 2560px) {
+    #page-header{
+        margin-top: 0;
+        height: 25vh !important;
+    }
+}
+

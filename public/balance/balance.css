@@ -1,0 +1,322 @@
+:root {
+    --primary-color: #2196F3;
+    --primary-dark: #1976D2;
+    --success-color: #4CAF50;
+    --success-dark: #45a049;
+    --danger-color: #f44336;
+    --danger-dark: #d32f2f;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --bg-primary: #f4f4f4;
+    --bg-secondary: #fff;
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+}
+
+/* Dark mode variables */
+.dark-mode {
+    --primary-color: #64B5F6;
+    --primary-dark: #42A5F5;
+    --success-color: #81C784;
+    --success-dark: #66BB6A;
+    --danger-color: #E57373;
+    --danger-dark: #EF5350;
+    --text-primary: #E0E0E0;
+    --text-secondary: #BDBDBD;
+    --bg-primary: #121212;
+    --bg-secondary: #1E1E1E;
+}
+
+html.dark-mode, html.dark-mode body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-primary);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    line-height: 1.6;
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+    margin-top: 20px;
+    color: var(--text-primary);
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.animation-container {
+    flex: 1;
+    max-width: 800px;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.left-planet {
+    flex: 0 0 200px;
+    margin-right: 10px;
+}
+
+.right-planet {
+    flex: 0 0 200px;
+    margin-left: 10px;
+}
+
+canvas {
+    border: 3px solid var(--primary-color);
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+
+.planet-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.planet-control {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--bg-secondary);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.planet-control h3 {
+    margin: 0 0 10px 0;
+    color: var(--text-primary);
+}
+
+.gravity-select {
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--primary-color);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    width: 100%;
+}
+
+.gravity-select:hover {
+    border-color: var(--primary-dark);
+}
+
+button {
+    margin: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    border-radius: var(--border-radius);
+    background-color: var(--success-color);
+    color: white;
+    font-weight: 600;
+    transition: all var(--transition-speed);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: var(--success-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.object-btn {
+    background-color: var(--primary-color);
+    font-size: 0.7em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    margin: 2px;
+    min-width: 0;
+}
+
+.object-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.clear-btn {
+    background-color: var(--danger-color);
+    padding: 8px 12px;
+    font-size: 0.9em;
+    margin: 0 5px;
+}
+
+.clear-btn:hover {
+    background-color: var(--danger-dark);
+}
+
+.stats {
+    margin: 5px 0;
+    font-weight: bold;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.multiplier {
+    color: var(--primary-color);
+}
+
+#hint {
+    margin: 0;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 1em;
+    padding: 8px;
+    flex-grow: 1;
+    text-align: right;
+}
+
+.objects-container {
+    max-width: 1200px;
+    margin: 8px auto 15px;
+    padding: 10px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.objects-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+    margin: 2px 0;
+}
+
+.instructions {
+    margin: 5px 0;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    padding: 6px;
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.disclaimer {
+    margin-top: 15px;
+    color: var(--text-secondary);
+    font-size: 0.8em;
+    font-style: italic;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.weight-display {
+    margin-top: 8px;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    background: rgba(33, 150, 243, 0.1);
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    min-height: 20px;
+    width: 100%;
+}
+
+.calc-weight-btn {
+    background-color: var(--primary-color);
+    width: 100%;
+    color: white;
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.calc-weight-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.unit-toggle-btn {
+    background-color: var(--success-color);
+    padding: 8px 12px;
+    font-size: 0.9em;
+    margin: 0 5px;
+}
+
+.unit-toggle-btn:hover {
+    background-color: var(--success-dark);
+}
+
+.challenge {
+    margin: 0 5px;
+    padding: 8px 12px;
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+}
+
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .left-planet, .right-planet {
+        width: 90%;
+        max-width: 800px;
+        flex: none;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .objects-row {
+        gap: 2px;
+    }
+    
+    .object-btn {
+        font-size: 0.65em;
+        padding: 3px 6px;
+    }
+    
+    .control-buttons {
+        flex-direction: column;
+    }
+}

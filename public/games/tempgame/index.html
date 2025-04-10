@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Rover Adventure!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #1a1a2e, #16213e);
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: rgba(42, 67, 101, 0.8);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-graphic {
+            position: absolute;
+            bottom: -30px;
+            right: -40px;
+            width: 300px;
+            opacity: 0.6;
+            pointer-events: none;
+            transform: rotate(15deg);
+        }
+
+        .game-graphic-2 {
+            position: absolute;
+            top: -20px;
+            left: -30px;
+            width: 260px;
+            opacity: 0.5;
+            pointer-events: none;
+            transform: rotate(-10deg);
+        }
+
+        h1 {
+            color: #f0a500;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .play-button {
+            display: inline-block;
+            background-color: #f0a500;
+            color: #1a1a2e;
+            padding: 15px 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button:hover {
+            background-color: #ffbf40;
+            transform: translateY(-2px);
+        }
+
+        .play-button:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calling All Space Explorers!</h1>
+        <p>Hey brave astronaut! Guide your rover across Psyche's mysterious surface, dodging hazards and asteroids along the way. Are you ready for this exciting mission? Let's blast off!</p>
+        <a href="../games.html" class="play-button">Start Your Mission!</a>
+        <img src="../../../img/PsycheTransparent.png" alt="Psyche Asteroid Graphic" class="game-graphic">
+        <img src="../../../img/PsycheTransparent.png" alt="Psyche Asteroid Graphic 2" class="game-graphic-2">
+    </div>
+    </div>
+</body>
+</html>

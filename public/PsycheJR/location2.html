@@ -1,0 +1,158 @@
+<!-- /*
+* location2.html
+* 
+* This location2.html contains the static, non-motion intensive, location page, which will be utilized on mobile devices and 
+* individuals with sensitivities to motion. This location page provides an interactive experience for the user, allowing 
+* for navigation through content related to Psyche's location within our Solar System.
+* 
+* Class:      SER 402
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+<!-- Declarations  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/location2.css">
+    <title>Document</title>
+</head>
+
+<!-- Start of the page body -->
+<body>
+    <!-- Loading animation -->
+    <video id="background-video" autoplay loop muted playsinline>
+        <source src="img/stars.mp4" type="video/mp4">
+    </video>
+    <!-- Header at the Top of the Page -->
+    <header>
+        <a href="index2.html"><img src="img/psychelogo.svg" alt="" id="logo"></a> 
+    </header>
+    <div id="page-header">
+        <img src="img/location-img2.svg" alt="" id="location-title">
+    </div>
+    <!-- Divider 1 explaining Psyche's location within our Solar System -->
+    <div id="div1">
+        <img src="img/solarsystem.jpg" alt="image of part of the solar system" id="ss-image">
+        <p>
+            Psyche is located in the asteroid belt between 
+            Mars and Jupiter.
+            <br><br>
+            It is 2.5 to 3.3 times further from the sun than 
+            Earth. 
+            <br><br>
+            Because Psyche and Earth orbit at different 
+            speeds and paths, the distance from 
+            Earth to Psyche varies from less than 186 million 
+            miles to more than 372 million miles. 
+            <br><br>
+            To help your team understand Psyche's relative position in 
+            our Solar System, below is a reference to each planets distance 
+            from our Sun.
+        </p>
+    </div> 
+    <!-- Divider 2 explaining the measurements that will be presented in following content -->
+    <div id="div2">
+        <h3><button id="test" disabled>Understanding Measurements</button></h3>
+            <p>
+                Since planets are millions of kilometers away from the Sun, the 
+                unit of measurement named the Astronomical Unit (au) was created. 
+                <br><br>
+                An au is exactly 149,597,870,700 meters / 92,955,807 miles, the approximate average 
+                distance between the Earth and the Sun, defined by the 
+                International Astronomical Union (IAU).
+            </p>
+            
+    </div>
+    <!-- Divider 3 explaining the distances from the Sun of each planet in our Solar System versus Psyche's distance to the Sun -->
+    <div id="div3">
+        <h1>Difference in distance from our Sun</h1>
+        <div id="mercury">
+            <h4>Mercury</h4>
+            <p>
+                Mercury is 0.39au / 57,900,000km / 35,977,392 miles from the Sun.
+            </p>
+        </div>
+        <div id="venus">
+            <h4>Venus</h4>
+            <p>
+                Venus is 0.72au / 108,200,000km / 67,232,363 miles from the Sun.
+            </p>
+        </div>
+        <div id="earth">
+            <h4>Earth</h4>
+            <p>
+                Earth is 1.0au / 149,597,870km / 92,955,807 miles from the Sun.
+            </p>
+        </div>
+        <div id="mars">
+            <h4>Mars</h4>
+            <p>
+                Mars is 1.52au / 227,900,000km / 141,610,494 miles from the Sun.
+            </p>
+        </div>
+        <div id="psyche-location">
+            <h4>Psyche</h4>
+            <p>
+                Psyche is 2.5 - 3.3au / 378,000,000 - 497,000,000km / 235,000,000 - 309,000,000 miles from the Sun.
+            </p>
+        </div>
+        <div id="jupiter">
+            <h4>Jupiter</h4>
+            <p>
+                Jupiter is 5.2au / 778,600,000km / 483,799,610 miles from the Sun.
+            </p>
+        </div>
+        <div id="saturn">
+            <h4>Saturn</h4>
+            <p>
+                Saturn is 9.54au / 1,433,500,000km / 890,735,604 miles from the Sun.
+            </p>
+        </div>
+        <div id="uranus">
+            <h4>Uranus</h4>
+            <p>
+                Uranus is 19.2au / 2,872,500,000km / 1,784,888,749 miles from the Sun.
+            </p>
+        </div>
+        <div id="neptune">
+            <h4>Neptune</h4>
+            <p>
+                Neptune is 30.06au / 4,495,100,000km / 2,793,125,646 miles from the Sun.
+            </p>
+        </div>
+        <div></div>
+        <div id="pluto">
+            <h4>Pluto</h4>
+            <p>
+                Pluto is 39.5au / 4,436,820,000 kilometers / 2,756,912,133 miles from the Sun.
+            </p>
+        </div>
+        <div></div>
+    </div>
+    <!-- Divider 4 provides a NASA provided model of Psyche within the Solar System -->
+    <div id="div4">
+        <h3>Explore our Solar System</h3>
+        <iframe src="https://eyes.nasa.gov/apps/solar-system/#/16_psyche" allowfullscreen id="solar-system-map"></iframe>
+    </div>
+    <!-- Footer Section -->
+    <footer>
+
+    </footer>
+    <!-- Associated JavaScript file locations needed for GSAP animations -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="JS/location.js"></script>
+</body>
+</html>

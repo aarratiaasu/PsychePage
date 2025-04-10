@@ -1,0 +1,188 @@
+/*
+    Mustard: #f9a000
+    Gold: #f47c33
+    Coral: #ef5966
+    Magneta: #a53f5b
+    Purple: #592651
+    Dark Purple: #302144
+*/
+
+body {
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-size: 1000% 1000%;
+    animation: gradient 10s ease infinite;
+    height: 100vh;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#psyche-logo {
+    margin: 10%;
+    width: 60%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#outer {
+    text-align: center;
+    background: linear-gradient(-90deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-size: 400% 400%;
+    animation: gradient 8s ease infinite;
+    border-radius: 7% / 50%;
+    padding: 10%;
+    font-size: xx-large;
+    margin-bottom: 20px;
+}
+
+#inner  {
+    border-radius: 75%;
+    background: linear-gradient(90deg, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-size: 400% 400%;
+    animation: gradient 5s ease infinite;
+    padding: 3%;
+}
+
+#inner p {
+    padding: 10%;
+    line-height: 2;
+    color: #f9a000;
+}
+
+#inline-img {
+    padding: 5% 0;
+}
+
+#div2 h1{
+    text-align: center;
+    margin: auto;
+}
+
+#div2 h2 {
+    text-align: center;
+    padding-left: 10px;
+}
+
+#sixteen-img {
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    opacity: 0.2;
+}
+
+#logo {
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    opacity: 0.2;
+}
+
+#inline-img {
+    display: inline;
+}
+
+#inline-img img {
+    width: 33%;
+}
+
+#div2 h2 {
+    margin-top: -150px;
+}
+
+/* Location in Solar System
+*/
+#div3 h2 {
+    margin-top: -350px;
+    margin-left: 10%;
+}
+
+#orbit {
+    margin-left: 70%;
+    width: 50%;
+    opacity: 0.2;
+    margin-top: 10%;
+    transform: rotate(30deg) skewX(5);
+}
+
+#learnmore {
+    display: block;
+    margin: 0 auto;
+}
+
+#learnmore:hover {
+    transform: skew(-15deg);
+}
+
+#contrast-img {
+    /*opacity: 0.7;*/
+    margin-top: 20%;
+    animation: opacity 15s ease-in-out infinite;
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+    }
+    50%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Psyche's surface
+*/
+
+#div4 {
+    margin-top: -250px;
+}
+
+#div4 h2 {
+    margin-top: -300px;
+    margin-left: 50%;
+}
+
+/* Temp */
+#div5 {
+    margin-top: 15%;
+}
+
+#div5 h2 {
+    margin-top: -400px;
+    margin-left: 5%;
+}
+
+#temp {
+    margin-left: 70%;
+    opacity: 0.2;
+}
+
+/* Physics */
+
+#div6 h2 {
+    margin-left: 60%;
+    margin-top: -425px;
+    margin-bottom: 30%;
+}
+
+#physics {
+    margin-top: 20%;
+    margin-left: 5%;
+    transform: scale(2) rotate(30deg);
+    opacity: 0.2;
+}
+
+footer {
+    text-align: center;
+}

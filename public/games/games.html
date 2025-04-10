@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Mission Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: transparent; /* Completely transparent background */
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background-color: rgba(20, 20, 40, 0.2); /* Very transparent header */
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(2px); /* Slight blur for readability */
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #7a5f3e; /* Match the directional light color from landing.js */
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow for better readability */
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #a88a6a; /* Lighter version of the directional light color */
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Shadow for better readability */
+        }
+        
+        .games-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .game-card {
+            background-color: rgba(30, 30, 50, 0.3); /* Very transparent card background */
+            border-radius: 10px;
+            overflow: hidden;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(122, 95, 62, 0.3); /* Subtle border matching the theme */
+            backdrop-filter: blur(3px); /* Slight blur effect for better readability */
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(122, 95, 62, 0.4); /* Warm glow on hover */
+            border: 1px solid rgba(122, 95, 62, 0.6); /* More visible border on hover */
+            background-color: rgba(30, 30, 50, 0.5); /* Slightly more opaque on hover */
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid #7a5f3e; /* Match the directional light color */
+        }
+        
+        .game-info {
+            padding: 20px;
+        }
+        
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #7a5f3e; /* Match the directional light color */
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5); /* Shadow for better readability */
+        }
+        
+        .game-description {
+            font-size: 0.9rem;
+            color: #d0c0b0; /* Light warm color for better readability */
+            margin-bottom: 15px;
+            line-height: 1.4;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.5); /* Shadow for better readability */
+        }
+        
+        .play-button {
+            display: inline-block;
+            background-color: rgba(122, 95, 62, 0.7); /* Semi-transparent button */
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px); /* Slight blur for better appearance */
+        }
+        
+        .play-button:hover {
+            background-color: rgba(138, 111, 78, 0.9); /* More opaque on hover */
+            box-shadow: 0 0 10px rgba(122, 95, 62, 0.7); /* Glow effect on hover */
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.5; /* Make stars more subtle so background shows through */
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.7; }
+            100% { opacity: 0.2; }
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        /* Add a subtle warm glow to some stars to match the theme */
+        .star:nth-child(3n) {
+            background-color: rgba(255, 240, 220, 0.9);
+            box-shadow: 0 0 3px rgba(255, 240, 220, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <header>
+        <h1>Psyche Mission Games</h1>
+        <p class="subtitle">Explore, Learn, and Have Fun with Space-themed Games</p>
+    </header>
+    
+    <style>
+        /* Add this to make the games display in a row */
+        .games-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Make sure all game cards have the same width */
+        .game-card {
+            flex: 0 0 calc(25% - 30px); /* 4 cards per row with gap */
+            min-width: 250px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .game-card {
+                flex: 0 0 calc(33.33% - 30px); /* 3 cards per row */
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .game-card {
+                flex: 0 0 calc(50% - 30px); /* 2 cards per row */
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .game-card {
+                flex: 0 0 100%; /* 1 card per row */
+            }
+        }
+    </style>
+    
+    <div class="games-container">
+        <!-- Temperature Game (First) -->
+        <div class="game-card" onclick="window.location.href='../website/js/temperature-game.html'">
+            <img src="../PsycheJR/img/craters.jpg" alt="Temperature Game" class="game-image">
+            <div class="game-info">
+                <h3 class="game-title">Temperature Control</h3>
+                <p class="game-description">Navigate your rover through Psyche's extreme temperature zones while managing your thermal systems.</p>
+                <a href="../website/js/temperature-game.html" class="play-button">Play Now</a>
+            </div>
+        </div>
+        
+        <!-- Balance Game -->
+        <div class="game-card" onclick="window.location.href='../balance/balance.html'">
+            <img src="../PsycheJR/img/psyche.jpg" alt="Balance Game" class="game-image">
+            <div class="game-info">
+                <h3 class="game-title">Balance Game</h3>
+                <p class="game-description">Test your skills by balancing objects on the asteroid Psyche with its unique gravitational properties.</p>
+                <a href="../balance/balance.html" class="play-button">Play Now</a>
+            </div>
+        </div>
+        
+        <!-- Escape Velocity -->
+        <div class="game-card" onclick="window.location.href='../escapeVelocity/escape-velocity.html'">
+            <img src="../PsycheJR/img/asteroid-field.jpg" alt="Escape Velocity" class="game-image">
+            <div class="game-info">
+                <h3 class="game-title">Escape Velocity</h3>
+                <p class="game-description">Learn about escape velocity while launching rockets from different celestial bodies in our solar system.</p>
+                <a href="../escapeVelocity/escape-velocity.html" class="play-button">Play Now</a>
+            </div>
+        </div>
+        
+        <!-- SpacePic -->
+        <div class="game-card" onclick="window.location.href='../spacepic/photo.html'">
+            <img src="../PsycheJR/img/stars.jpg" alt="SpacePic" class="game-image">
+            <div class="game-info">
+                <h3 class="game-title">SpacePic</h3>
+                <p class="game-description">Create and customize your own space-themed photos with this interactive photo booth experience.</p>
+                <a href="../spacepic/photo.html" class="play-button">Take Photos</a>
+            </div>
+        </div>
+        
+        <!-- Psyche Jr and Name Generator games removed -->
+    </div>
+    
+    <script>
+        // Create twinkling stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 200;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random size between 1 and 3 pixels
+                const size = Math.random() * 2 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 3}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Initialize stars on page load
+        window.addEventListener('load', createStars);
+        
+        // Add click event listeners to game cards
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.querySelector('.play-button').getAttribute('href');
+                window.location.href = link;
+            });
+        });
+    </script>
+</body>
+</html>

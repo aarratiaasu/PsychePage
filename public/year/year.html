@@ -1,0 +1,353 @@
+<!-- /*
+* year.html
+* 
+* This year.html contains the content that the users can interact with to figure out what life would be like on 
+* Psyche for a year. There are other forms of interaction like figuring out your age on Psyche vs Earth.
+* 
+* Class:      SER 403
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+<!-- Declarations  -->
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./yearPage.css">
+  <title>Year on Psyche Sim</title>
+</head>
+
+<!-- Start of the page body -->
+<body>
+    <!-- Header at the Top of the Page -->
+    <header id="header">
+      <img src="../../img/psyche.svg" id="psyche"> 
+      <img src="../../img/asteroid.png" id="asteroid">
+    </header>
+  
+    <!-- Start of Main section -->
+  <main id="main-background">
+    <!--Top question - How old are you on Psyche? -->
+    <top id="top">
+      <p>How old would you be if you were born on Psyche?</p>
+    </top>
+    
+    <!-- First three section with scroll wheel, earth age and psyche age-->
+    <div class="age-container">
+          
+      <div class="three-columns">
+            
+            <div class="column" id="yearSelection">
+              <h3>Scroll to your birth year to find out!</h3>
+              <!-- Results not shown until the user scrolls the year scroll -->
+              <div class="scroll-wheel" id="scrollWheel">
+                <ul id="yearList"></ul>
+              </div>
+            </div>
+            
+            <div class="column" id="ageOnEarth">
+              <!--The age on Earth -->
+                <h3>Age on Earth</h3>
+                <p id="earthResult"></p>
+            </div>
+            
+            <div class="column" id="ageOnPsyche">
+              <!-- The age on Psyche -->
+                 <h3>Age on Psyche</h3>
+                <p id="psycheResult"></p>
+            </div>
+          </div>
+
+            <!-- Results not shown until the user scrolls the year scroll -->
+            <script>
+              const yearList = document.getElementById('yearList');
+              const scrollWheel = document.getElementById('scrollWheel');
+              const currentYear = new Date().getFullYear();
+
+              // Populate the list with years from 2025 to 1900
+              for (let year = 2025; year >= 1925; year--) {
+                  const li = document.createElement('li');
+                  li.textContent = year;
+                  yearList.appendChild(li);
+              }
+
+              // Add event listener for scrolling through years 
+              scrollWheel.addEventListener('scroll', () => {
+                  const scrollTop = scrollWheel.scrollTop;
+                  const itemHeight = 30; // Height of each list item
+                  const selectedIndex = Math.round(scrollTop / itemHeight);
+                  const selectedYear = yearList.children[selectedIndex].textContent;
+
+                  // Update selected class
+                  Array.from(yearList.children).forEach((li, index) => {
+                  li.classList.toggle('selected', index === selectedIndex);
+                  });
+
+                  // Calculate and display results
+                  const earthAge = currentYear - selectedYear;
+                  const psycheAge = Math.floor(earthAge / 5);
+
+                  // Update the results 
+                  document.getElementById('earthResult').innerText = `${earthAge}`;
+                  document.getElementById('earthResult').className = `earthAge`;
+                  document.getElementById('psycheResult').innerText = `${psycheAge}`;
+                  document.getElementById('psycheResult').className = `psycheAge`;
+
+              });
+
+              // Set initial selected year as first year '2025'
+              scrollWheel.scrollTop = 0;
+              yearList.children[0].classList.add('selected');
+              </script>
+    </div>
+
+    <!-- Middle section - Start of section that uses toggle switch to swap between earth and Psyche metrics -->
+    <top id="middle">
+      <p>Select Earth or Psyche to see a normal day.</p>
+    </top>
+    <div class="wrap">
+      <input type="radio" id="Earth" name="sort" checked /><label for="Earth">Earth Day</label>
+      <input type="radio" id="Psyche" name="sort" /><label for="Psyche">Psyche Day</label>
+    </div>
+    
+    <div class="two-columns">
+      <div class="columnLarge">
+        <headerHours id="resultHours"></headerHours>
+
+        <!-- Radio buttons for toggle switch to swap between earth and Psyche metrics -->
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+              const earthRadio = document.getElementById('Earth');
+              const psycheRadio = document.getElementById('Psyche');
+              const resultWork = document.getElementById('resultWork');
+              const resultSchool = document.getElementById('resultSchool');
+              const resultSleep = document.getElementById('resultSleep');
+              const resultEat = document.getElementById('resultEat');
+              const resultRelax = document.getElementById('resultRelax');
+              const resultHours = document.getElementById('resultHours');
+
+              earthRadio.addEventListener('change', () => {
+                  if (earthRadio.checked) {
+                      // Update the daily metric text sections 
+                      resultWork.textContent = '8 Hours of Work';
+                      resultWork.style.color = '#ffffff';
+                      resultSchool.textContent = '8 hours of School';
+                      resultSchool.style.color = '#ffffff';
+                      resultSleep.textContent = '8 Hours of Sleep';
+                      resultSleep.style.color = '#ffffff';
+                      resultEat.textContent = '3 Hours to Eat';
+                      resultEat.style.color = '#ffffff';
+                      resultRelax.textContent = '5 Hours to Relax';
+                      resultRelax.style.color = '#ffffff';
+                      resultHours.textContent = '24 Hours Each Day';
+                      resultHours.style.color = '#ffffff';
+                      // Update pie chart
+                      updateChart(earthData);
+                  }
+              });
+
+              psycheRadio.addEventListener('change', () => {
+                  if (psycheRadio.checked) {
+                      // Update the daily metric text sections 
+                      resultWork.textContent = '1 Hour of Work';
+                      resultWork.style.color = '#ffffff';
+                      resultSchool.textContent = '1 Hour of School';
+                      resultSchool.style.color = '#ffffff';
+                      resultSleep.textContent = '1 Hour for Sleep';
+                      resultSleep.style.color = '#ffffff';
+                      resultEat.textContent = '45 Mins to Eat';
+                      resultEat.style.color = '#ffffff';
+                      resultRelax.textContent = '1.5 Hours to Relax';
+                      resultRelax.style.color = '#ffffff';
+                      resultHours.textContent = '4.2 Hours Each Day';
+                      resultHours.style.color = '#ffffff';
+                      // Update pie chart
+                      updateChart(psycheData);
+                  }
+              });
+          });
+        </script>
+          <!-- Start of pie chart showing different elements of the different days -->
+          <div id="piechart"></div>
+          <!-- Library for chart functions used -->
+          <script src="https://d3js.org/d3.v4.js"></script>
+          <!-- Colors for Chart / Implement with CSS in future task -->
+          <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+          <script>
+
+            // Set the dimensions and margins of the graph
+            var width = 600
+                height = 600
+                margin = 40
+            
+            // The radius of the pieplot is half the width or half the height
+            var radius = Math.min(width, height) / 2 - margin
+            
+            // Append the svg object to the div piechart
+            var svg = d3.select("#piechart")
+              .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+              .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            
+            // Create earth and psyche data sets 
+            var earthData = {Sleep: 8, "Work/School": 8, Eat:3, Relax:5}
+            var psycheData = {Sleep: 1, "Work/School": 1, Eat:.7, Relax:1.5}
+            
+            // Use the set d3 color scales
+            var color = d3.scaleOrdinal()
+              .domain(["a", "b", "c", "d", "e", "f"])
+              .range(d3.schemeDark2);
+
+            var arcGenerator = d3.arc()
+              .innerRadius(0)
+              .outerRadius(radius);
+            
+            // Build and replace the current chart
+            function updateChart(data) {
+            
+              // Compute the position of each group on the pie:
+              var pie = d3.pie()
+                .value(function(d) {return d.value; })
+                .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) 
+              var data_ready = pie(d3.entries(data))
+
+              // Map to data
+              var u = svg.selectAll("path")
+                .data(data_ready)
+            
+              // Build the pie charts
+              u.enter()
+                .append('path')
+                .merge(u)
+                .transition()
+                .duration(1000)
+                .attr('d', arcGenerator)
+                .attr('fill', function(d) { return color(d.data.key); })
+                .attr("stroke", "white")
+                .style("stroke-width", "2px")
+                .style("opacity", 1);
+
+              // Remove the previous data
+              u.exit().remove();
+
+              // Add group elements for text
+              var textGroup = svg.selectAll(".textGroup")
+                .data(data_ready);
+
+              var textGroupEnter = textGroup.enter()
+                .append("g")
+                .attr("class", "textGroup");
+
+              textGroupEnter.merge(textGroup)
+                .transition()
+                .duration(1000)
+                .attr("transform", function(d) { 
+                  var _d = arcGenerator.centroid(d);
+                  return "translate(" + _d + ")"; 
+                });
+
+              textGroup.exit().remove();
+
+              // Add key name labels
+              textGroupEnter.append("text")
+                .attr("class", "keyText")
+                .attr("dy", "-0.7em")
+                .text(function(d) { return d.data.key; })
+                .attr("text-anchor", "middle")
+                .style("fill", "#ffffff")
+                .style("font-size", 30);
+
+              // Add value labels
+              textGroupEnter.append("text")
+                .attr("class", "valueText")
+                .attr("dy", "0.35em")
+                .text(function(d) { return d.data.value; })
+                .attr("text-anchor", "middle")
+                .style("fill", "#ffffff")
+                .style("font-size", 50);
+
+              textGroup.select(".keyText")
+                .transition()
+                .duration(1000)
+                .attr("dy", "-0.7em")
+                .text(function(d) { return d.data.key; })
+                .attr("text-anchor", "middle")
+
+              textGroup.select(".valueText")
+                .transition()
+                .duration(1000)
+                .attr("dy", "0.35em")
+                .text(function(d) { return d.data.value; })
+                .attr("text-anchor", "middle")
+
+            }
+            
+            // Initialize the plot with the first dataset
+            updateChart(earthData);
+          </script>
+      <!-- Add metric that shows the available hours in the day here -->
+
+
+      </div>
+
+      <div class="columnLarge">
+        <!-- Start of the metrics section - al of these are dependant on the toggle switch for the metrics to display -->
+        <div class="two-columns">
+            <!-- Work Section -->
+              <div id="work">
+                
+                <p id="resultWork"> </p>
+              </div>
+
+            <!-- School Section -->
+            <div id="school">
+              
+              <p id="resultSchool"> </p>
+            </div>
+          </div>
+
+          <div class="two-columns">
+         <!-- Eat Section -->
+         <div id="eat">
+            
+          <p id="resultEat"> </p>
+        </div>
+
+        <!-- Eat Section -->
+        <div id="relax">
+
+          <p id="resultRelax"> </p>
+        </div>
+      </div>
+
+          <!-- Sleep Section -->
+          <div id="sleep">
+            
+            <p id="resultSleep"> </p>
+          </div> 
+        </div>
+
+        
+
+    </div>
+  </main>  
+<!-- End of Main Page section  -->
+
+<!-- Footer Section -->
+    <footer id="footer">
+    </footer>
+</body>
+</html>

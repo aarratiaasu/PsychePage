@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escape Velocity Game - Earth vs Psyche</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: white;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      gap: 30px;
+      justify-content: center;
+      align-items: stretch;
+    }
+    .planet-section {
+      flex: 1;
+      max-width: 450px;
+      position: relative;
+      border: 2px solid #444;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    .planet-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 30px 0 15px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .planet {
+      border-radius: 50%;
+      position: relative;
+      transition: transform 0.3s;
+    }
+    .planet:hover {
+      transform: scale(1.05);
+    }
+    /* Make Earth and Psyche sizes for better view */
+    #earth {
+      width: 150px;
+      height: 150px;
+      background: url('./images/Earth.jpg') center/cover;
+      box-shadow: 0 0 30px rgba(100, 149, 237, 0.5);
+    }
+    #psyche {
+      width: 75px;
+      height: 75px;
+      background: url('./images/psyche.jpg') center/cover;
+      box-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
+    }
+    .disclaimer {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 11px;
+      text-align: center;
+      max-width: 90%;
+      color: #aaa;
+      z-index: 10;
+    }
+    .controls {
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin-top: 10px;
+      backdrop-filter: blur(5px);
+    }
+    .object-select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: 1px solid #444;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .power-slider-container {
+      margin: 10px 0;
+    }
+    .power-slider-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .power-slider {
+      width: 100%;
+      height: 20px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(to right, #ff0000, #ffff00, #00ff00);
+      outline: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .power-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .power-slider::-moz-range-thumb {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .power-display {
+      text-align: center;
+      font-size: 16px;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+    .countdown {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 10px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffcc00;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.7);
+    }
+    .launch-btn {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .launch-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+    .launch-btn:hover:not(:disabled) {
+      background: #45a049;
+      transform: scale(1.02);
+    }
+    .launch-btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+    /* The object and its trail will have their starting position adjusted dynamically */
+    .object {
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+    .trail {
+      position: absolute;
+      width: 4px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.8), transparent);
+      left: 50%;
+      transform: translateX(-50%);
+      transition: height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      z-index: 1;
+    }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    .success {
+      background: rgba(76, 175, 80, 0.3);
+      box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+    }
+    .failure {
+      background: rgba(244, 67, 54, 0.3);
+      box-shadow: 0 0 20px rgba(244, 67, 54, 0.3);
+    }
+    .info {
+      width: 80%;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      text-align: center;
+      backdrop-filter: blur(5px);
+      border: 1px solid #444;
+      line-height: 1.4;
+      z-index: 5;
+    }
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    @keyframes sparkle {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+    .success-particles {
+      position: absolute;
+      pointer-events: none;
+      animation: sparkle 1s infinite;
+    }
+    .smoke-particle {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.8;
+      transition: all 1s ease-out;
+    }
+    .obstacle {
+      position: absolute;
+      font-size: 30px;
+      z-index: 3;
+      transition: all 0.5s;
+    }
+    .crash-poof {
+      position: absolute;
+      font-size: 50px;
+      z-index: 4;
+      animation: poof 0.5s forwards;
+    }
+    @keyframes poof {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+    .score-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid #444;
+      font-size: 16px;
+      z-index: 10;
+    }
+    .challenge-container {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+    .challenge-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #ffcc00;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    .shake {
+      animation: shake 0.5s;
+    }
+  </style>
+</head>
+<body>
+  <canvas class="stars" id="starsCanvas"></canvas>
+  <div class="disclaimer">
+    Note: Earth and Psyche sizes shown are not to scale. This is a representation for educational purposes only.
+  </div>
+  <div class="score-container">
+    <div>Score: <span id="score">0</span></div>
+    <div>Successful Launches: <span id="successful-launches">0</span></div>
+    <div class="challenge-container">
+      <div class="challenge-title">Current Challenge:</div>
+      <div id="current-challenge">Launch any object from Earth</div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="planet-section">
+      <div class="planet-container">
+        <div class="planet" id="earth"></div>
+      </div>
+      <div class="info">
+        Earth's escape velocity: 11.2 km/s<br />
+        Mass: 5.972 × 10²⁴ kg<br />
+        Radius: 6,371 km
+      </div>
+      <div class="controls">
+        <select class="object-select" id="earth-object">
+          <!-- Household Objects -->
+          <option value="toothbrush">🪥 Toothbrush</option>
+          <option value="chair">🪑 Chair</option>
+          <option value="pillow">🛏️ Pillow</option>
+          <option value="backpack">🎒 Backpack</option>
+          <option value="book">📚 Book</option>
+          <option value="smartphone">📱 Smartphone</option>
+          
+          <!-- Sports & Toys -->
+          <option value="basketball">🏀 Basketball</option>
+          <option value="football">🏈 Football</option>
+          <option value="doll">🧸 Doll</option>
+          <option value="teddyBear">🧸 Teddy Bear</option>
+          <option value="shoes">👟 Shoes</option>
+          
+          <!-- Food Items -->
+          <option value="apple">🍎 Apple</option>
+          <option value="banana">🍌 Banana</option>
+          <option value="bread">🍞 Loaf of Bread</option>
+          
+          <!-- Heavy Items -->
+          <option value="refrigerator">❄️ Refrigerator</option>
+          <option value="washingMachine">🧺 Washing Machine</option>
+          <option value="car">🚗 Car</option>
+          <option value="house">🏠 House</option>
+        </select>
+        
+        <div class="power-slider-container">
+          <label for="earth-power-slider">Launch Power:</label>
+          <input type="range" min="0" max="15" step="0.1" value="5" class="power-slider" id="earth-power-slider">
+          <div class="power-display" id="earth-power-display">5.0 km/s</div>
+        </div>
+        
+        <div class="countdown" id="earth-countdown"></div>
+        
+        <button class="launch-btn" id="earth-launch-btn" onclick="startCountdown('earth')">LAUNCH!</button>
+        <div class="result" id="earth-result"></div>
+      </div>
+    </div>
+    <div class="planet-section">
+      <div class="planet-container">
+        <div class="planet" id="psyche"></div>
+      </div>
+      <div class="info">
+        Psyche's escape velocity: 0.18 km/s<br />
+        Mass: 2.27 × 10¹⁹ kg<br />
+        Radius: 113 km
+      </div>
+      <div class="controls">
+        <select class="object-select" id="psyche-object">
+          <!-- Household Objects -->
+          <option value="toothbrush">🪥 Toothbrush</option>
+          <option value="chair">🪑 Chair</option>
+          <option value="pillow">🛏️ Pillow</option>
+          <option value="backpack">🎒 Backpack</option>
+          <option value="book">📚 Book</option>
+          <option value="smartphone">📱 Smartphone</option>
+          
+          <!-- Sports & Toys -->
+          <option value="basketball">🏀 Basketball</option>
+          <option value="football">🏈 Football</option>
+          <option value="doll">🧸 Doll</option>
+          <option value="teddyBear">🧸 Teddy Bear</option>
+          <option value="shoes">👟 Shoes</option>
+          
+          <!-- Food Items -->
+          <option value="apple">🍎 Apple</option>
+          <option value="banana">🍌 Banana</option>
+          <option value="bread">🍞 Loaf of Bread</option>
+          
+          <!-- Heavy Items -->
+          <option value="refrigerator">❄️ Refrigerator</option>
+          <option value="washingMachine">🧺 Washing Machine</option>
+          <option value="car">🚗 Car</option>
+          <option value="house">🏠 House</option>
+        </select>
+        
+        <div class="power-slider-container">
+          <label for="psyche-power-slider">Launch Power:</label>
+          <input type="range" min="0" max="1" step="0.01" value="0.1" class="power-slider" id="psyche-power-slider">
+          <div class="power-display" id="psyche-power-display">0.1 km/s</div>
+        </div>
+        
+        <div class="countdown" id="psyche-countdown"></div>
+        
+        <button class="launch-btn" id="psyche-launch-btn" onclick="startCountdown('psyche')">LAUNCH!</button>
+        <div class="result" id="psyche-result"></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+    // Set up Three.js scenes for Earth and Psyche models
+    let psycheScene, psycheCamera, psycheRenderer;
+    let earthScene, earthCamera, earthRenderer;
+    let psycheModel, earthMesh;
+    
+    function initEarthModel() {
+      // Create scene
+      earthScene = new THREE.Scene();
+      
+      // Create camera
+      earthCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      earthCamera.position.z = 5;
+      
+      // Create renderer - larger size for Earth
+      const earthContainer = document.querySelector('#earth').parentElement;
+      earthRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      earthRenderer.setSize(220, 220);
+      earthRenderer.setClearColor(0x000000, 0);
+      earthContainer.appendChild(earthRenderer.domElement);
+      
+      // Add lights for Earth
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+      earthScene.add(ambientLight);
+      
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+      directionalLight.position.set(5, 3, 5);
+      earthScene.add(directionalLight);
+      
+      // Create Earth with realistic textures - larger size
+      const earthGeometry = new THREE.SphereGeometry(2.5, 64, 64);
+      
+      // Load Earth textures
+      const textureLoader = new THREE.TextureLoader();
+      
+      // Create a material with Earth textures
+      const earthMaterial = new THREE.MeshPhongMaterial({
+        map: textureLoader.load('https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'),
+        bumpMap: textureLoader.load('https://threejs.org/examples/textures/planets/earth_normal_2048.jpg'),
+        bumpScale: 0.05,
+        specularMap: textureLoader.load('https://threejs.org/examples/textures/planets/earth_specular_2048.jpg'),
+        specular: new THREE.Color('grey'),
+        shininess: 15
+      });
+      
+      // Create Earth mesh
+      earthMesh = new THREE.Mesh(earthGeometry, earthMaterial);
+      earthScene.add(earthMesh);
+      
+      // Add clouds layer - larger size
+      const cloudGeometry = new THREE.SphereGeometry(2.55, 64, 64);
+      const cloudMaterial = new THREE.MeshPhongMaterial({
+        map: textureLoader.load('https://threejs.org/examples/textures/planets/earth_clouds_1024.png'),
+        transparent: true,
+        opacity: 0.4
+      });
+      
+      const clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
+      earthScene.add(clouds);
+      
+      // Hide the original earth div
+      document.querySelector('#earth').style.display = 'none';
+      
+      // Start animation
+      function animateEarth() {
+        requestAnimationFrame(animateEarth);
+        
+        earthMesh.rotation.y += 0.002;
+        clouds.rotation.y += 0.0025;
+        
+        earthRenderer.render(earthScene, earthCamera);
+      }
+      
+      animateEarth();
+    }
+    
+    function initPsycheModel() {
+      // Create scene
+      psycheScene = new THREE.Scene();
+      
+      // Create camera
+      psycheCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      psycheCamera.position.z = 5;
+      
+      // Create renderer - smaller size for Psyche
+      const psycheContainer = document.querySelector('#psyche').parentElement;
+      psycheRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      psycheRenderer.setSize(120, 120);
+      psycheRenderer.setClearColor(0x000000, 0);
+      psycheContainer.appendChild(psycheRenderer.domElement);
+      
+      // Add lights - increased brightness
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+      psycheScene.add(ambientLight);
+      
+      // Add multiple directional lights from different angles
+      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.2);
+      directionalLight1.position.set(5, 5, 5);
+      psycheScene.add(directionalLight1);
+      
+      const directionalLight2 = new THREE.DirectionalLight(0xffffff, 1.0);
+      directionalLight2.position.set(-5, 5, 5);
+      psycheScene.add(directionalLight2);
+      
+      const directionalLight3 = new THREE.DirectionalLight(0xffffff, 1.0);
+      directionalLight3.position.set(0, -5, 5);
+      psycheScene.add(directionalLight3);
+      
+      // Add a point light near the model for extra brightness
+      const pointLight = new THREE.PointLight(0xffffff, 1.5, 10);
+      pointLight.position.set(0, 0, 3);
+      psycheScene.add(pointLight);
+      
+      // Load Psyche model
+      const loader = new THREE.GLTFLoader();
+      loader.load('/res/models/psyche_new.glb', (gltf) => {
+        psycheModel = gltf.scene;
+        
+        // Center and scale the model
+        const box = new THREE.Box3().setFromObject(psycheModel);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 1.5 / maxDim; // Smaller scale for Psyche
+        
+        psycheModel.scale.set(scale, scale, scale);
+        psycheModel.position.sub(center.multiplyScalar(scale));
+        
+        psycheScene.add(psycheModel);
+        
+        // Hide the original psyche div
+        document.querySelector('#psyche').style.display = 'none';
+        
+        // Start animation
+        animatePsycheModel();
+      });
+    }
+    
+    function animatePsycheModel() {
+      requestAnimationFrame(animatePsycheModel);
+      
+      if (psycheModel) {
+        psycheModel.rotation.y += 0.01;
+      }
+      
+      psycheRenderer.render(psycheScene, psycheCamera);
+    }
+    
+    // Initialize the Earth and Psyche models after the page loads
+    window.addEventListener('load', () => {
+      initEarthModel();
+      initPsycheModel();
+      initSliders();
+      setupChallenges();
+    });
+    
+    // Constants for escape velocities
+    const EARTH_ESCAPE_VELOCITY = 11.2;
+    const PSYCHE_ESCAPE_VELOCITY = 0.18;
+    
+    // Object data (now primarily for visual representation and challenges)
+    const objectData = {
+      // Light Household Objects
+      toothbrush: { mass: 0.1, size: "tiny" },
+      pillow: { mass: 0.3, size: "small" },
+      backpack: { mass: 0.5, size: "small" },
+      book: { mass: 0.4, size: "small" },
+      smartphone: { mass: 0.2, size: "tiny" },
+      
+      // Sports & Toys
+      basketball: { mass: 0.6, size: "medium" },
+      football: { mass: 0.4, size: "medium" },
+      doll: { mass: 0.3, size: "small" },
+      teddyBear: { mass: 0.4, size: "small" },
+      shoes: { mass: 0.5, size: "small" },
+      
+      // Food Items
+      apple: { mass: 0.2, size: "tiny" },
+      banana: { mass: 0.2, size: "tiny" },
+      bread: { mass: 0.3, size: "small" },
+      
+      // Medium to Heavy Items
+      chair: { mass: 3.0, size: "medium" },
+      refrigerator: { mass: 100.0, size: "large" },
+      washingMachine: { mass: 80.0, size: "large" },
+      car: { mass: 1500.0, size: "large" },
+      house: { mass: 20000.0, size: "huge" }
+    };
+    
+    // Create animated starfield background
+    const canvas = document.getElementById("starsCanvas");
+    const ctx = canvas.getContext("2d");
+    let stars = [];
+    
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 2,
+          speed: Math.random() * 0.5,
+        });
+      }
+    }
+    
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+    
+      stars.forEach((star) => {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+        ctx.fill();
+    
+        star.y += star.speed;
+        if (star.y > canvas.height) star.y = 0;
+      });
+    
+      requestAnimationFrame(animateStars);
+    }
+    
+    // Initialize starfield
+    resizeCanvas();
+    createStars();
+    animateStars();
+    window.addEventListener("resize", () => {
+      resizeCanvas();
+      createStars();
+    });
+    
+    // Initialize sliders
+    function initSliders() {
+      const earthSlider = document.getElementById('earth-power-slider');
+      const earthDisplay = document.getElementById('earth-power-display');
+      const psycheSlider = document.getElementById('psyche-power-slider');
+      const psycheDisplay = document.getElementById('psyche-power-display');
+      
+      earthSlider.addEventListener('input', () => {
+        const value = parseFloat(earthSlider.value).toFixed(1);
+        earthDisplay.textContent = `${value} km/s`;
+        
+        // Update slider color based on value relative to escape velocity
+        const percent = earthSlider.value / EARTH_ESCAPE_VELOCITY;
+        if (percent < 0.5) {
+          earthSlider.style.background = `linear-gradient(to right, #ff0000 ${percent*100}%, #444444 ${percent*100}%)`;
+        } else if (percent < 1) {
+          earthSlider.style.background = `linear-gradient(to right, #ff0000, #ffff00 ${percent*100}%, #444444 ${percent*100}%)`;
+        } else {
+          earthSlider.style.background = `linear-gradient(to right, #ff0000, #ffff00, #00ff00 ${Math.min(percent*100, 100)}%)`;
+        }
+      });
+      
+      psycheSlider.addEventListener('input', () => {
+        const value = parseFloat(psycheSlider.value).toFixed(2);
+        psycheDisplay.textContent = `${value} km/s`;
+        
+        // Update slider color based on value relative to escape velocity
+        const percent = psycheSlider.value / PSYCHE_ESCAPE_VELOCITY;
+        if (percent < 0.5) {
+          psycheSlider.style.background = `linear-gradient(to right, #ff0000 ${percent*100}%, #444444 ${percent*100}%)`;
+        } else if (percent < 1) {
+          psycheSlider.style.background = `linear-gradient(to right, #ff0000, #ffff00 ${percent*100}%, #444444 ${percent*100}%)`;
+        } else {
+          psycheSlider.style.background = `linear-gradient(to right, #ff0000, #ffff00, #00ff00 ${Math.min(percent*100, 100)}%)`;
+        }
+      });
+      
+      // Trigger initial slider updates
+      earthSlider.dispatchEvent(new Event('input'));
+      psycheSlider.dispatchEvent(new Event('input'));
+    }
+    
+    // Countdown function
+    function startCountdown(planet) {
+      const countdownElement = document.getElementById(`${planet}-countdown`);
+      const launchBtn = document.getElementById(`${planet}-launch-btn`);
+      
+      // Disable launch button during countdown
+      launchBtn.disabled = true;
+      
+      // Start countdown from 3
+      countdownElement.textContent = "3";
+      
+      // Update countdown every second
+      setTimeout(() => {
+        countdownElement.textContent = "2";
+        
+        setTimeout(() => {
+          countdownElement.textContent = "1";
+          
+          setTimeout(() => {
+            countdownElement.textContent = "LAUNCH!";
+            
+            // Launch after showing "LAUNCH!"
+            setTimeout(() => {
+              countdownElement.textContent = "";
+              launch(planet);
+              
+              // Re-enable launch button after launch
+              setTimeout(() => {
+                launchBtn.disabled = false;
+              }, 3000);
+            }, 500);
+          }, 1000);
+        }, 1000);
+      }, 1000);
+    }
+    
+    function shakeElement(element) {
+      element.classList.add('shake');
+      setTimeout(() => {
+        element.classList.remove('shake');
+      }, 500);
+    }
+    
+    // Create smoke/fire effect
+    function createSmokeEffect(planet, success) {
+      const container = document.querySelector(`#${planet}`).parentElement;
+      const colors = success ? ['#ff5500', '#ff8800', '#ffbb00', '#dddddd'] : ['#888888', '#aaaaaa', '#cccccc'];
+      
+      for (let i = 0; i < 15; i++) {
+        const smoke = document.createElement('div');
+        smoke.className = 'smoke-particle';
+        smoke.style.left = `${45 + Math.random() * 10}%`;
+        smoke.style.bottom = `${10 + Math.random() * 10}%`;
+        smoke.style.fontSize = `${20 + Math.random() * 30}px`;
+        smoke.textContent = '💨';
+        
+        if (success && Math.random() > 0.6) {
+          smoke.textContent = '🔥';
+        }
+        
+        container.appendChild(smoke);
+        
+        // Animate smoke
+        setTimeout(() => {
+          smoke.style.transform = `translate(${-50 + Math.random() * 100}px, ${-100 - Math.random() * 200}px) scale(${1 + Math.random()})`;
+          smoke.style.opacity = '0';
+        }, 10);
+        
+        // Remove smoke after animation
+        setTimeout(() => {
+          smoke.remove();
+        }, 1000);
+      }
+    }
+    
+    // Create success particles
+    function createSuccessParticles(planet) {
+      const container = document.querySelector(`#${planet}`).parentElement;
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement("div");
+        particle.className = "success-particles";
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.top = Math.random() * 100 + "%";
+        particle.style.fontSize = "20px";
+        particle.textContent = "✨";
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), 2000);
+      }
+    }
+    
+    // Create crash effect
+    function createCrashEffect(planet, position) {
+      const container = document.querySelector(`#${planet}`).parentElement;
+      const crash = document.createElement('div');
+      crash.className = 'crash-poof';
+      crash.style.left = `${position.x}%`;
+      crash.style.top = `${position.y}%`;
+      crash.textContent = '💥';
+      container.appendChild(crash);
+      
+      // Shake the container
+      container.classList.add('shake');
+      setTimeout(() => {
+        container.classList.remove('shake');
+      }, 500);
+      
+      // Remove crash after animation
+      setTimeout(() => {
+        crash.remove();
+      }, 500);
+    }
+    
+    // Create random obstacles
+    let obstacles = [];
+    
+    function createObstacles(planet) {
+      // Clear any existing obstacles
+      clearObstacles(planet);
+      
+      const container = document.querySelector(`#${planet}`).parentElement;
+      const numObstacles = Math.floor(Math.random() * 3) + 1; // 1-3 obstacles
+      
+      for (let i = 0; i < numObstacles; i++) {
+        const obstacle = document.createElement('div');
+        obstacle.className = 'obstacle';
+        
+        // Random position in the upper half of the container
+        const x = 20 + Math.random() * 60; // 20-80% from left
+        const y = 20 + Math.random() * 30; // 20-50% from top
+        
+        obstacle.style.left = `${x}%`;
+        obstacle.style.top = `${y}%`;
+        
+        // Random obstacle type
+        const obstacleTypes = ['☁️', '🌪️', '🌩️', '🪨', '🛰️'];
+        obstacle.textContent = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+        
+        container.appendChild(obstacle);
+        
+        obstacles.push({
+          element: obstacle,
+          planet: planet,
+          position: { x, y }
+        });
+      }
+    }
+    
+    function clearObstacles(planet) {
+      obstacles = obstacles.filter(obs => {
+        if (obs.planet === planet) {
+          obs.element.remove();
+          return false;
+        }
+        return true;
+      });
+    }
+    
+    // Check if object collides with any obstacles
+    function checkObstacleCollision(planet, objectPosition) {
+      for (const obstacle of obstacles) {
+        if (obstacle.planet === planet) {
+          const obstaclePos = obstacle.position;
+          
+          // Simple collision detection based on proximity
+          const distance = Math.sqrt(
+            Math.pow(objectPosition.x - obstaclePos.x, 2) + 
+            Math.pow(objectPosition.y - obstaclePos.y, 2)
+          );
+          
+          if (distance < 15) { // Collision threshold
+            return obstaclePos;
+          }
+        }
+      }
+      return null;
+    }
+    
+    // Scoring system
+    let score = 0;
+    let successfulLaunches = 0;
+    
+    function updateScore(points) {
+      score += points;
+      document.getElementById('score').textContent = score;
+    }
+    
+    function incrementSuccessfulLaunches() {
+      successfulLaunches++;
+      document.getElementById('successful-launches').textContent = successfulLaunches;
+    }
+    
+    // Challenges system
+    const challenges = [
+      { id: 1, text: "Launch any object from Earth", reward: 10, completed: false },
+      { id: 2, text: "Launch any object from Psyche", reward: 10, completed: false },
+      { id: 3, text: "Launch a heavy object (refrigerator or larger) from Earth", reward: 20, completed: false },
+      { id: 4, text: "Launch a heavy object from Psyche", reward: 15, completed: false },
+      { id: 5, text: "Launch with minimum power (within 10% of escape velocity)", reward: 25, completed: false },
+      { id: 6, text: "Navigate through obstacles successfully", reward: 30, completed: false },
+      { id: 7, text: "Complete 5 successful launches", reward: 50, completed: false },
+      { id: 8, text: "Launch the same object from both Earth and Psyche", reward: 20, completed: false }
+    ];
+    
+    let currentChallenge = null;
+    
+    function setupChallenges() {
+      // Start with the first uncompleted challenge
+      setNextChallenge();
+    }
+    
+    function setNextChallenge() {
+      const nextChallenge = challenges.find(c => !c.completed);
+      
+      if (nextChallenge) {
+        currentChallenge = nextChallenge;
+        document.getElementById('current-challenge').textContent = nextChallenge.text;
+      } else {
+        document.getElementById('current-challenge').textContent = "All challenges completed! 🏆";
+      }
+    }
+    
+    function checkChallengeCompletion(planet, objectType, launchSpeed, success, hasObstacles) {
+      if (!currentChallenge || currentChallenge.completed) return;
+      
+      let completed = false;
+      const heavyObjects = ['refrigerator', 'washingMachine', 'car', 'house'];
+      
+      switch (currentChallenge.id) {
+        case 1: // Launch any object from Earth
+          if (planet === 'earth' && success) {
+            completed = true;
+          }
+          break;
+        case 2: // Launch any object from Psyche
+          if (planet === 'psyche' && success) {
+            completed = true;
+          }
+          break;
+        case 3: // Launch a heavy object from Earth
+          if (planet === 'earth' && heavyObjects.includes(objectType) && success) {
+            completed = true;
+          }
+          break;
+        case 4: // Launch a heavy object from Psyche
+          if (planet === 'psyche' && heavyObjects.includes(objectType) && success) {
+            completed = true;
+          }
+          break;
+        case 5: // Launch with minimum power
+          const escapeVel = planet === 'earth' ? EARTH_ESCAPE_VELOCITY : PSYCHE_ESCAPE_VELOCITY;
+          if (success && launchSpeed <= escapeVel * 1.1 && launchSpeed >= escapeVel) {
+            completed = true;
+          }
+          break;
+        case 6: // Navigate through obstacles
+          if (success && hasObstacles) {
+            completed = true;
+          }
+          break;
+        case 7: // Complete 5 successful launches
+          if (successfulLaunches >= 5) {
+            completed = true;
+          }
+          break;
+        case 8: // Launch same object from both planets
+          // This is tracked separately through launchedObjects
+          const earthObjects = JSON.parse(localStorage.getItem('earthLaunchedObjects') || '[]');
+          const psycheObjects = JSON.parse(localStorage.getItem('psycheLaunchedObjects') || '[]');
+          
+          const commonObjects = earthObjects.filter(obj => psycheObjects.includes(obj));
+          if (commonObjects.length > 0) {
+            completed = true;
+          }
+          break;
+      }
+      
+      if (completed) {
+        currentChallenge.completed = true;
+        updateScore(currentChallenge.reward);
+        
+        // Show challenge completion message
+        const resultDiv = document.getElementById(`${planet}-result`);
+        resultDiv.innerHTML += `<br>🏆 Challenge completed: ${currentChallenge.text}<br>+${currentChallenge.reward} points!`;
+        
+        // Set next challenge
+        setTimeout(setNextChallenge, 2000);
+      }
+    }
+    
+    // Track launched objects for challenge 8
+    function trackLaunchedObject(planet, objectType) {
+      const key = `${planet}LaunchedObjects`;
+      const launchedObjects = JSON.parse(localStorage.getItem(key) || '[]');
+      
+      if (!launchedObjects.includes(objectType)) {
+        launchedObjects.push(objectType);
+        localStorage.setItem(key, JSON.stringify(launchedObjects));
+      }
+    }
+    
+    // Launch animation and calculation
+    function launch(planet) {
+      // Get selected object and launch power
+      const objectType = document.getElementById(`${planet}-object`).value;
+      const launchPower = parseFloat(document.getElementById(`${planet}-power-slider`).value);
+      const resultDiv = document.getElementById(`${planet}-result`);
+      const planetContainer = document.querySelector(`#${planet}`).parentElement;
+      
+      // Clear any previous results
+      resultDiv.innerHTML = "";
+      resultDiv.className = "result";
+      
+      // Calculate the starting bottom position
+      const containerHeight = planetContainer.clientHeight;
+      const planetElem = document.getElementById(planet);
+      let startingBottom;
+      
+      if (planet === 'psyche') {
+        // For Psyche, use size-based calculation since it's smaller
+        const modelSize = 150; // Psyche's model size
+        const modelOffset = (containerHeight - modelSize) / 2;
+        startingBottom = containerHeight - modelOffset - 75; // Launch from surface of Psyche
+      } else {
+        // For Earth, use original calculation based on offsetTop
+        startingBottom = containerHeight - planetElem.offsetTop;
+      }
+      
+      // Get object properties (now just for display)
+      const objectInfo = objectData[objectType];
+      
+      // Required escape velocity
+      const escapeVelocity = planet === "earth" ? EARTH_ESCAPE_VELOCITY : PSYCHE_ESCAPE_VELOCITY;
+      
+      // Calculate percentage of escape velocity achieved
+      const percentOfEscape = (launchPower / escapeVelocity) * 100;
+      
+      // Create smoke effect
+      createSmokeEffect(planet, launchPower >= escapeVelocity);
+      
+      // Create random obstacles (50% chance)
+      const hasObstacles = Math.random() > 0.5;
+      if (hasObstacles) {
+        createObstacles(planet);
+      }
+      
+      // Create trail element and set its starting position
+      const trail = document.createElement("div");
+      trail.className = "trail";
+      trail.style.bottom = startingBottom + "px";
+      planetContainer.appendChild(trail);
+    
+      // Create object element and set its starting position
+      const object = document.createElement("div");
+      object.className = "object";
+      object.style.bottom = startingBottom + "px";
+      object.textContent = document.getElementById(`${planet}-object`).selectedOptions[0].text.split(" ")[0];
+      planetContainer.appendChild(object);
+      
+      // Track this object for challenge 8
+      if (launchPower >= escapeVelocity) {
+        trackLaunchedObject(planet, objectType);
+      }
+    
+      // Animate launch
+      setTimeout(() => {
+        // Success if launch power meets or exceeds escape velocity
+        if (launchPower >= escapeVelocity) {
+          // Calculate how far beyond escape velocity (for animation speed)
+          const excessFactor = Math.min(launchPower / escapeVelocity, 3); // Cap at 3x for animation
+          
+          // Adjust animation speed based on excess velocity
+          object.style.transition = `all ${3/excessFactor}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+          trail.style.transition = `height ${3/excessFactor}s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+          
+          // Start the object moving upward
+          object.style.transform = "translateX(-50%) translateY(-1000px) scale(0.1)";
+          object.style.opacity = "0";
+          trail.style.height = "1000px";
+          
+          // Check for obstacle collision during flight
+          let collided = false;
+          let collisionPosition = null;
+          
+          // Check for collision at multiple points during flight
+          for (let i = 1; i <= 5; i++) {
+            setTimeout(() => {
+              if (!collided) {
+                // Calculate current position (approximate)
+                const progress = i / 5;
+                const currentY = 50 - (progress * 50); // 50% to 0% from top
+                const currentX = 50; // Center X
+                
+                const collision = checkObstacleCollision(planet, { x: currentX, y: currentY });
+                
+                if (collision) {
+                  collided = true;
+                  collisionPosition = collision;
+                  
+                  // Stop the object and show crash
+                  object.style.transition = 'none';
+                  trail.style.transition = 'none';
+                  
+                  // Position at collision point
+                  object.style.top = `${collision.y}%`;
+                  object.style.left = `${collision.x}%`;
+                  object.style.transform = 'translate(-50%, -50%)';
+                  object.style.opacity = '0';
+                  
+                  // Show crash effect
+                  createCrashEffect(planet, collision);
+                  
+                  // Update result
+                  resultDiv.innerHTML = `
+                    ❌ Crashed into an obstacle!<br>
+                    Launch speed: ${launchPower.toFixed(2)} km/s<br>
+                    Had enough velocity to escape (${percentOfEscape.toFixed(1)}% of required)<br>
+                    Object: ${objectType} (Mass: ${objectInfo.mass} kg)
+                  `;
+                  resultDiv.className = "result failure";
+                }
+              }
+            }, (i * 3000) / (5 * excessFactor));
+          }
+          
+          // If no collision occurred, show success after animation completes
+          setTimeout(() => {
+            if (!collided) {
+              resultDiv.innerHTML = `
+                🎉 Success! Launch speed: ${launchPower.toFixed(2)} km/s<br>
+                Escaped ${planet}'s gravity (${percentOfEscape.toFixed(1)}% of required velocity)!<br>
+                Object: ${objectType} (Mass: ${objectInfo.mass} kg)
+              `;
+              resultDiv.className = "result success";
+              createSuccessParticles(planet);
+              
+              // Update score and check challenges
+              updateScore(10);
+              incrementSuccessfulLaunches();
+              checkChallengeCompletion(planet, objectType, launchPower, true, hasObstacles);
+            }
+          }, 3000 / excessFactor);
+          
+        } else {
+          // Calculate how close to escape velocity (affects height of failed launch)
+          const heightFactor = Math.min(launchPower / escapeVelocity, 0.9); // Max 90% of full height
+          const maxHeight = 900 * heightFactor; // Max height for animation
+          
+          object.style.transform = `translateX(-50%) translateY(-${maxHeight}px)`;
+          trail.style.height = `${maxHeight}px`;
+          
+          setTimeout(() => {
+            object.style.transform = "translateX(-50%) translateY(0)";
+            trail.style.height = "0";
+          }, 1000);
+          
+          resultDiv.innerHTML = `
+            ❌ Failed! Launch speed: ${launchPower.toFixed(2)} km/s<br>
+            Reached ${percentOfEscape.toFixed(1)}% of required escape velocity (${escapeVelocity} km/s)<br>
+            Object: ${objectType} (Mass: ${objectInfo.mass} kg)
+          `;
+          resultDiv.className = "result failure";
+          
+          // Check challenges even for failed launches
+          checkChallengeCompletion(planet, objectType, launchPower, false, hasObstacles);
+        }
+      }, 100);
+    
+      // Clean up animation
+      setTimeout(() => {
+        object.remove();
+        trail.remove();
+        clearObstacles(planet);
+      }, 5000);
+    }
+  </script>
+</body>
+</html>

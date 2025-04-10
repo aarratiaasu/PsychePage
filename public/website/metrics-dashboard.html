@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simulation Metrics Dashboard</title>
+    <link rel="stylesheet" href="css/metrics-dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Developer Metrics</h1>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <h2>Performance</h2>
+                <div>
+                    <div class="metric-label">FPS</div>
+                    <div class="metric-value" id="fps-counter">60</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <h2>Memory</h2>
+                <div>
+                    <div class="metric-label">Usage (MB)</div>
+                    <div class="metric-value" id="memory-usage">0</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <h2>Objects</h2>
+                <div>
+                    <div class="metric-label">Total</div>
+                    <div class="metric-value" id="active-objects">0</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <h2>Network</h2>
+                <div>
+                    <div class="metric-label">Latency (ms)</div>
+                    <div class="metric-value" id="latency">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if index.html exists and is accessible
+        fetch('index.html')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('index.html not found');
+                }
+                return response.text();
+            })
+            .then(() => {
+                // Only run dashboard if index.html exists
+                // Simulate updating metrics
+                function updateMetrics() {
+                    document.getElementById('fps-counter').textContent = Math.floor(Math.random() * 20 + 50);
+                    document.getElementById('memory-usage').textContent = Math.floor(Math.random() * 500 + 100);
+                    document.getElementById('active-objects').textContent = Math.floor(Math.random() * 1000 + 500);
+                    document.getElementById('latency').textContent = Math.floor(Math.random() * 100 + 20);
+                }
+
+                // Update metrics every second
+                setInterval(updateMetrics, 1000);
+            })
+            .catch(() => {
+                document.body.innerHTML = '<h1 class="error-message">Error: index.html not found</h1>';
+            });
+    </script>
+</body>
+</html>

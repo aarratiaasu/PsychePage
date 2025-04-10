@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Psyche Mission Timeline</title>
+  <link rel="stylesheet" href="css/timeline.css">
+</head>
+<body>
+  <canvas id="backgroundCanvas"></canvas>
+  <h1 class="title">A Year on Psyche vs Earth</h1>
+  <div class="timeline-container">
+    <div class="timeline">
+      <div class="event event-left">
+        <div class="event-content">
+          <div class="event-date">Day 1</div>
+          <p class="event-description">While you celebrate 1 birthday on Earth, on Psyche you'd still be waiting... it's only been like 2 months in Psyche time!</p>
+        </div>
+      </div>
+      <div class="event event-right">
+        <div class="event-content">
+          <div class="event-date">Day 365</div>
+          <p class="event-description">Happy Earth Birthday! But on Psyche, you're not even a quarter through the year yet - still time for more cake!</p>
+        </div>
+      </div>
+      <div class="event event-left">
+        <div class="event-content">
+          <div class="event-date">Day 730</div>
+          <p class="event-description">You could have TWO Halloween candy collections on Earth, but on Psyche you're still working on your first year's trick-or-treat bag!</p>
+        </div>
+      </div>
+      <div class="event event-right">
+        <div class="event-content">
+          <div class="event-date">Day 1,095</div>
+          <p class="event-description">Three Christmas celebrations have passed on Earth! That's three times the presents, while Psyche is still counting down to its first Christmas!</p>
+        </div>
+      </div>
+      <div class="event event-left">
+        <div class="event-content">
+          <div class="event-date">Day 1,460</div>
+          <p class="event-description">Four summer vacations have happened on Earth - that's a lot of ice cream! Meanwhile, summer hasn't even started on Psyche!</p>
+        </div>
+      </div>
+      <div class="event event-right">
+        <div class="event-content">
+          <div class="event-date">Day 1,826</div>
+          <p class="event-description">Finally! Your first Psyche New Year! In the same time, you could have watched 1,826 episodes of your favorite cartoon on Earth! That's a lot of TV!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('backgroundCanvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const numStars = 200;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function initStars() {
+      stars = [];
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.2,
+          speed: Math.random() * 0.5 + 0.2
+        });
+      }
+    }
+    initStars();
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    function animateStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.beginPath();
+        star.x += mouseX * star.speed * 0.5;
+        star.y += star.speed + mouseY * star.speed * 0.5;
+
+        if (star.y > canvas.height) {
+          star.y = 0;
+          star.x = Math.random() * canvas.width;
+        }
+        if (star.y < 0) {
+          star.y = canvas.height;
+          star.x = Math.random() * canvas.width;
+        }
+        if (star.x > canvas.width) {
+          star.x = 0;
+        }
+        if (star.x < 0) {
+          star.x = canvas.width;
+        }
+
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+      }
+      requestAnimationFrame(animateStars);
+    }
+    animateStars();
+
+    function updateTimelineProgress() {
+      const timeline = document.querySelector('.timeline');
+      const container = document.querySelector('.timeline-container');
+      const rect = timeline.getBoundingClientRect();
+      const total = rect.height;
+      const visible = container.clientHeight;
+      const current = Math.max(0, -rect.top);
+      const progress = Math.min(100, (current / (total - visible)) * 100);
+      document.documentElement.style.setProperty('--scroll-progress', `${progress}%`);
+    }
+
+    const container = document.querySelector('.timeline-container');
+    container.addEventListener('scroll', updateTimelineProgress);
+    updateTimelineProgress();
+
+    document.addEventListener('mousemove', (e) => {
+      const container = document.querySelector('.timeline-container');
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+      container.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+
+
+    document.querySelectorAll('.event').forEach(event => {
+      event.addEventListener('click', () => {
+        event.classList.remove('clicked');
+        void event.offsetWidth;
+        event.classList.add('clicked');
+      });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    document.querySelectorAll('.event').forEach(event => {
+      observer.observe(event);
+    });
+
+    const popup = document.createElement('div');
+    popup.className = 'event-popup';
+    document.body.appendChild(popup);
+
+    const eventDetails = {
+      "Day 1": {
+        title: "Birthday Countdown",
+        description: "On Earth, you are excited for your birthday in a year. But on Psyche, you have got a REALLY long wait... about 5 Earth years! That equals waiting through 1,826 bedtimes!",
+        image: "https://images.unsplash.com/photo-1464349153735-7db50ed83c84"
+      },
+      "Day 365": {
+        title: "Earth's Complete Year", 
+        description: "While Earth finishes its first lap around the Sun, Psyche is like 'Wait for me!' It is only about 20% done with its year because Psyche takes the scenic route!",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa"
+      },
+      "Day 730": {
+        title: "Double the Fun",
+        description: "Two Earth years means double the candy on Halloween! While kids on Earth receive their second batch of treats, Psyche kids continue enjoying their first year's candy stash!",
+        image: "https://images.unsplash.com/photo-1508361001413-7a9dca21d08a"
+      },
+      "Day 1,095": {
+        title: "Triple the Celebrations",
+        description: "Three Christmas celebrations have passed on Earth! That means triple the presents, cookies, and holiday fun. Psyche continues preparing for its first Christmas!",
+        image: "https://images.unsplash.com/photo-1543589077-47d81606c1bf"
+      },
+      "Day 1,460": {
+        title: "Four Summers of Fun",
+        description: "Earth kids have enjoyed four summer breaks filled with swimming, ice cream, and fun in the sun. Meanwhile, Psyche continues counting down to its first summer vacation!",
+        image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+      },
+      "Day 1,826": {
+        title: "The Big Finish",
+        description: "Finally! Psyche completes its year! During this time on Earth, you could have watched 1,826 cartoons and eaten 5,478 meals and had 2,607 playdates! Now that is a long year!",
+        image: "https://images.unsplash.com/photo-1513151233558-d860c5398176"
+      }
+    };
+
+    document.querySelectorAll('.event').forEach(event => {
+      event.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const date = event.querySelector('.event-date').textContent;
+        const details = eventDetails[date];
+        if (!details) return;
+
+        popup.innerHTML = `
+          <h3>${details.title}</h3>
+          <p>${details.description}</p>
+          ${details.image ? `<img src="${details.image}" style="max-width: 100%; height: auto; margin-top: 10px;">` : ''}
+        `;
+
+        setTimeout(() => {
+          const popupWidth = popup.offsetWidth;
+          const markerRect = event.getBoundingClientRect();
+          const isLeft = event.classList.contains('event-left');
+          let leftPosition;
+          
+          if (isLeft) {
+            leftPosition = markerRect.right + 10;
+          } else {
+            leftPosition = markerRect.left - popupWidth - 10;
+          }
+
+          const margin = 10;
+          if (leftPosition < margin) leftPosition = margin;
+          if (leftPosition + popupWidth > window.innerWidth - margin) {
+            leftPosition = window.innerWidth - popupWidth - margin;
+          }
+
+          // For the last 3 events, position popup above the event
+          const isLateEvent = ["Day 1,095", "Day 1,460", "Day 1,826"].includes(date);
+          const topPosition = isLateEvent 
+            ? markerRect.top - popup.offsetHeight - 10 + window.scrollY
+            : markerRect.top + window.scrollY;
+          popup.style.top = `${topPosition}px`;
+          popup.style.left = `${leftPosition}px`;
+          popup.classList.add('active');
+        }, 0);
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.event') && !e.target.closest('.event-popup')) {
+        popup.classList.remove('active');
+      }
+    });
+
+    function updateTheme() {
+      const theme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+    updateTheme();
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'theme') {
+        updateTheme();
+      }
+    });
+  </script>
+</body>
+</html>

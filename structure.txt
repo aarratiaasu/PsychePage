@@ -1,0 +1,149 @@
+.
+├── css
+│   ├── circleNav.css
+│   ├── landing.css
+│   └── loadingScreen.css
+├── img
+│   ├── asteroid.png
+│   ├── balance-preview.png
+│   ├── black_gear.png
+│   ├── calendar.jpeg
+│   ├── Earth.jpg
+│   ├── EarthTransparent.png
+│   ├── eat.jpg
+│   ├── psyche.jpg
+│   ├── psyche.svg
+│   ├── PsycheTransparent.png
+│   ├── relax.jpeg
+│   ├── school.jpeg
+│   ├── sleep.jpeg
+│   └── work.jpeg
+├── index.html
+├── package.json
+├── package-lock.json
+├── public
+│   ├── balance
+│   │   ├── balance.css
+│   │   ├── balance.html
+│   │   └── balance.js
+│   ├── escapeVelocity
+│   │   └── escape-velocity.html
+│   ├── games
+│   │   └── games.html
+│   ├── PsycheJR
+│   │   ├── CSS
+│   │   ├── img
+│   │   ├── index2.html
+│   │   ├── index.html
+│   │   ├── JS
+│   │   ├── kids.html
+│   │   ├── kidsViewport.js
+│   │   ├── location2.html
+│   │   ├── location.html
+│   │   ├── models
+│   │   ├── README.md
+│   │   ├── surface2.html
+│   │   ├── surface.html
+│   │   ├── test3.html
+│   │   └── test.html
+│   ├── psycheName
+│   │   ├── CSS
+│   │   ├── index.html
+│   │   ├── package.json
+│   │   ├── public
+│   │   ├── README.md
+│   │   ├── res
+│   │   ├── src
+│   │   └── vite.config.mjs
+│   ├── spacepic
+│   │   ├── css
+│   │   ├── js
+│   │   └── photo.html
+│   ├── TEST_IFRAME_SECTION7
+│   │   ├── index.html
+│   │   ├── script.js
+│   │   └── styles.css
+│   ├── website
+│   │   ├── balance.html
+│   │   ├── charts.html
+│   │   ├── css
+│   │   ├── escape-velocity.html
+│   │   ├── images
+│   │   ├── index.html
+│   │   ├── js
+│   │   ├── metrics-dashboard.html
+│   │   ├── model-page.html
+│   │   ├── models
+│   │   ├── photo.html
+│   │   └── timeline.html
+│   └── year
+│       ├── year.html
+│       ├── yearPage.css
+│       └── yearviewport.js
+├── README.md
+├── res
+│   ├── font
+│   │   ├── DroidSans_Regular.json
+│   │   ├── GenosThin_Regular.json
+│   │   ├── Orbitron_Regular.json
+│   │   ├── OxaniumExtraLight_Regular.json
+│   │   ├── Quantum_Regular.json
+│   │   └── Roboto_Regular.json
+│   ├── icons
+│   │   └── navArrowRight.svg
+│   ├── img
+│   │   ├── psyche_badge.svg
+│   │   └── white_gear2.png
+│   ├── models
+│   │   ├── 16psyche.glb
+│   │   ├── nasaLogo.glb
+│   │   └── psyche_new.glb
+│   ├── shaders
+│   │   ├── originalFragmentShader.glsl
+│   │   ├── originalVertexShader.glsl
+│   │   ├── textFragmentShader.glsl
+│   │   └── textVertexShader.glsl
+│   └── textures
+│       ├── 2k_sun.jpg
+│       ├── 8k_stars_milky_way.jpg
+│       ├── bbct.png
+│       ├── bbtx1.png
+│       ├── bbtx2.jpg
+│       ├── bbtx3.jpg
+│       ├── bbtx4.jpg
+│       ├── grass.jpg
+│       ├── grass_texture240.jpg
+│       ├── halfCourt.jpg
+│       ├── smoke1.png
+│       ├── terrain_texture.png
+│       ├── woodFloor2.jpg
+│       ├── woodFloor3.jpg
+│       └── woodFloor.jpg
+├── src
+│   └── landing
+│       ├── balanceViewport.js
+│       ├── gamesViewport.js
+│       ├── landing.js
+│       ├── nav.js
+│       ├── psycheNameViewport.js
+│       ├── section0.js
+│       ├── section1.js
+│       ├── section2.js
+│       ├── section3.js
+│       ├── section4.js
+│       ├── section5.js
+│       ├── section6.js
+│       ├── section7.js
+│       ├── section8.js
+│       ├── section9.js
+│       ├── sectionTracking.js
+│       ├── starfield.js
+│       ├── utils.js
+│       ├── viewportescapevelocity.js
+│       ├── viewportspacepic.js
+│       ├── viewportStyling.js
+│       └── websiteViewport.js
+├── structure.txt
+└── vite.config.mjs
+
+36 directories, 111 files

@@ -1,0 +1,264 @@
+/* Scroll to top button styles */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(48, 33, 68, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background-color: rgba(48, 33, 68, 1);
+  transform: translateY(-3px);
+}
+
+.scroll-to-top svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+/* Dark mode styles */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: Arial, sans-serif;
+}
+
+[data-theme="dark"] .logo img,
+[data-theme="dark"] .social img {
+  filter: invert(1);
+}
+
+[data-theme="dark"] nav {
+  background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .menu a {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .content-wrap {
+  background-color: var(--bg-color);
+}
+
+[data-theme="dark"] .excerpt p,
+[data-theme="dark"] .caption,
+[data-theme="dark"] .section-label,
+[data-theme="dark"] .unit-label,
+[data-theme="dark"] .divider,
+[data-theme="dark"] #psycheAge {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .scroll-to-top {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .scroll-to-top:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: 30px;
+  margin-top: 7px;
+}
+
+.theme-toggle svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  display: none;
+}
+
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+.theme-toggle .moon-icon {
+  display: block;
+}
+
+/* Focus indicators */
+a:focus,
+button:focus,
+input:focus,
+select:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+  transition: outline-offset 0.1s ease;
+}
+
+[data-theme="dark"] a:focus,
+[data-theme="dark"] button:focus,
+[data-theme="dark"] input:focus,
+[data-theme="dark"] select:focus {
+  outline-color: #7CB9FF;
+  box-shadow: 0 0 0 3px rgba(124, 185, 255, 0.3);
+}
+
+.theme-toggle:focus {
+  outline: 3px solid #4A90E2;
+  border-radius: 50%;
+}
+
+.search input[type="search"]:focus {
+  outline: 3px solid #4A90E2;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#birthYear:focus {
+  outline: 3px solid #4A90E2;
+  border-color: transparent;
+}
+
+.menu a:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 4px;
+  text-decoration: underline;
+}
+
+.social a:focus {
+  outline: 3px solid #4A90E2;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+/* Dash text animation */
+.dash-text {
+  transform: rotate(45deg);
+  transform-origin: 82.5px 85px;
+  transition: transform 0.3s ease;
+}
+
+.dash-text:hover {
+  transform: rotate(45deg) scale(1.1);
+}
+
+/* Layout styles */
+.logo img {
+  width: 120%;
+  height: auto;
+}
+
+.content-wrap {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.content {
+  padding-left: 5px;
+  max-width: 400px;
+}
+
+#birthYear {
+  padding: 5px;
+}
+
+.section-label {
+  font-size: 0.8em;
+  margin-top: 10px;
+}
+
+/* Iframe containers */
+.aspect-widescreen {
+  position: relative;
+  padding-bottom: 1.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.aspect-widescreen iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Metrics dashboard overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 20%;
+  height: calc(20% + 20px);
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+}
+
+.overlay-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.overlay-content button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#metrics-dashboard {
+  width: 100%;
+  height: calc(100% - 20px);
+  border: none;
+  overflow: hidden;
+}
+
+/* Timeline iframe container */
+.timeline-container {
+  position: relative;
+  padding-bottom: calc(56.25% - 300px);
+  height: 0;
+  overflow: hidden;
+}
+
+.timeline-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

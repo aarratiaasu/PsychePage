@@ -1,0 +1,200 @@
+<!-- 
+ * psycheName.html
+ *
+ *
+ *This contains content for the name origin of Psyche information.
+ *
+ * Class: SER 402
+ * Team: 35
+ * Project: NASA Psyche Mission: Year on Psyche Simulation
+ * Authors: Armanda Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+ *
+-->
+
+<!-- Declarations -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Psyche Page</title>
+    <link rel="stylesheet" href="./CSS/psycheName.css">
+     <!-- Three.js Scene (Canvas) -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+     <script src="script.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Fullscreen Three.js Scene */
+        canvas {
+            display: block;
+        }
+
+        /* UI Panel for Clickable Links */
+        .menu {
+            position: absolute;
+            top: 10%;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .menu a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        /* Popups for Sections */
+        .popup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <main>
+        <h1>How Psyche's Name Came To Be</h1>
+        <ul>
+            <li><a href="javascript:void(0)" id="introLink">Introduction</a></li>
+            <li><a href="javascript:void(0)" id="historyLink">Historical Background</a></li>
+            <li><a href="javascript:void(0)" id="missionLink">NASA's Psyche Mission</a></li>
+            <li><a href="javascript:void(0)" id="funFactsLink">Fun Facts</a></li>
+        </ul>
+        <div id="animation-container"></div>
+        <!-- The Container for Detailed Content (Initially Hidden) -->
+        <div id="viewportContainer" style="display: none;">
+            <button id="closeButton">x Close</button>
+            <div id="content"></div>
+        </div>
+    </main>
+    <!-- Three.js Scene -->
+    <script>
+        // DOM Content Loaded Event
+        document.addEventListener("DOMContentLoaded", function() {
+            let contentBox = document.getElementById("content");
+            let popup = document.getElementById("viewportContainer");
+            let closeButton = document.getElementById("closeButton");
+
+            // Ensure the elements are available
+            if (!popup || !contentBox || !closeButton) {
+                console.error("Missing elements: viewportContainer, content, or closeButton.");
+                return;
+            }
+
+            // Define content for each section
+            const sections = {
+                introLink: "<h2>Introduction</h2><p>Psyche is a metal-rich asteroid orbiting the Sun between Mars and Jupiter. It was named after the Greek goddess Psyche.</p>",
+                historyLink: "<h2>Historical Background</h2><p>Psyche was discovered in 1852 by Italian astronomer Annibale de Gasparis and is one of the largest asteroids in our solar system.</p>",
+                missionLink: "<h2>NASA's Psyche Mission</h2><p>The Psyche spacecraft, designed by NASA, aims to study the asteroid to understand more about planetary cores and the history of the solar system.</p>",
+                funFactsLink: "<h2>Fun Facts</h2></p>Psyche is primarily composed of nickel and iron, much like Earth's core.</p><p>It is about 226 kilometers (140 miles) in diameter.</p><p>Its name means 'soul' in Greek mythology.</p>"
+            };
+
+            // Show popup content when clicking a link
+            document.querySelectorAll("ul li a").forEach(link => {
+                link.addEventListener("click", function () {
+                    let sectionKey = this.id;
+                    contentBox.innerHTML = sections[sectionKey] || "No content available.";
+                    popup.style.display = "block";  // Show popup
+                });
+            });
+
+            // Close popup when clicking close button
+            closeButton.addEventListener("click", function () {
+                popup.style.display = "none";  // Hide popup
+            });
+
+            // Close popup when clicking outside of it
+            window.addEventListener("click", function (e) {
+                if (e.target === popup) {
+                    popup.style.display = "none";
+                }
+            });
+        });
+    </script>
+
+    <!-- Three.js Scene -->
+    <script>
+        // Three.js Setup
+        let scene = new THREE.Scene();
+        let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        let renderer = new THREE.WebGLRenderer({ alpha: true });
+
+        renderer.setClearColor(0x000000, 0);
+        let container = document.getElementById("animation-container");
+        if (container) {
+            container.appendChild(renderer.domElement);
+        } else {
+            console.error("Animation container not found!");
+        }
+
+        let light = new THREE.AmbientLight(0xffffff, 2);
+        scene.add(light);
+
+        // Load .glb Model
+        let loader = new THREE.GLTFLoader();
+        loader.load(
+            "asteroid",
+            "./res/models/psyche_new.glb",
+        function (gltf) {
+        let model = gltf.scene;
+        model.scale.set(0.5, 0.5, 0.5); // scale
+        model.position.set(0, 0, 0); // position
+        scene.add(model);
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            model.rotation.y += 0.005; // Rotate the model
+            renderer.render(scene, camera);
+            }
+        animate();
+        },
+        undefined,
+        function (error) {
+             console.error("Error loading GLB model:", error);
+         }
+        );
+
+        // Camera Position
+        camera.position.z = 3;
+       
+        // Show popup
+        function showPopup(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        // Hide popup
+        function hidePopup(id) {
+            document.getElementById(id).style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

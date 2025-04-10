@@ -1,0 +1,143 @@
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/*header image left*/
+#psyche {
+    width: 25%;
+    left: 3%;
+    top: -5%;
+    padding-top: 2%;
+    position: relative;
+    animation: logo-move-in;
+    animation-duration: 2s;
+}
+
+/*header image right*/
+#asteroid {
+    float: right;
+    position: relative;
+    width: 50%;
+    right: -5%;
+    top: -5%;
+    animation: header-move-in;
+    animation-duration: 2s;
+}
+
+@keyframes header-move-in {
+    from {right: -200px; top: -100px;}
+    to {right: -5%; top: -5%;}
+}
+
+@keyframes logo-move-in {
+    from {left: -200px; top: -100px;}
+    to {left: 3%; top: -5%;}
+}
+
+main h1 {
+    margin-top: 5%;
+    text-align: center;
+}
+
+div {
+    background-color: black;
+    color: greenyellow;
+    border: 3px solid greenyellow;
+    text-align: center;
+    
+}
+
+#ss-image {
+    max-width: 100%;
+}
+
+#top h3,
+#top2 h3 {
+    padding-top: 5%;
+    margin: 0;
+}
+
+#top p,
+#top2 p {
+    margin-left: 0;
+    line-height: 2;
+}
+
+#top, #top2 {
+    padding-bottom: 5%;
+}
+
+#planets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+}
+
+#planets div {
+    padding: 10%;
+}
+
+#solar-system {
+    height: 900px;
+}
+
+#solar-system-map {
+    width: 90%;
+    height: 600px;
+    margin-top: 5%;
+}
+
+#mercury {
+    background-image: url(/img/mercury.jpg);
+    background-size: cover;
+}
+
+#venus {
+    background-image: url(/img/venus.jpg);
+    background-size: cover;
+}
+
+#earth {
+    background-image: url(/img/Earth.jpg);
+    background-size: cover;
+}
+
+#mars {
+    background-image: url(/img/mars.jpg);
+    background-size: cover;
+}
+
+#psyche-location {
+    background-image: url(/img/psyche.jpg);
+    background-size: cover;
+}
+
+#jupiter {
+    background-image: url(/img/jupiter.jpg);
+    background-size: cover;
+}
+
+#saturn {
+    background-image: url(/img/saturn.jpg);
+    background-size: cover;
+}
+
+#uranus {
+    background-image: url(/img/uranus.jpg);
+    background-size: cover;
+}
+
+#neptune {
+    background-image: url(/img/neptune.jpg);
+    background-size: cover;
+}
+
+#pluto {
+    background-image: url(/img/pluto.jpg);
+    background-size: cover;
+}
+
+footer {
+    text-align: center;
+}

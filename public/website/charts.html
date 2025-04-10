@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Asteroid Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-3d@1.0.0/dist/chartjs-plugin-3d.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #0a192f;
+            --secondary-bg: #112240;
+            --text-primary: #ccd6f6;
+            --text-secondary: #8892b0;
+            --accent: #64ffda;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 40px;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            perspective: 1000px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .charts-container {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            width: 100%;
+            max-width: 2000px;
+            gap: 30px;
+            margin: 0 auto;
+        }
+
+        .chart-wrapper {
+            flex: 1;
+            min-width: 350px;
+            padding: 25px;
+            background-color: var(--secondary-bg);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            transition: transform 0.5s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            transform-style: preserve-3d;
+        }
+
+        .chart-wrapper:hover {
+            transform: translateY(-5px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 12px 40px rgba(100, 255, 218, 0.2);
+        }
+
+        .chart-wrapper.active {
+            transform: scale(1.05) rotateX(0deg) rotateY(0deg);
+            z-index: 10;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transform: translateZ(20px);
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        canvas:hover {
+            transform: scale(1.02);
+        }
+
+        .chart-info {
+            padding: 15px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: none;
+            transform: translateZ(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .chart-info.visible {
+            display: block;
+            opacity: 1;
+            transform: translateZ(10px) translateY(0);
+        }
+
+        .data-point {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, var(--secondary-bg), rgba(17, 34, 64, 0.8));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-point:hover {
+            background-color: rgba(100, 255, 218, 0.1);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: -5px 5px 15px rgba(100, 255, 218, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                flex-direction: column;
+            }
+            
+            .chart-wrapper {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Psyche Asteroid Analysis</h1>
+    <div class="charts-container">
+        <div class="chart-wrapper">
+            <h2>Surface Composition</h2>
+            <canvas id="compositionChart"></canvas>
+            <div class="chart-info" id="compositionInfo"></div>
+        </div>
+        <div class="chart-wrapper">
+            <h2>Temperature Distribution During Orbit</h2>
+            <canvas id="temperatureChart"></canvas>
+            <div class="chart-info" id="temperatureInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        // Surface Composition Data
+        const compositionData = {
+            labels: ['Iron', 'Nickel', 'Silicates', 'Other Metals'],
+            datasets: [{
+                data: [70, 15, 12, 3],
+                backgroundColor: [
+                    '#64ffda',
+                    '#63b3ed',
+                    '#9f7aea',
+                    '#f687b3'
+                ],
+                borderWidth: 2,
+                borderColor: '#112240',
+                hoverOffset: 15
+            }]
+        };
+
+        // Temperature Range Data
+        const temperatureData = {
+            labels: [
+                'Very Cold (80K to 85K)',
+                'Cold (85K to 90K)',
+                'Moderate (90K to 95K)',
+                'Warm (95K to 98K)',
+                'Hot (Above 98K)'
+            ],
+            datasets: [{
+                data: [15, 30, 35, 15, 5],
+                backgroundColor: [
+                    '#2c5282',
+                    '#2b6cb0',
+                    '#319795',
+                    '#805ad5',
+                    '#d53f8c'
+                ],
+                borderWidth: 2,
+                borderColor: '#112240',
+                hoverOffset: 15
+            }]
+        };
+
+        // Enhanced Chart Options with 3D effect
+        const options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#ccd6f6',
+                        padding: 20,
+                        font: {
+                            size: 14,
+                            family: "'Segoe UI', sans-serif"
+                        },
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(17, 34, 64, 0.9)',
+                    titleFont: {
+                        size: 14,
+                        family: "'Segoe UI', sans-serif"
+                    },
+                    bodyFont: {
+                        size: 13,
+                        family: "'Segoe UI', sans-serif"
+                    },
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: ${context.raw}%`;
+                        }
+                    }
+                },
+                '3d': {
+                    alpha: 20,
+                    beta: 30,
+                    depth: 50
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            },
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            }
+        };
+
+        // Create and Initialize Charts
+        const compositionChart = new Chart(
+            document.getElementById('compositionChart'),
+            {
+                type: 'doughnut',
+                data: compositionData,
+                options: options
+            }
+        );
+
+        const temperatureChart = new Chart(
+            document.getElementById('temperatureChart'),
+            {
+                type: 'doughnut',
+                data: temperatureData,
+                options: options
+            }
+        );
+
+        // Enhanced Interactive Features
+        document.querySelectorAll('.chart-wrapper').forEach(wrapper => {
+            const info = wrapper.querySelector('.chart-info');
+            
+            wrapper.addEventListener('click', () => {
+                const allWrappers = document.querySelectorAll('.chart-wrapper');
+                const allInfos = document.querySelectorAll('.chart-info');
+                
+                allWrappers.forEach(w => w.classList.remove('active'));
+                allInfos.forEach(i => {
+                    i.classList.remove('visible');
+                    i.style.display = 'none';
+                });
+                
+                wrapper.classList.add('active');
+                info.style.display = 'block';
+                setTimeout(() => info.classList.add('visible'), 50);
+                
+                if (info.id === 'compositionInfo') {
+                    info.innerHTML = compositionData.labels.map((label, i) => `
+                        <div class="data-point">
+                            <span>${label}</span>
+                            <span>${compositionData.datasets[0].data[i]}%</span>
+                        </div>
+                    `).join('');
+                } else {
+                    info.innerHTML = temperatureData.labels.map((label, i) => `
+                        <div class="data-point">
+                            <span>${label}</span>
+                            <span>${temperatureData.datasets[0].data[i]}%</span>
+                        </div>
+                    `).join('');
+                }
+            });
+        });
+
+        // Mouse move parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
+            const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
+            
+            document.querySelectorAll('.chart-wrapper').forEach(wrapper => {
+                wrapper.style.transform = `rotateY(${moveX}deg) rotateX(${-moveY}deg)`;
+            });
+        });
+    </script>
+</body>
+</html>

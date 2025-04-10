@@ -1,0 +1,297 @@
+body {
+    margin: 0 auto;
+    text-align: center;
+    overflow-x: hidden;
+    
+}
+
+#body-elements {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: repeat(3, 1fr);
+    align-content: center;
+    justify-content: center;
+}
+
+header {
+    grid-row: 1 / 2;
+    grid-column: 1 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px; 
+}
+
+#psyche {
+    width: 25%;
+    left: 3%;
+    top: -5%;
+    position: relative;
+    animation: logo-move-in;
+    animation-duration: 2s;
+}
+
+#asteroid {
+    float: right;
+    position: relative;
+    width: 50%;
+    right: -5%;
+    top: -5%;
+    animation: header-move-in;
+    animation-duration: 2s;
+}
+
+#settings-button {
+    background: none;
+    border: none; 
+    margin: 0; 
+    padding: 0; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    position: absolute; 
+    left: 30px; 
+    top: 370px; 
+    transform: translateY(-50%); 
+}
+
+#settings-icon {
+    width: 30px; 
+    height: auto; 
+    display: block;
+}
+
+#settings-icon:hover {
+    width: 50px;
+}
+
+#main h1 {
+    padding-bottom: 1%;
+}
+
+h1 {
+    margin: 0;
+    flex-grow: 1; 
+    text-align: center; 
+    padding-top: 5%;
+}
+
+#main {
+    grid-row: 2 / 3;
+    grid-column: 1 / 4;
+}
+
+#sub-one{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(95,9,121,0.7931547619047619) 63%, rgba(0,212,255,1) 100%);
+}
+
+#sub-one div {
+    margin: 1%;
+    border: 5px solid #ff5733;
+    box-shadow: 0px 6px #302144;
+    border-radius: 9% 25% 9% 25%;
+}
+
+#sub-one p {
+    margin-top: -20px;
+    padding-bottom: 0;
+    grid-row: 2 / 3;
+    grid-column: 1 / 4;
+    font-size: large;
+    line-height: 2;
+}
+
+footer {
+    grid-row: 3 / 4;
+    grid-column: 1 / 4;
+    border: 3px solid #ff5733;
+}
+
+@keyframes header-move-in {
+    from {right: -200px; top: -100px;}
+    to {right: -5%; top: -5%;}
+}
+
+@keyframes logo-move-in {
+    from {left: -200px; top: -100px;}
+    to {left: 3%; top: -5%;}
+}
+
+
+#main h1 {
+    overflow: hidden; /* Ensures the content is not revealed until animation */
+    border-right: 0.15em solid black; /* Typewriter cursor */
+    white-space: nowrap; /* Prevents wrapping */
+    margin: 0 auto; /* Centers the text */
+    letter-spacing: 0.15em; /* Adjust as needed */
+    animation: 
+        typing 3.5s steps(40, end) forwards, /* Typing effect */
+        blink-caret 0.75s step-end ; /* Caret blinking */
+}
+
+#main h1.typing-complete {
+    animation: none; /* Stops animations */
+    border-right: none; /* Remove caret */
+}
+
+main h1.white {
+    animation: 
+        typing 3.5s steps(40, end) forwards, /* Typing effect */
+        blink-caret-white 0.75s step-end ; /* Caret blinking */
+}
+
+/* Typing animation */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Caret blinking */
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: black; }
+}
+
+/* Caret blinking */
+@keyframes blink-caret-white {
+    from, to { border-color: transparent; }
+    50% { border-color: white; }
+}
+
+#sub-one h3 {
+    padding-top: 10%;
+    max-height: 50px;
+    min-height: 50px;
+    line-height: 50px;
+    grid-row: 1 / 2;
+    grid-column: 1 / 4;
+    overflow: hidden; 
+    display: block; 
+    border-right: none; 
+    white-space: nowrap; 
+    margin: 0 auto; 
+    letter-spacing: 0.15em; 
+    width: 0; 
+    animation: none; 
+    border: none;
+    font-family: monospace;
+    font-size: 40px;
+    text-shadow: 0px 11px #302144;
+}
+
+#sub-one h3.start-typing {
+    border-right: 0.15em solid #ff5733; /* Show caret during typing */
+    animation: typing 3s steps(50, end) forwards, /* Typing animation */
+               blink-caret 0.75s step-end ; /* Caret blinking */
+}
+
+#sub-one p .line {
+    overflow: hidden; 
+    display: block; 
+    border-right: none; 
+    white-space: nowrap; 
+    margin: 0 auto; 
+    letter-spacing: 0.15em; 
+    width: 0; 
+    animation: none; 
+    color: transparent; 
+}
+
+#sub-one p .line.start-typing {
+    border-right: 0.15em solid #ff5733; /* Show caret during typing */
+    color: #f47c33; /* Make text visible during animation */
+    animation: typing 3s steps(50, end) forwards, /* Typing animation */
+               blink-caret 0.75s step-end ; /* Caret blinking */
+}
+
+.grid-three {
+    opacity: 0; 
+    transform: translateY(20px); /* Slightly move down */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+}
+
+.grid-three.show {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Move to original position */
+}
+
+.grid-three p {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 3%;
+}
+
+#last-grid-three {
+    margin-bottom: 35%;
+}
+
+.empty-grid {
+    height: 100px;
+    width: 100%;
+    color: #ff5733;
+    padding-bottom: 15%;
+}
+
+.empty-grid h3 {
+    color: red;
+    border: 3px solid red;
+}
+
+#sub-one {
+    background-color: #592651;
+    color: #ff5733;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#last-grid {
+    grid-column: 1/4;
+}
+
+#discover-psyche {
+    color: #ff5733;
+    border: 3px solid greenyellow;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 5%;
+    cursor: pointer;
+}
+
+/* Typing animation */
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Caret blinking */
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: black; }
+}
+
+html.disable-animations .grid-three {
+    opacity: 1 !important; /* Fully visible */
+    transform: translateY(0) !important; /* Reset position */
+}
+
+html.disable-animations #main h1 {
+    width: 100% !important; /* Show full text without typing effect */
+    border-right: none !important; /* Hide caret */
+}
+
+html.disable-animations #sub-one h3 {
+    width: 100% !important; /* Show full text */
+    border-right: none !important; /* Hide caret */
+}
+
+html.disable-animations #sub-one p .line {
+    width: auto !important; /* Show full text */
+    color: greenyellow !important; /* Text is visible */
+    border-right: none !important; /* Hide caret */
+}

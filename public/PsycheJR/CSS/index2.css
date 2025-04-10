@@ -1,0 +1,1076 @@
+/*
+* index2.CSS
+* 
+* This index2.CSS contains the styling for all elements on the index2.html page.
+* 
+* Class:      SER 402
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+
+/*For Testing Delete before production*/
+
+#screen-width-box {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 9999;
+}
+
+
+
+
+/** body elements
+*
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    
+}
+
+body {
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-size: 1000% 1000%;
+    animation: gradient 10s ease 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    max-width: 2560px;
+    margin: 0 auto;
+}
+
+/** Header Elements
+*
+*/
+
+header {
+    height: 30vh;
+    width: 100%;
+}
+
+#page-header {
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    height: 30vh;
+    position: relative;
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-clip:text;
+}
+
+#page-header h1 {
+    color: transparent;
+    font-size: 100px;
+    padding-top: 5rem;
+}
+
+#view3D {
+    margin-top: -6.5rem;
+    margin-right: auto;
+    margin-left: 2rem;
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-clip:text;
+}
+
+#view3D-btn {
+    padding: 5%;
+    width: 10rem;
+    margin-bottom: 5%;
+    border-radius: 1rem;
+    cursor: pointer;
+    position: relative;
+    /*color: #f9a000;
+    background: linear-gradient(-45deg, #a53f5b, #592651, #302144);*/
+    font-size: 1.25rem;
+
+    background-color: #333; 
+    color: orange; 
+}
+
+#view3D-btn::after, #view3D-btn::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: #007bff 0.3rem solid;
+    /* background-image: conic-gradient(from var(--angle), transparent, transparent, #007bff); */
+    /* background-image: conic-gradient(from var(--angle), transparent, transparent, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144, #f9a000); */
+    /*background-image: conic-gradient(#f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144, #f9a000);*/
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    /* padding: 0.35rem; */
+    border-radius: 1rem;
+    animation: 3s spin linear infinite;
+}
+
+#logo {
+    padding-top: 1rem;
+    display: block;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#asteroid {
+    position: absolute;
+    top: 0;
+    min-width: 50%;
+    max-width: 75%;
+    right: 0;
+}
+
+/** Multi-element styling
+*
+*/
+
+#welcome, #div3, #div4, #div5, #div8 {
+    width: 90%;
+}
+
+/** welcome / div 1 elements
+*
+*/
+
+#welcome{
+    position: relative;
+    text-align: center;
+    padding: 3rem;
+    color: white;
+    background-color: black;
+    border-radius: 1rem;
+}
+
+#welcome p {
+    margin-top: 25%;
+    background: linear-gradient(-45deg, #f9a000, #f47c33);
+    background-clip: text;
+    color: transparent;
+    padding-top: 5rem;
+    font-size: 80px;
+    line-height: 1.5;
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/** div3 elements
+*
+*/
+
+#div3 {
+    padding: 5rem;
+    color: black;
+    text-align: center;
+    margin-top: 2%;
+    font-size: 70px;
+    background-image: url(../img/sixteen.svg);
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position-y: 45%;
+    background-position-x: -15%;
+
+    h1{
+        font-size: 120px;
+    }
+
+    p {
+        width: 50%;
+        margin-top: 5%;
+        line-height: 1.5;
+        margin-left: auto;
+        padding: 2rem;
+    }
+}
+
+#div3-btn {
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 5%;
+    border-radius: 1rem;
+    cursor: pointer;
+    position: relative;
+    color: #a53f5b;
+    font-size: 40px;
+}
+
+#div3-btn:hover {
+    color: #f9a000;
+    font-size: 55px;
+    transition: ease-in-out 1s;
+}
+
+#div3-btn::after, #div3-btn::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent, #a53f5b);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 6px;
+    border-radius: 1rem;
+    animation: 3s spin reverse infinite;
+}
+
+#div3-btn::before {
+    filter: blur(1.5rem);
+}
+
+#grad-text {
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+    background-clip: text;
+    color: transparent;
+}
+
+/** div4 elements
+*
+*/
+
+#div4 {
+    margin-right: 1rem;
+    margin-left: auto;
+    margin-top: 2%;
+    text-align: center;
+    background-color: darkslategray;
+    background-image: url(../img/asteroid-field.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    border-radius: 2rem 4rem;
+    font-size: 50px;
+
+    h1 {
+        margin-top: 3rem;
+        font-size: 120px;
+    }
+
+    p{
+        margin-top: 5%;
+        line-height: 1.5;
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 70px;
+    }
+}
+
+#div4-btn {
+    padding: 3%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 1rem;
+    cursor: pointer;
+    position: relative;
+    background-color: #483B1B;
+    color: white;
+    font-size: 40px;
+}
+
+#div4-btn:hover {
+    color: #f9a000;
+    font-size: 55px;
+    transition: ease-in-out 1s;
+}
+
+#div4-btn::after, #div4-btn::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent, #f9a000, #592651, transparent);
+    /*background-image: conic-gradient(#f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144, #f9a000);*/
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 6px;
+    border-radius: 1rem;
+    animation: 3s spin reverse infinite;
+}
+
+#div4-btn::before {
+    filter: blur(1.5rem);
+}
+
+/** div 5 elements
+*
+*/
+
+#div5 {
+    position: relative; 
+    color: white;
+    margin-top: 2%;
+    margin-left: 1rem;
+    margin-right: auto;
+    text-align: center;
+    z-index: 1; 
+    border-radius: 11rem;
+
+    h1 {
+        margin-top: 3rem;
+        font-size: 120px;
+    }
+
+    p {
+        margin-top: 10%;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 70px;
+    }
+}
+
+#div5::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../img/sun-clock.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 3rem;
+    z-index: -1; 
+}
+
+#div5-btn {
+    padding: 3%;
+    margin-top: 15%;
+    margin-bottom: 5%;
+    border-radius: 1rem;
+    cursor: pointer;
+    position: relative;
+    background-color: black;
+    color: white;
+    font-size: 40px;
+}
+
+#div5-btn:hover {
+    color: blue;
+    font-size: 55px;
+    transition: ease-in-out 1s;
+}
+
+#div5-btn::after, #div5-btn::before {
+ 
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent 30%, blue);
+    /*background-image: conic-gradient(#f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144, #f9a000);*/
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 6px;
+    border-radius: 1rem;
+    animation: 3s spin reverse infinite;
+}
+
+#div5-btn::before {
+    filter: blur(1.5rem);
+}
+
+/** div 8 elements
+*
+*/
+
+#div8 {
+    position: relative; 
+    color: rgb(184, 145, 73);
+    text-shadow: black -5px -5px 8px;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    border-radius: 3rem;
+    z-index: 1; 
+
+    h1 {
+        margin-top: 3rem;
+        font-size: 120px;
+    }
+
+    p {
+        width: 80%;
+        margin-top: 5%;
+        margin-right: auto;
+        margin-left: auto;
+        font-size: 70px;
+    }
+}
+
+#div8::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/psyche.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 3rem;
+    opacity: 0.8;
+    z-index: -1; 
+}
+
+#div8-btn {
+    padding: 3%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 1rem;
+    cursor: pointer;
+    position: relative;
+    background-color: black;
+    color: rgb(184, 145, 73);
+    font-size: 40px;
+    grid-row: 3;
+}
+
+#div8-btn:hover {
+    color: rgb(184, 145, 73);
+    font-size: 55px;
+    transition: ease-in-out 1s;
+}
+
+#div8-btn::after, #div8-btn::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), transparent 1%, rgb(184, 145, 73));
+    /*background-image: conic-gradient(#f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144, #f9a000);*/
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 6px;
+    border-radius: 1rem;
+    animation: 1s spin infinite;
+}
+
+#div8-btn::before {
+    filter: blur(1.5rem);
+}
+
+/** footer elements
+*
+*/
+
+footer {
+    margin-top: 3%;
+    height: 30vh;
+    width: 100%;
+    background: linear-gradient(-45deg, #f9a000, #f47c33, #ef5966, #a53f5b, #592651, #302144);
+}
+
+/*Animations*/
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes spin {
+    from
+    {
+        --angle: 0deg;
+    } 
+    to
+    {
+        --angle:360deg;
+    }
+}
+
+
+/*media queries*/
+/*Mobile Phone*/
+@media (min-width: 360px) and (max-width: 767px) {
+    /** mulit-element styling
+    *
+    */
+    h1{
+        font-size: 2rem !important;
+    }
+    p {
+        font-size: 1rem !important;
+    }
+    #div3-btn, #div4-btn, #div5-btn, #div8-btn {
+        font-size: 0.75rem;
+    } 
+
+    /** header elements
+    *
+    */
+    header{
+        height: 5vh !important;
+    }
+    #page-header {
+        position: relative;
+        height: 20vh !important;
+    }
+    #page-header h1 {
+        margin-top: -3rem;
+        font-size: 1.5rem !important;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 1rem;
+    }
+    #welcome-p1{
+        margin-top: 15% !important;
+    }
+    #welcome p{
+        margin-top: 10%;
+        font-size: 1rem; 
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 45%;
+        background-position-x: 5%;
+        margin-top: -4rem;
+    }
+    #div3 p{
+        font-size: 0.75rem;
+        margin-left: 7rem;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    /** div 4 elements
+    *
+    */
+    #div4{
+        margin-top: -5rem;
+        border-radius: 1rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #div4 h1{
+        margin-top: 0.5rem;
+    }
+    #div4 p {
+        margin-top: 4rem;
+    }
+
+    /** div 5 elements
+    *
+    */
+    #div5 h1{
+        margin-top: 1rem;
+    }
+    #div5 p {
+        margin-top: 3rem;
+    }
+
+    /** div 8 elements
+    *
+    */
+    #div8::before{
+        border-radius: 0rem;
+    }
+    #div8 h1{
+        margin-top: 1rem;
+        background-color: rgba(49, 49, 49, 0.5);
+    }
+    #div8 p {
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        background-color: rgba(49, 49, 49, 0.5);
+    }
+}
+
+/*Tablets*/
+@media (min-width: 768px) and (max-width: 1023px) {
+    h1{
+        font-size: 50px !important;
+    }
+    p{
+        font-size: 25px !important;
+    }
+    button{
+        font-size: 20px !important;
+    }
+    button:hover {
+        font-size: 22px !important;
+    }
+    
+    /** header elements
+    *
+    */
+    header{
+        height: 10vh;
+    }
+    #page-header {
+        position: relative;
+        height: 10vh !important;
+    }
+    #page-header h1 {
+        margin-top: -4rem;
+        font-size: 2.5rem !important;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 1%;
+    }
+    #welcome-p1{
+        margin-top: 25% !important;
+    }
+    #welcome p{
+        margin-top: 10%;
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 40%;
+        background-position-x: 5%;
+        margin-top: 1rem;
+        padding-bottom: 0.5rem;
+    }
+    #div3 p{
+        font-size: 0.75rem;
+        margin-left: 15rem;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 5%;
+        margin-bottom: 0%;
+    }
+
+    /** div 5 elements
+    *
+    */
+    #div5{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #div5 h1{
+        margin-top: 1rem;
+    }
+    #div5 p {
+        margin-top: 3rem;
+    }
+}
+
+/*1024px*/
+@media (min-width: 1024px) and (max-width: 1279px) {
+    /** body elements
+    *
+    */
+    h1{
+        font-size: 60px !important;
+    }
+    p{
+        font-size: 30px !important;
+    }
+    button{
+        font-size: 25px !important;
+    }
+    /** header elements
+    *
+    */
+    header{
+        height: 20vh;
+    }
+    #page-header {
+        position: relative;
+        height: 20vh;
+    }
+    #page-header h1 {
+        margin-top: -5rem;
+        font-size: 3.5rem;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 1%;
+    }
+    #welcome-p1{
+        margin-top: 25% !important;
+    }
+    #welcome p{
+        margin-top: 10%;
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 35%;
+        background-position-x: 5%;
+        margin-top: -4rem;
+    }
+    #div3 p{
+        margin-left: 20rem;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 5rem;
+        margin-bottom: 5%;
+    }
+}
+
+/*1280px*/
+@media (min-width: 1280px) and (max-width: 1439px) {
+    /** multi-element styling
+    *
+    */
+    #div3-btn, #div4-btn, #div5-btn, #div8-btn {
+        font-size: 20px;
+    } 
+    #div3-btn:hover, #div4-btn:hover, #div5-btn:hover, #div8-btn:hover {
+        font-size: 25px;
+    } 
+    #div3 h1, #div4 h1, #div5 h1, #div8 h1 {
+        font-size: 60px;
+    } 
+    #div3 p, #div4 p, #div5 p, #div8 p  {
+        font-size: 30px;
+    }
+
+    /** header elements
+    *
+    */
+    #page-header {
+        height: 20vh;
+    }
+    #page-header h1 {
+        margin-top: -5rem;
+        font-size: 3.5rem;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 1%;
+    }
+    #welcome-p1{
+        margin-top: 25% !important;
+    }
+    #welcome p{
+        margin-top: 10%;
+        font-size: 40px; 
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 40%;
+        background-position-x: -5%;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+    #div3 h1{
+        font-size: 60px;
+    }
+    #div3 p {
+        font-size: 30px;
+    }
+
+    /** div 5 elements
+    *
+    */
+    #div5{
+        height: 900px;
+    }
+    #div5 h1{
+        margin-top: 5%;
+    }
+    #div5 p {
+        margin-top: 15%;
+        width: 80%;
+    }
+}
+
+/*1440px*/
+@media (min-width: 1440px) and (max-width: 1511px) {
+    /** multi-element styling
+    *
+    */
+    h1 {
+        font-size: 60px !important;
+    }
+    p{
+        font-size: 30px !important;
+    }
+
+    #div3-btn, #div4-btn, #div5-btn, #div8-btn {
+        font-size: 20px;
+    } 
+    #div3-btn:hover, #div4-btn:hover, #div5-btn:hover, #div8-btn:hover {
+        font-size: 25px;
+    } 
+
+    /** header elements
+    *
+    */
+    #page-header{
+        height: 20vh;
+    }
+    #page-header h1 {
+        font-size: 80px !important;
+        margin-top: -5rem;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 0%;
+    }
+    #welcome-p1{
+        margin-top: 20% !important;
+        font-size: 40px !important;
+    }
+    #welcome p{
+        margin-top: 10%; 
+        font-size: 40px !important;
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 35%;
+        background-position-x: -5%;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+    #div3 h1{
+        font-size: 60px;
+    }
+    #div3 p {
+        font-size: 30px;
+    }
+
+    /** div 5 elements
+    *
+    */
+    #div5{
+        height: 900px;
+    }
+    #div5 h1{
+        margin-top: 5%;
+    }
+    #div5 p {
+        margin-top: 15%;
+        width: 80%;
+    }
+}
+
+/*Full HD*/
+@media (min-width: 1512px) and (max-width: 2047px) {
+    /** multi-element styling
+    *
+    */
+    h1{
+        font-size: 90px !important;
+    }
+    p{
+        font-size: 40px !important;
+    }
+    #div3-btn, #div4-btn, #div5-btn, #div8-btn {
+        font-size: 25px;
+    } 
+    #div3-btn:hover, #div4-btn:hover, #div5-btn:hover, #div8-btn:hover {
+        font-size: 30px;
+    } 
+
+    /** header elements
+    *
+    */
+    #page-header{
+        height: 25vh;
+    }
+    #page-header h1 {
+        margin-top: -1rem;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome {
+        margin-top: 5%;
+    }
+    #welcome-p1{
+        margin-top: 30% !important;
+    }
+    #welcome p{
+        margin-top: 10%;
+    }
+
+    /** div 3 elements
+    *
+    */
+    #div3{
+        background-size: 50%;
+        background-position-y: 40%;
+        background-position-x: -15%;
+    }
+    #div3-btn{
+        padding: 3%;
+        margin-top: 10%;
+        margin-bottom: 5%;
+    }
+
+    /** div 4 elements
+    *
+    */
+    #div4-btn{
+        padding: 3%;
+        margin-top: 10%;
+        margin-bottom: 5%;
+    }
+
+    /** div 5 elements
+    *
+    */
+    #div5{
+        height: 1000px;
+    }
+    #div5-btn{
+        padding: 3%;
+        margin-top: 8%;
+        margin-bottom: 5%;
+    }
+
+    /** div 8 elements
+    *
+    */
+    #div8 h1{
+        background-color: rgba(49, 49, 49, 0.5);
+    }
+    #div8 p{
+        background-color: rgba(49, 49, 49, 0.5);
+    }
+    #div8-btn{
+        padding: 3%;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+}
+
+/*2048px*/
+@media (min-width: 2048px) and (max-width: 2509px) {
+
+    h1{
+        font-size: 80px !important;
+    }
+
+    p {
+        font-size: 50px !important;
+    }
+
+    button {
+        font-size: 35px !important;
+    }
+
+    button:hover {
+        font-size: 40px !important;
+    }
+    /** header elements
+    *
+    */
+    #page-header {
+        height: 20vh;
+    }
+    #page-header h1 {
+        margin-top: -4rem;
+    }
+
+    /** welcome / div 1 elements
+    *
+    */
+    #welcome-p1{
+        padding-top: 10rem !important;
+    }
+
+    #welcome p {
+        padding-top: 1rem;
+    }
+}
+
+/*2510px*/
+@media (min-width: 2510px) and (max-width: 2559px) {
+    /** multi-element styling
+    *
+    */
+    #div3-btn, #div4-btn, #div5-btn, #div8-btn {
+        font-size: 30px;
+    } 
+    #div3-btn:hover, #div4-btn:hover, #div5-btn:hover, #div8-btn:hover {
+        font-size: 40px;
+    } 
+    #div3 h1, #div4 h1, #div5 h1, #div8 h1 {
+        font-size: 80px;
+    } 
+    #div3 p, #div4 p, #div5 p, #div8 p  {
+        font-size: 50px;
+    }
+}

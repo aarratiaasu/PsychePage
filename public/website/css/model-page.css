@@ -1,0 +1,257 @@
+body { 
+    margin: 0; 
+    font-family: Arial, sans-serif; 
+}
+
+#model-container {
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+}
+
+.nav-button {
+    position: fixed;
+    top: 20px;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
+    border: 1px solid greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+    transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+    background: rgba(173, 255, 47, 0.2);
+}
+
+#back-button { 
+    left: 20px; 
+}
+
+/* Model Controls Panel */
+#model-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid greenyellow;
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+    z-index: 1000;
+}
+
+.control-button {
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
+    border: 1px solid greenyellow;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.control-button:hover {
+    background: rgba(173, 255, 47, 0.2);
+}
+
+.control-button.active {
+    background: rgba(173, 255, 47, 0.2);
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.5);
+}
+
+#info-button {
+    left: 200px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-button { 
+    left: 250px; 
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid greenyellow;
+    box-shadow: 0 0 20px rgba(173, 255, 47, 0.3);
+    padding: 20px;
+    z-index: 1002;
+    border-radius: 5px;
+    color: greenyellow;
+}
+
+#game-modal {
+    max-width: 850px;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+#tutorial-modal {
+    max-width: 500px;
+}
+
+.modal-content {
+    margin-bottom: 20px;
+}
+
+.modal-close {
+    text-align: right;
+}
+
+.modal-close button {
+    background: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
+    border: 1px solid greenyellow;
+    padding: 5px 15px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.modal-close button:hover {
+    background: rgba(173, 255, 47, 0.2);
+}
+
+.modal h2 {
+    margin-top: 0;
+    border-bottom: 1px solid greenyellow;
+    padding-bottom: 10px;
+}
+
+.modal ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.modal li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.modal li:before {
+    content: "►";
+    position: absolute;
+    left: 0;
+}
+
+/* Game Specific Styles */
+#gameCanvas {
+    border: 1px solid greenyellow;
+    box-shadow: 0 0 20px rgba(173, 255, 47, 0.3);
+    background: #000;
+    margin-bottom: 20px;
+}
+
+#game-ui {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    color: greenyellow;
+}
+
+#game-menu {
+    text-align: center;
+}
+
+.game-btn {
+    background: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
+    border: 1px solid greenyellow;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.game-btn:hover {
+    background: rgba(173, 255, 47, 0.2);
+}
+
+.power-up {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: greenyellow;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.7);
+}
+
+/* Temperature Legend Styles */
+.temperature-legend {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    color: greenyellow;
+    padding: 15px;
+    border: 1px solid greenyellow;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(173, 255, 47, 0.3);
+}
+
+.temperature-scale {
+    width: 20px;
+    height: 200px;
+    margin: 10px;
+    background: linear-gradient(to bottom, 
+        #ff0000,  /* Hot */
+        #ff4400,
+        #ff8800,
+        #0088ff,
+        #0044ff,
+        #000088   /* Cold */
+    );
+    border: 1px solid greenyellow;
+}
+
+.temp-labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+    margin: 10px 0;
+}
+
+.temp-unit-btn {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    margin: 0 2px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    transition: background 0.3s;
+}
+
+.temp-unit-btn.active {
+    background: greenyellow;
+    color: black;
+}

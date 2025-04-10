@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Pic</title>
+    <link rel="stylesheet" href="./css/photo.css">
+    <script src="./js/shaders.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+            <div class="header-line" style="display: flex; align-items: center; gap: 10px; flex: 1;">
+                <h1 style="margin: 0; font-size: 20px;">Space Pic</h1>
+                <p style="margin: 0; font-size: 12px; max-width: 60%;">Explore Psyche and take amazing space photos!</p>
+            </div>
+            <div class="buttons-container" style="margin-left: 10px;">
+                <button id="captureBtn" class="tool-btn small-btn" style="margin: 0; padding: 3px 8px; font-size: 14px;">📸 Capture</button>
+                <div id="editButtons" style="display: none; gap: 5px; flex-wrap: wrap;">
+                    <!-- History Controls -->
+                    <div class="tool-group" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px;">
+                        <button class="tool-btn" id="undoBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Undo: Revert last action">↩️</button>
+                        <button class="tool-btn" id="redoBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Redo: Restore undone action">↪️</button>
+                    </div>
+                    
+                    <!-- Drawing Tools -->
+                    <div class="tool-group" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px;">
+                        <button class="tool-btn" id="pencilBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Pencil Tool: Draw freehand lines">✏️</button>
+                        <button class="tool-btn" id="textBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Text Tool: Add text to your image">📝</button>
+                        <button class="tool-btn" id="stickerBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Sticker Tool: Add space-themed stickers">🌟</button>
+                    </div>
+                    
+                    <!-- Image Manipulation Tools -->
+                    <div class="tool-group" style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 5px;">
+                        <button class="tool-btn" id="cropBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Crop Tool: Crop the image to a selected area">✂️</button>
+                        <button class="tool-btn" id="rotateBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Rotate Tool: Rotate the image 90 degrees clockwise">🔄</button>
+                        <button class="tool-btn" id="filterBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Filters: Apply visual effects to your image">🎨</button>
+                    </div>
+                    
+                    <!-- File Operations -->
+                    <div class="tool-group" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                        <button class="tool-btn" id="saveBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Save: Download your edited image">💾</button>
+                        <button class="tool-btn" id="clearBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px;" title="Clear: Remove all edits and start over">🗑️</button>
+                        <button class="tool-btn" id="backBtn" style="padding: 5px 10px; font-size: 20px; margin: 2px; background-color: red;" title="Back: Return to NASA viewer">↩️</button>
+                    </div>
+                    <input type="color" id="colorPicker" value="#ffffff" style="width: 40px; height: 40px; vertical-align: middle; display: none; margin: 2px;">
+                    <div id="textOptions" style="display: none; margin-top: 5px;">
+                        <label for="elementSize" style="color: white; margin-right: 5px;">Size:</label>
+                        <input type="range" id="elementSize" min="12" max="72" value="20" style="width: 100px; vertical-align: middle;">
+                        <span id="elementSizeValue" style="color: white; margin-left: 5px;">20px</span>
+                    </div>
+                </div>
+                <select id="filterSelect" style="display: none; padding: 5px; border-radius: 5px; background: #333; color: white; border: 1px solid #555; font-size: 14px; margin-top: 5px;">
+                    <option value="none">No Filter</option>
+                    <option value="grayscale">Grayscale</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="invert">Invert</option>
+                    <option value="cosmicGlow">Cosmic Glow</option>
+                    <option value="marsRed">Mars Red</option>
+                    <option value="vintage">Vintage</option>
+                </select>
+                <input type="range" id="filterIntensity" min="0" max="100" value="100" style="display: none; width: 100px; height: 20px; vertical-align: middle; margin-top: 5px;">
+            </div>
+        </div>
+        
+        <div class="photo-section" style="height: calc(100vh - 100px); display: flex; flex-direction: column;">
+            <div class="viewer-section" style="flex: 1; display: flex; flex-direction: column;">
+                <iframe src="https://eyes.nasa.gov/apps/solar-system/#/16_psyche"
+                        style="width: 100%; height: 100%; min-height: 700px;"
+                        frameborder="0"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="canvas-container" style="display: none; background: #000; width: 100%; height: 100%; flex: 1; overflow: hidden;">
+                <h3 style="color: white; margin: 5px 0; font-size: 16px;">Edit Your Photo</h3>
+                <div style="display: flex; justify-content: center; position: relative; height: calc(100% - 30px);">
+                    <div id="canvasBackground" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0;"></div>
+                    <canvas id="drawingCanvas" style="position: relative; z-index: 1; background: transparent; display: block; max-width: 100%; max-height: 100%; object-fit: contain;"></canvas>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('drawingCanvas');
+            const ctx = canvas.getContext('2d');
+            const canvasContainer = document.querySelector('.canvas-container');
+            const viewerSection = document.querySelector('.viewer-section');
+            const captureBtn = document.getElementById('captureBtn');
+            const colorPicker = document.getElementById('colorPicker');
+            let isDrawing = false;
+            let isDragging = false;
+            let selectedElement = null;
+            let elements = [];
+            let paths = [];
+            let currentPath = [];
+            let lastX = 0, lastY = 0, offsetX = 0, offsetY = 0;
+            
+            // History for undo/redo functionality
+            let history = [];
+            let historyIndex = -1;
+            const MAX_HISTORY = 20; // Maximum number of states to store
+            let backgroundImage = null;
+
+            class DrawableElement {
+                constructor(type, x, y, content, color, size = '20px') {
+                    Object.assign(this, {type, x, y, content, color, size});
+                    this.originalSize = size; // Store original size for reference
+                }
+
+                draw() {
+                    ctx.fillStyle = this.color;
+                    ctx.font = `${this.size} Arial`;
+                    ctx.fillText(this.content, this.x, this.y);
+                }
+
+                isPointInside(x, y) {
+                    const metrics = ctx.measureText(this.content);
+                    const height = parseInt(this.size);
+                    return x >= this.x && x <= this.x + metrics.width && 
+                           y >= this.y - height && y <= this.y;
+                }
+            }
+
+            class Path {
+                constructor(color, width) {
+                    this.points = [];
+                    this.color = color;
+                    this.width = width;
+                }
+
+                addPoint(x, y) {
+                    this.points.push({x, y});
+                }
+
+                draw() {
+                    if (this.points.length < 2) return;
+                    ctx.strokeStyle = this.color;
+                    ctx.lineWidth = this.width;
+                    ctx.beginPath();
+                    ctx.moveTo(this.points[0].x, this.points[0].y);
+                    for (let i = 1; i < this.points.length; i++) {
+                        ctx.lineTo(this.points[i].x, this.points[i].y);
+                    }
+                    ctx.stroke();
+                }
+            }
+
+            ctx.strokeStyle = colorPicker.value;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+
+            // Function to toggle editing tools visibility
+            // Create starry background
+            function createStarryBackground() {
+                const bgDiv = document.getElementById('canvasBackground');
+                bgDiv.innerHTML = ''; // Clear any existing content
+                
+                // Create a dark blue to black gradient background
+                bgDiv.style.background = 'linear-gradient(to bottom, #000000, #0a0a2a, #000000)';
+                
+                // Add stars
+                const numStars = 200;
+                for (let i = 0; i < numStars; i++) {
+                    const star = document.createElement('div');
+                    const size = Math.random() * 2 + 1; // 1-3px
+                    const opacity = Math.random() * 0.7 + 0.3; // 0.3-1.0
+                    
+                    star.style.position = 'absolute';
+                    star.style.width = `${size}px`;
+                    star.style.height = `${size}px`;
+                    star.style.backgroundColor = 'white';
+                    star.style.borderRadius = '50%';
+                    star.style.opacity = opacity;
+                    star.style.left = `${Math.random() * 100}%`;
+                    star.style.top = `${Math.random() * 100}%`;
+                    star.style.boxShadow = `0 0 ${Math.random() * 3 + 1}px white`;
+                    
+                    // Add twinkling animation to some stars
+                    if (Math.random() > 0.7) {
+                        star.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite alternate`;
+                    }
+                    
+                    bgDiv.appendChild(star);
+                }
+            }
+            
+            // Add CSS animation for twinkling stars
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = `
+                @keyframes twinkle {
+                    0% { opacity: 0.3; }
+                    100% { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+            
+            // Create the starry background when the page loads
+            createStarryBackground();
+
+            // Current tool and shape
+            let currentTool = 'pencil';
+            // Removed shape and eraser features
+            let lineWidth = 3;
+            let isDrawingShape = false;
+            let shapeStartX = 0;
+            let shapeStartY = 0;
+            
+            function showEditingTools() {
+                document.getElementById('captureBtn').style.display = 'none';
+                document.getElementById('editButtons').style.display = 'flex';
+                document.getElementById('colorPicker').style.display = 'inline-block';
+                document.getElementById('filterSelect').style.display = 'none';
+                document.getElementById('filterIntensity').style.display = 'none';
+                document.getElementById('textOptions').style.display = 'none';
+                
+                // Disable undo/redo buttons initially
+                document.getElementById('undoBtn').disabled = true;
+                document.getElementById('redoBtn').disabled = true;
+            }
+
+            function showCaptureTools() {
+                document.getElementById('captureBtn').style.display = 'inline-block';
+                document.getElementById('editButtons').style.display = 'none';
+                document.getElementById('filterSelect').style.display = 'none';
+                document.getElementById('filterIntensity').style.display = 'none';
+            }
+
+            document.getElementById('captureBtn').addEventListener('click', async function() {
+                try {
+                    // Store original elements and their states
+                    const headerSection = document.querySelector('.header-section');
+                    const iframe = document.querySelector('.viewer-section iframe');
+                    const viewerSection = document.querySelector('.viewer-section');
+                    const container = document.querySelector('.container');
+                    
+                    // Get the iframe's position and dimensions before modifying the DOM
+                    const iframeRect = iframe.getBoundingClientRect();
+                    
+                    // Create a temporary alert to show before capture
+                    alert("When the screen capture dialog appears, please select THIS browser tab. The solar system will be automatically cropped.");
+                    
+                    // CRITICAL: Hide EVERYTHING except the iframe content
+                    // Store original styles to restore later
+                    const originalBodyStyle = document.body.style.cssText;
+                    const originalIframeStyle = iframe.style.cssText;
+                    
+                    // Hide everything
+                    document.body.style.background = 'black';
+                    headerSection.style.display = 'none';
+                    container.style.margin = '0';
+                    container.style.padding = '0';
+                    
+                    // Position iframe to fill the viewport
+                    iframe.style.position = 'fixed';
+                    iframe.style.top = '0';
+                    iframe.style.left = '0';
+                    iframe.style.width = '100%';
+                    iframe.style.height = '100%';
+                    iframe.style.border = 'none';
+                    iframe.style.margin = '0';
+                    iframe.style.padding = '0';
+                    iframe.style.zIndex = '9999';
+                    
+                    // Give the browser time to update the display
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                    // Use the screen capture API to capture the entire tab
+                    const stream = await navigator.mediaDevices.getDisplayMedia({
+                        preferCurrentTab: true,
+                        video: {
+                            displaySurface: "browser",
+                            cursor: "never"
+                        }
+                    });
+                    
+                    // Restore original styles immediately after capture
+                    document.body.style.cssText = originalBodyStyle;
+                    iframe.style.cssText = originalIframeStyle;
+                    headerSection.style.display = '';
+                    
+                    // Now create and show a loading message
+                    const styleSheet = document.createElement('style');
+                    styleSheet.textContent = `
+                        @keyframes spin {
+                            0% { transform: rotate(0deg); }
+                            100% { transform: rotate(360deg); }
+                        }
+                    `;
+                    document.head.appendChild(styleSheet);
+                    
+                    const loadingMsg = document.createElement('div');
+                    loadingMsg.innerHTML = `
+                        <div style="text-align: center;">
+                            <h3 style="margin: 5px 0;">Processing Capture</h3>
+                            <p>Automatically cropping to solar system view...</p>
+                            <div style="width: 40px; height: 40px; border-radius: 50%; border: 3px solid yellow;
+                                  border-top-color: transparent; margin: 10px auto; animation: spin 1s linear infinite;"></div>
+                        </div>
+                    `;
+                    loadingMsg.style.position = 'fixed';
+                    loadingMsg.style.top = '50%';
+                    loadingMsg.style.left = '50%';
+                    loadingMsg.style.transform = 'translate(-50%, -50%)';
+                    loadingMsg.style.background = 'rgba(0,0,0,0.8)';
+                    loadingMsg.style.color = 'white';
+                    loadingMsg.style.padding = '20px';
+                    loadingMsg.style.borderRadius = '10px';
+                    loadingMsg.style.zIndex = '10000';
+                    loadingMsg.style.maxWidth = '80%';
+                    loadingMsg.style.boxShadow = '0 0 20px rgba(255,255,255,0.3)';
+                    
+                    // Add the loading message AFTER capture and style restoration
+                    document.body.appendChild(loadingMsg);
+                    
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    await new Promise(resolve => {
+                        video.onloadedmetadata = resolve;
+                        video.play();
+                    });
+                    
+                    // Create a canvas for the full capture
+                    const fullCanvas = document.createElement('canvas');
+                    const fullCtx = fullCanvas.getContext('2d');
+                    
+                    // Draw the full screenshot
+                    fullCanvas.width = video.videoWidth;
+                    fullCanvas.height = video.videoHeight;
+                    fullCtx.drawImage(video, 0, 0, fullCanvas.width, fullCanvas.height);
+                    
+                    // Stop the stream
+                    stream.getTracks().forEach(track => track.stop());
+                    
+                    // The screenshot should now contain only the iframe content
+                    // We'll use the full screenshot as is, since we positioned the iframe to fill the viewport
+                    const tempCanvas = document.createElement('canvas');
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCanvas.width = fullCanvas.width;
+                    tempCanvas.height = fullCanvas.height;
+                    tempCtx.drawImage(fullCanvas, 0, 0);
+                    
+                    // Remove loading message
+                    document.body.removeChild(loadingMsg);
+                    
+                    // Switch to edit mode
+                    viewerSection.style.display = 'none';
+                    canvasContainer.style.display = 'block';
+                    showEditingTools();
+                    
+                    // Clear the canvas
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Resize the canvas to match the captured image dimensions exactly
+                    canvas.width = tempCanvas.width;
+                    canvas.height = tempCanvas.height;
+                    
+                    // Set the canvas display size to fit within its container while maintaining aspect ratio
+                    const containerWidth = canvasContainer.clientWidth;
+                    const containerHeight = canvasContainer.clientHeight - 30; // Subtract header height
+                    
+                    // Calculate scale to fit both width and height while maintaining aspect ratio
+                    const scaleWidth = containerWidth / canvas.width;
+                    const scaleHeight = containerHeight / canvas.height;
+                    const scale = Math.min(scaleWidth, scaleHeight);
+                    
+                    canvas.style.width = (canvas.width * scale) + 'px';
+                    canvas.style.height = (canvas.height * scale) + 'px';
+                    
+                    // Draw the image to fill the entire canvas (no padding)
+                    ctx.drawImage(tempCanvas, 0, 0);
+                    backgroundImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    
+                    // Save initial state for undo/redo
+                    saveToHistory();
+                    
+                    console.log("Successfully captured the solar system view");
+                } catch (error) {
+                    // Restore original layout in case of error
+                    const headerSection = document.querySelector('.header-section');
+                    const iframe = document.querySelector('.viewer-section iframe');
+                    
+                    // Reset any styling we applied
+                    document.body.style.background = '';
+                    headerSection.style.display = '';
+                    
+                    // Reset iframe styling
+                    iframe.style.position = '';
+                    iframe.style.top = '';
+                    iframe.style.left = '';
+                    iframe.style.width = '100%';
+                    iframe.style.height = '650px';
+                    iframe.style.border = '';
+                    iframe.style.margin = '';
+                    iframe.style.padding = '';
+                    iframe.style.zIndex = '';
+                    
+                    // Remove loading message if it exists
+                    const loadingMsg = document.querySelector('div[style*="position: fixed"]');
+                    if (loadingMsg) document.body.removeChild(loadingMsg);
+                    
+                    // Remove any added style elements
+                    const addedStyle = document.querySelector('style[textContent*="@keyframes spin"]');
+                    if (addedStyle) document.head.removeChild(addedStyle);
+                    
+                    console.error('Error capturing screenshot:', error);
+                    alert('Failed to capture screenshot. Please try again: ' + error.message);
+                }
+            });
+
+            document.getElementById('backBtn').addEventListener('click', function() {
+                canvasContainer.style.display = 'none';
+                viewerSection.style.display = 'block';
+                showCaptureTools();
+            });
+
+            // Function to save current state to history
+            function saveToHistory() {
+                // Create a snapshot of the current state
+                const snapshot = {
+                    backgroundImage: backgroundImage ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null,
+                    paths: JSON.parse(JSON.stringify(paths.map(path => ({
+                        color: path.color,
+                        width: path.width,
+                        points: [...path.points]
+                    })))),
+                    elements: JSON.parse(JSON.stringify(elements.map(el => ({
+                        type: el.type,
+                        x: el.x,
+                        y: el.y,
+                        content: el.content,
+                        color: el.color,
+                        size: el.size,
+                        originalSize: el.originalSize
+                    }))))
+                };
+                
+                // If we're not at the end of history, remove future states
+                if (historyIndex < history.length - 1) {
+                    history = history.slice(0, historyIndex + 1);
+                }
+                
+                // Add new state to history
+                history.push(snapshot);
+                
+                // Limit history size
+                if (history.length > MAX_HISTORY) {
+                    history.shift();
+                }
+                
+                historyIndex = history.length - 1;
+                
+                // Update undo/redo button states
+                document.getElementById('undoBtn').disabled = historyIndex <= 0;
+                document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
+            }
+            
+            // Function to restore state from history
+            function restoreFromHistory(index) {
+                if (index < 0 || index >= history.length) return;
+                
+                const snapshot = history[index];
+                
+                // Restore background
+                backgroundImage = snapshot.backgroundImage;
+                
+                // Restore paths
+                paths = snapshot.paths.map(pathData => {
+                    const path = new Path(pathData.color, pathData.width);
+                    path.points = pathData.points;
+                    return path;
+                });
+                
+                // Restore elements
+                elements = snapshot.elements.map(elData => {
+                    const element = new DrawableElement(
+                        elData.type, elData.x, elData.y,
+                        elData.content, elData.color, elData.size
+                    );
+                    element.originalSize = elData.originalSize;
+                    return element;
+                });
+                
+                historyIndex = index;
+                
+                // Update undo/redo button states
+                document.getElementById('undoBtn').disabled = historyIndex <= 0;
+                document.getElementById('redoBtn').disabled = historyIndex >= history.length - 1;
+                
+                redrawCanvas();
+            }
+            
+            function redrawCanvas() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (backgroundImage) ctx.putImageData(backgroundImage, 0, 0);
+                paths.forEach(path => path.draw());
+                elements.forEach(element => element.draw());
+            }
+
+            // Variables for crop functionality
+            let isCropping = false;
+            let cropStartX = 0;
+            let cropStartY = 0;
+            let cropEndX = 0;
+            let cropEndY = 0;
+            
+            // Helper function to get accurate mouse coordinates
+            function getMousePos(canvas, evt) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                return {
+                    x: (evt.clientX - rect.left) * scaleX,
+                    y: (evt.clientY - rect.top) * scaleY
+                };
+            }
+            
+            canvas.addEventListener('mousedown', function(e) {
+                const pos = getMousePos(canvas, e);
+                lastX = pos.x;
+                lastY = pos.y;
+                
+                if (currentTool === 'crop') {
+                    isCropping = true;
+                    cropStartX = lastX;
+                    cropStartY = lastY;
+                    return;
+                }
+                
+                selectedElement = elements.find(elem => elem.isPointInside(lastX, lastY));
+                if (selectedElement) {
+                    isDragging = true;
+                    [offsetX, offsetY] = [lastX - selectedElement.x, lastY - selectedElement.y];
+                } else if (currentTool === 'pencil') {
+                    isDrawing = true;
+                    currentPath = new Path(ctx.strokeStyle, ctx.lineWidth);
+                    currentPath.addPoint(lastX, lastY);
+                }
+            });
+
+            canvas.addEventListener('mousemove', function(e) {
+                const pos = getMousePos(canvas, e);
+                const x = pos.x;
+                const y = pos.y;
+                
+                if (isCropping) {
+                    // Draw crop rectangle
+                    redrawCanvas();
+                    ctx.strokeStyle = 'white';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeRect(cropStartX, cropStartY, x - cropStartX, y - cropStartY);
+                    ctx.setLineDash([]);
+                    cropEndX = x;
+                    cropEndY = y;
+                    return;
+                }
+                
+                if (isDragging && selectedElement) {
+                    [selectedElement.x, selectedElement.y] = [x - offsetX, y - offsetY];
+                    redrawCanvas();
+                } else if (isDrawing) {
+                    currentPath.addPoint(x, y);
+                    redrawCanvas();
+                    currentPath.draw();
+                }
+            });
+
+            canvas.addEventListener('mouseup', (e) => {
+                if (isCropping) {
+                    // Perform crop operation
+                    const pos = getMousePos(canvas, e);
+                    const x = pos.x;
+                    const y = pos.y;
+                    
+                    // Ensure we have valid crop dimensions
+                    let [startX, endX] = cropStartX < cropEndX ? [cropStartX, cropEndX] : [cropEndX, cropStartX];
+                    let [startY, endY] = cropStartY < cropEndY ? [cropStartY, cropEndY] : [cropEndY, cropStartY];
+                    
+                    const width = endX - startX;
+                    const height = endY - startY;
+                    
+                    if (width > 10 && height > 10) {
+                        // Create a temporary canvas for the cropped area
+                        const tempCanvas = document.createElement('canvas');
+                        const tempCtx = tempCanvas.getContext('2d');
+                        tempCanvas.width = width;
+                        tempCanvas.height = height;
+                        
+                        // Draw the cropped portion
+                        tempCtx.drawImage(canvas,
+                            startX, startY, width, height,
+                            0, 0, width, height);
+                        
+                        // Clear the original canvas
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        
+                        // Resize the canvas to the cropped dimensions exactly
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        // Draw the cropped image to fill the entire canvas (no padding)
+                        ctx.drawImage(tempCanvas, 0, 0);
+                        
+                        // Save the new background
+                        backgroundImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        saveToHistory(); // Save state after cropping
+                        
+                        // Clear paths and elements as they won't make sense after cropping
+                        paths = [];
+                        elements = [];
+                    }
+                    
+                    isCropping = false;
+                    currentTool = 'pencil'; // Reset to pencil after cropping
+                    return;
+                }
+                
+                if (isDrawing && currentPath) {
+                    paths.push(currentPath);
+                    saveToHistory(); // Save state after drawing
+                }
+                
+                isDrawing = false;
+                isDragging = false;
+                selectedElement = null;
+                currentPath = null;
+            });
+            
+            // Helper function to draw an arrow
+            function drawArrow(ctx, fromX, fromY, toX, toY) {
+                const headLength = 15;
+                const angle = Math.atan2(toY - fromY, toX - fromX);
+                
+                // Draw the line
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.lineTo(toX, toY);
+                ctx.stroke();
+                
+                // Draw the arrow head
+                ctx.beginPath();
+                ctx.moveTo(toX, toY);
+                ctx.lineTo(toX - headLength * Math.cos(angle - Math.PI/6), toY - headLength * Math.sin(angle - Math.PI/6));
+                ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI/6), toY - headLength * Math.sin(angle + Math.PI/6));
+                ctx.closePath();
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.fill();
+            }
+
+            canvas.addEventListener('mouseout', () => {
+                if (isDrawing && currentPath) {
+                    paths.push(currentPath);
+                    saveToHistory(); // Save state after drawing
+                }
+                isDrawing = false;
+                isDragging = false;
+                selectedElement = null;
+                currentPath = null;
+            });
+
+            colorPicker.addEventListener('input', function(e) {
+                ctx.strokeStyle = e.target.value;
+            });
+
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                elements = [];
+                paths = [];
+                backgroundImage = null;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                saveToHistory(); // Save state after clearing
+            });
+
+            document.getElementById('saveBtn').addEventListener('click', () => {
+                const link = document.createElement('a');
+                link.download = 'psyche-photo.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+
+            document.getElementById('textBtn').addEventListener('click', () => {
+                const text = prompt('Enter your text:');
+                if (text) {
+                    // Show text options
+                    document.getElementById('textOptions').style.display = 'block';
+                    
+                    // Get current element size
+                    const elementSize = document.getElementById('elementSize').value;
+                    
+                    // Add text element with current size
+                    elements.push(new DrawableElement('text', lastX, lastY, text, ctx.strokeStyle, `${elementSize}px`));
+                    redrawCanvas();
+                    saveToHistory(); // Save state after adding text
+                }
+            });
+            
+            // Element size slider
+            document.getElementById('elementSize').addEventListener('input', (e) => {
+                const size = e.target.value;
+                document.getElementById('elementSizeValue').textContent = `${size}px`;
+                
+                // If a text or sticker element is selected, update its size
+                if (selectedElement && (selectedElement.type === 'text' || selectedElement.type === 'sticker')) {
+                    selectedElement.size = `${size}px`;
+                    redrawCanvas();
+                }
+            });
+            
+            // When element size slider is released, save to history
+            document.getElementById('elementSize').addEventListener('change', () => {
+                if (selectedElement && (selectedElement.type === 'text' || selectedElement.type === 'sticker')) {
+                    saveToHistory();
+                }
+            });
+
+            // Tool button event listeners
+            document.getElementById('pencilBtn').addEventListener('click', () => {
+                currentTool = 'pencil';
+                ctx.lineWidth = lineWidth;
+                ctx.strokeStyle = colorPicker.value;
+                document.getElementById('textOptions').style.display = 'none';
+            });
+            
+            // Add undo button functionality
+            document.getElementById('undoBtn').addEventListener('click', () => {
+                if (historyIndex > 0) {
+                    restoreFromHistory(historyIndex - 1);
+                }
+            });
+            
+            // Add redo button functionality
+            document.getElementById('redoBtn').addEventListener('click', () => {
+                if (historyIndex < history.length - 1) {
+                    restoreFromHistory(historyIndex + 1);
+                }
+            });
+            
+            // Removed shapes button event listener
+            
+            // Removed shape buttons event listeners
+            
+            document.getElementById('cropBtn').addEventListener('click', () => {
+                if (!backgroundImage) return;
+                
+                const cropPrompt = confirm('Draw a rectangle to crop the image, then click OK');
+                if (cropPrompt) {
+                    currentTool = 'crop';
+                    // No need to set isErasing since we removed that feature
+                }
+                document.getElementById('textOptions').style.display = 'none';
+            });
+            
+            document.getElementById('rotateBtn').addEventListener('click', () => {
+                if (!backgroundImage) return;
+                
+                // Create a temporary canvas for rotation
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = canvas.height;
+                tempCanvas.height = canvas.width;
+                
+                // Draw the rotated image
+                tempCtx.save();
+                tempCtx.translate(tempCanvas.width/2, tempCanvas.height/2);
+                tempCtx.rotate(Math.PI/2); // 90 degrees
+                tempCtx.drawImage(canvas, -canvas.width/2, -canvas.height/2);
+                tempCtx.restore();
+                
+                // Clear the original canvas and draw the rotated image
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Swap dimensions
+                const temp = canvas.width;
+                canvas.width = canvas.height;
+                canvas.height = temp;
+                
+                ctx.drawImage(tempCanvas, 0, 0);
+                backgroundImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                saveToHistory(); // Save state after rotation
+                
+                // Clear paths and elements as they won't make sense after rotation
+                paths = [];
+                elements = [];
+            });
+            
+            document.getElementById('stickerBtn').addEventListener('click', () => {
+                currentTool = 'sticker';
+                // Show size options for stickers
+                document.getElementById('textOptions').style.display = 'block';
+                
+                // Get current element size
+                const elementSize = document.getElementById('elementSize').value;
+                
+                const stickers = ['⭐', '🚀', '🛸', '🌎', '☄️', '🪐', '👨‍🚀', '👩‍🚀', '🔭'];
+                elements.push(new DrawableElement('sticker', lastX, lastY,
+                    stickers[Math.floor(Math.random() * stickers.length)],
+                    ctx.strokeStyle, `${elementSize}px`));
+                redrawCanvas();
+                saveToHistory(); // Save state after adding sticker
+            });
+            
+            // Filter functionality
+            let currentFilter = 'none';
+            let originalImageData = null;
+            let filterIntensity = 1.0;
+            
+            document.getElementById('filterBtn').addEventListener('click', () => {
+                const filterSelect = document.getElementById('filterSelect');
+                const filterIntensitySlider = document.getElementById('filterIntensity');
+                
+                if (filterSelect.style.display === 'none') {
+                    filterSelect.style.display = 'inline-block';
+                    filterIntensitySlider.style.display = 'inline-block';
+                } else {
+                    filterSelect.style.display = 'none';
+                    filterIntensitySlider.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('filterSelect').addEventListener('change', (e) => {
+                currentFilter = e.target.value;
+                applyCurrentFilter();
+            });
+            
+            document.getElementById('filterIntensity').addEventListener('input', (e) => {
+                filterIntensity = parseInt(e.target.value) / 100;
+                applyCurrentFilter();
+            });
+            
+            function applyCurrentFilter() {
+                // Save the original image if we haven't already
+                if (!originalImageData && backgroundImage) {
+                    originalImageData = backgroundImage;
+                }
+                
+                // Restore the original image before applying a new filter
+                if (originalImageData) {
+                    ctx.putImageData(originalImageData, 0, 0);
+                    
+                    // Apply the selected filter
+                    if (currentFilter !== 'none') {
+                        PhotoFilters[currentFilter](ctx, canvas.width, canvas.height, filterIntensity);
+                    }
+                    
+                    // Save the filtered image as the new background
+                    backgroundImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    saveToHistory(); // Save state after applying filter
+                    
+                    // Redraw any paths and elements on top
+                    paths.forEach(path => path.draw());
+                    elements.forEach(element => element.draw());
+                }
+            }
+        });
+    </script>
+</body>
+</html>

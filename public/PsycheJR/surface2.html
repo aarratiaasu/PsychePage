@@ -1,0 +1,125 @@
+<!-- /*
+* surface2.html
+* 
+* This surface2.html contains the static, non-motion intensive, surface page, which will be utilized on mobile devices and 
+* individuals with sensitivities to motion. This page provides an interactive experience for the user, allowing 
+* for navigation through all content.
+* 
+* Class:      SER 402
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+<!-- Declarations  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/surface2.css">
+    <title>Document</title>
+</head>
+
+<!-- Start of the page body -->
+<body>
+    <!-- Header at the Top of the Page -->
+    <header>
+        <a href="index2.html"><img src="img/psychelogo.svg" alt="" id="logo"></a> 
+        <h1 id="header-h1">The Surface of Psyche</h1>
+    </header>
+    <!-- Materials Divider holds the belived material makeup of Psyche -->
+    <div id="materials">
+        <div id="inner-materials">
+            <h1 id="materials-h1">Materials</h1>
+            <p id="materials-p">Up until recently, the scientific consensus was that the asteroid Psyche consisted mostly of metal.
+                <br><br>
+                The more recent data indicates that the asteroid is possibly a mix of metal and silicate, the same 
+                material found in glass and sand. 
+                <br><br>
+                The best analysis indicates that Psyche is likely made of a 
+                mixture of rock and metal, with metal composing 30% to 60% of its volume.
+            </p>
+        </div>
+    </div>
+    <!-- Features Divider holds the belived features of Psyche -->
+    <div id="features">
+        <div id="inner-features">
+            <h1 id="features-h1">Surface Features</h1>
+            <p id="features-p">Scientists, through the combining of radar and optical observations, have generated a 3D model of Psyche,
+                which is believed to have two craterlike depressions, and suggests that there may be significant 
+                variations in the metal content and color of the asteroid over its surface. 
+                <br><br>
+                Until the satellite, also named Psyche, begins its mission to see the asteroid Psyche up close for the 
+                first time, we don’t know what it actually looks like.
+            </p>
+        </div>
+    </div>
+    <!-- Dimensions Divider holds the belived dimensions of Psyche -->
+    <div id="dimensions">
+        <div id="inner-dimensions">
+            <h1 id="dimensions-h1">Psyche's Dimensions</h1>
+                <p id="dimensions-p">Psyche is approximately 173 miles / 278 kilometers at its widest point
+                    <br><br>
+                Psyche is approximately 144 miles / 232 kilometers at its tallest point
+                    <br><br>
+                Psyche's approximately the same size as the state of Maryland in the United States
+            </p>
+        </div>
+    </div>
+    <!-- Comparable Divider holds countries that are believed to be comparable in size to Psyche -->
+    <div id="comparable">
+        <div id="inner-comparable">
+            <h1 id="comparable-h1">Psyche's size compared to some countries</h1>
+            <h3 id="comparable-h3">Switzerland</h3>
+            <p class="comparable-p" id="swiss-p">
+                Psyche is slightly longer and slightly slimmer than Switzerland, however is larger 
+                when compared to square miles/kilometers.
+            </p>
+            <h4 class="comparable-h4" id="h4-1">Area measurements larger than 5 recognized countries</h4>
+            <p class="comparable-p">
+                When looking at Psyche's area, from one side, it is bigger than the countries of 
+                Tuvalu, Nauru, Monaco, and the Vatican City. 
+            </p>
+            <h4 class="comparable-h4" id="h4-2">Surface area would make it the 92nd largest country on Earth</h4>
+            <p class="comparable-p">
+                If we were to look at Pscyhe's total surface area, it would be larger than 103 recognized countries, 
+                including Bangladesh.
+            </p>
+        </div>
+    </div>
+    <!-- Explore Divider holds an interactive model of Psyche -->
+    <div id="explore">
+        <div id="inner-explore">
+            <h1 id="explore-h1">Explore Psyche</h1>
+            <h2></h2>
+                <p id="explore-p">Using your mouse, move your cursor over the asteroid. Hold down the left mouse button
+                    and drag left/right, up/down to explore the asteroid.
+                    <br><br><br>
+                    Using your mouse's scrollwheel, you can zoom in and out.
+                </p>
+        </div>
+            <div id="psyche-container"></div>
+    </div>-
+    
+    <div id="screen-width-box"></div>
+    <!-- Footer Section -->
+    <footer>
+        <h1>Footer</h1>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloribus asperiores assumenda omnis molestiae nihil quasi reiciendis iste molestias eaque, ab natus delectus vitae reprehenderit, est quia! Pariatur omnis quibusdam corporis!</p>
+    </footer>
+    <!-- Associated JavaScript file locations needed for GSAP animations -->
+    <script type="module" src="JS/models.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="JS/surface2.js"></script>
+</body>
+</html>

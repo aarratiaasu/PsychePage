@@ -1,0 +1,183 @@
+/* Styles for the main layout and container elements */
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #0a0a2a;
+    color: white;
+    font-family: Arial, sans-serif;
+    background-image: radial-gradient(circle at center, #1a1a4a 0%, #0a0a2a 100%);
+}
+
+canvas {
+    border: 2px solid #444;
+    background: #111;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    cursor: grab;
+}
+
+canvas:active {
+    cursor: grabbing;
+}
+
+.controls {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.planet-selects {
+    position: absolute;
+    top: 420px;
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 100px;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+.planet-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: all;
+}
+
+.gravity-select {
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.gravity-select:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.calc-weight-btn {
+    padding: 4px 8px;
+    background: rgba(0, 150, 255, 0.3);
+    border: 1px solid rgba(0, 150, 255, 0.4);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.calc-weight-btn:hover {
+    background: rgba(0, 150, 255, 0.4);
+}
+
+.weight-display {
+    font-size: 12px;
+    color: #4CAF50;
+    min-height: 16px;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.multiplier {
+    color: #FFD700;
+}
+
+.hint {
+    color: #4CAF50;
+    font-style: italic;
+    min-height: 20px;
+}
+
+.objects {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.object-btn {
+    padding: 8px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 4px;
+    cursor: grab;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.object-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.object-btn span {
+    font-size: 14px;
+}
+
+.clear-btn {
+    padding: 8px 20px;
+    background: rgba(255, 0, 0, 0.2);
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.clear-btn:hover {
+    background: rgba(255, 0, 0, 0.3);
+}
+
+.instructions {
+    color: #999;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.challenge {
+    color: #FFD700;
+    margin-top: 10px;
+}
+
+.disclaimer {
+    margin-top: 10px;
+    color: #AAA;
+    font-size: 12px;
+    max-width: 800px;
+    text-align: center;
+    line-height: 1.4em;
+}
+
+.unit-toggle-btn {
+    padding: 12px 24px;
+    background: linear-gradient(90deg, rgba(0,255,125,1) 0%, rgba(0,208,255,1) 100%);
+    border: 3px solid #06e37c;
+    color: #000;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px #fff;
+}
+
+.unit-toggle-btn:hover {
+    background: linear-gradient(90deg, rgba(0,255,125,1) 0%, rgba(0,255,255,1) 100%);
+}

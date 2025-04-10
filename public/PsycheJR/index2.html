@@ -1,0 +1,114 @@
+<!-- /*
+* index2.html
+* 
+* This index2.html contains the static, non-motion intensive, landing page, which will be utilized on mobile devices and 
+* individuals with sensitivities to motion. This landing page provides an interactive experience for the user, allowing 
+* for navigation through all content.
+* 
+* Class:      SER 402
+* Team:       35
+* Project:    NASA Psyche Mission: Year on Psyche Simulation
+* Authors:    Armando Arratia, Dan McNeil, Jenny Potocki, Josh Anselm, Tyler Brown
+* Date:       1/22/25
+* Revision:   1.0
+*
+
+========================================================================================================
+File Start
+========================================================================================================
+
+-->
+
+<!-- Declarations  -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="./CSS/index2.css">
+    <title>Document</title>
+</head>
+
+<!-- Start of the page body -->
+<body>
+    <!-- Header at the Top of the Page -->
+    <header>
+        <a href="./index2.html"><img src="./img/psychelogo.svg" alt="" id="logo"></a>
+    </header>
+    <!-- Divider housing the 3D View Navigation button-->
+    <div id="view3D">
+        <a href="/index.html"><button id="view3D-btn">Try in 3D</button></a>
+    </div>
+    <!-- Main header of the page -->
+    <div id="page-header">
+        <h1>Welcome to a year on Psyche 16</h1>
+    </div>
+    <!-- First content of the page, welcoming the user -->
+    <div id="welcome">
+        <img src="./img/asteroid.png" alt="Rendered surface image of Psyche" id="asteroid">
+        <p id="welcome-p1">
+            This interactive experience will entrench you on a journey to learn how life differs on the asteroid 16 Psyche
+            to your home planet of Earth. Along the way you will learn the believed origin of the asteroid, how it was named,
+            its location within our solar system, what a typical day is like, weather, physics, to include gravity, and more.
+        </p>
+        <p>
+            We hope you enjoy your journey with us!
+        </p>
+    </div> 
+    
+    <!-- Divider 3 holds the Psyche name introduction and navigation to corresponding content -->
+    <div id="div3">
+        <div id="grad-text">
+            <h1>How did Psyche get its name</h1>
+        </div>
+        <p>
+            Psyche was discovered in 1852 by Italian astronomer Annibale de Gasparis. Because it was the 16th asteroid to be 
+            discovered, it is sometimes referred to as 16 Psyche. It’s named for the goddess of the soul 
+            in ancient Greek mythology, often depicted as a butterfly-winged female figure.
+        </p>
+        <a href="name.html"><button id="div3-btn">More on Psyche's name</button></a>
+    </div>
+
+    <!-- Divider 4 holds Psyche's location in our solar system introduction and navigation to corresponding content -->
+    <div id="div4">
+        <h1>Location in our Solar System</h1>
+        <p>
+            Psyche is located in between Mars and Jupiter, and because Psyche and Earth orbit at different speeds, the distance from Earth to Psyche varies from less than 186 million miles to more than 372 million miles
+        </p>
+        <button id="div4-btn">Psyche's location in more detail</button>
+    </div>
+
+    <!-- Divider 5 holds the introduction into a day on Psyche and navigation to corresponding content -->
+    <div id="div5">
+        <h1>A day on Psyche</h1>
+        <p>
+            A day on Psyche is not like a day here on Earth. Shorter days, longer years, and a lower amount of birthdays
+        </p>
+        <a href="year.html"><button id="div5-btn">Learn how your day will differ</button></a>
+    </div>
+    
+    
+    <!-- Divider 8 holds the introduction to Psyche's surface and navigation to corresponding content -->
+    <div id="div8">
+        <h1>Psyche's Surface</h1>
+        <p>
+            Psyche's surface is believed to very greatly, as radar technology has provided us with 
+            what is believed to be many small craters and two very large craters.
+        </p>
+        <button id="div8-btn">Learn more about the surface</button>
+    </div>
+    
+    <div id="screen-width-box"></div>
+
+    <!-- Footer Section -->
+    <footer>
+
+    </footer>
+    <!-- End of Main Page section  -->
+
+    <!-- Associated JavaScript file locations needed for GSAP animations -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+    <script src="./JS/index2.js"></script>
+</body>
+</html>

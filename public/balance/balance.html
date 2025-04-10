@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Balance Challenge</title>
+    <link rel="stylesheet" href="./balance.css">
+</head>
+<body>
+    
+    <h1>Psyche Balance Challenge</h1>
+    <div class="main-container">
+        <div class="planet-control left-planet">
+            <!-- Notice: We keep the raw numeric values in m/s²; display will adjust dynamically. -->
+            <h3>Left Planet</h3>
+            <select id="leftGravitySelect" class="gravity-select">
+                <option value="0.18" selected>🌑 Psyche (0.18 m/s²)</option>
+                <option value="274">☀️ Sun (274 m/s²)</option>
+                <option value="10.44">🪐 Saturn (10.44 m/s²)</option>
+                <option value="9.81">🌍 Earth (9.81 m/s²)</option>
+                <option value="3.72">🔴 Mars (3.72 m/s²)</option>
+                <option value="1.62">🌙 Moon (1.62 m/s²)</option>
+            </select>
+            <button class="calc-weight-btn" id="leftCalcBtn">Calculate Weight</button>
+            <div class="weight-display" id="leftWeightDisplay"></div>
+        </div>
+        
+        <div class="animation-container">
+            <div class="game-controls">
+                <div class="stats">
+                    <div>Score: <span id="balanceScore">0</span></div>
+                    <div class="multiplier">Multiplier: x<span id="multiplier">1</span></div>
+                </div>
+                <div class="hint" id="hint"></div>
+            </div>
+            <canvas id="gameCanvas" width="800" height="500"></canvas>
+        </div>
+        
+        <div class="planet-control right-planet">
+            <h3>Right Planet</h3>
+            <select id="rightGravitySelect" class="gravity-select">
+                <option value="274">☀️ Sun (274 m/s²)</option>
+                <option value="10.44">🪐 Saturn (10.44 m/s²)</option>
+                <option value="9.81" selected>🌍 Earth (9.81 m/s²)</option>
+                <option value="3.72">🔴 Mars (3.72 m/s²)</option>
+                <option value="1.62">🌙 Moon (1.62 m/s²)</option>
+                <option value="0.18">🌑 Psyche (0.18 m/s²)</option>
+            </select>
+            <button class="calc-weight-btn" id="rightCalcBtn">Calculate Weight</button>
+            <div class="weight-display" id="rightWeightDisplay"></div>
+        </div>
+    </div>
+    
+    <div class="objects-container">
+        <div class="control-buttons">
+            <button class="unit-toggle-btn" id="unitToggleBtn">Switch to US Units</button>
+            <button class="clear-btn" id="clearBtn">Clear All Objects</button>
+            <div class="challenge" id="challenge"></div>
+        </div>
+        <div class="objects-row">
+            <!-- Row 1 - Lighter objects -->
+            <button class="object-btn" data-mass="0.001" data-si-label="Feather (1g)" data-us-label="Feather (~0.035oz)">🪶 <span>Feather (1g)</span></button>
+            <button class="object-btn" data-mass="0.1" data-si-label="Phone (100g)" data-us-label="Phone (~3.53oz)">📱 <span>Phone (100g)</span></button>
+            <button class="object-btn" data-mass="0.5" data-si-label="Book (500g)" data-us-label="Book (~17.64oz)">📖 <span>Book (500g)</span></button>
+            <button class="object-btn" data-mass="1" data-si-label="Backpack (1kg)" data-us-label="Backpack (~2.2lb)">🎒 <span>Backpack (1kg)</span></button>
+            <button class="object-btn" data-mass="2.5" data-si-label="Laptop (2.5kg)" data-us-label="Laptop (~5.5lb)">💻 <span>Laptop (2.5kg)</span></button>
+            <button class="object-btn" data-mass="5" data-si-label="Skateboard (5kg)" data-us-label="Skateboard (~11lb)">🛹 <span>Skateboard (5kg)</span></button>
+            <button class="object-btn" data-mass="10" data-si-label="Bicycle (10kg)" data-us-label="Bicycle (~22lb)">🚲 <span>Bicycle (10kg)</span></button>
+            <button class="object-btn" data-mass="75" data-si-label="Sofa (75kg)" data-us-label="Sofa (~165lb)">🛋️ <span>Sofa (75kg)</span></button>
+            <button class="object-btn" data-mass="80" data-si-label="Goat (80kg)" data-us-label="Goat (~176lb)">🐐 <span>Goat (80kg)</span></button>
+        </div>
+        <div class="objects-row">
+            <!-- Row 2 - Heavier objects -->
+            <button class="object-btn" data-mass="100" data-si-label="Bed (100kg)" data-us-label="Bed (~220lb)">🛏️ <span>Bed (100kg)</span></button>
+            <button class="object-btn" data-mass="150" data-si-label="Dining Table (150kg)" data-us-label="Dining Table (~330lb)">🪑 <span>Dining Table (150kg)</span></button>
+            <button class="object-btn" data-mass="250" data-si-label="Refrigerator (250kg)" data-us-label="Refrigerator (~551lb)">🌡️ <span>Refrigerator (250kg)</span></button>
+            <button class="object-btn" data-mass="300" data-si-label="Pony (300kg)" data-us-label="Pony (~661lb)">🐎 <span>Pony (300kg)</span></button>
+            <button class="object-btn" data-mass="400" data-si-label="Piano (400kg)" data-us-label="Piano (~882lb)">🎹 <span>Piano (400kg)</span></button>
+            <button class="object-btn" data-mass="1500" data-si-label="Car (1500kg)" data-us-label="Car (~3307lb)">🚗 <span>Car (1500kg)</span></button>
+            <button class="object-btn" data-mass="2300" data-si-label="Rhino (2300kg)" data-us-label="Rhino (~5071lb)">🦏 <span>Rhino (2300kg)</span></button>
+            <button class="object-btn" data-mass="5000" data-si-label="Elephant (5000kg)" data-us-label="Elephant (~11023lb)">🐘 <span>Elephant (5000kg)</span></button>
+            <button class="object-btn" data-mass="10000" data-si-label="Firetruck (10000kg)" data-us-label="Firetruck (~22046lb)">🚒 <span>Firetruck (10000kg)</span></button>
+        </div>
+        <div class="instructions">
+            🖱️ Drag objects from buttons to the balance beam • Move objects after placing • Drag outside to delete
+        </div>
+    </div>
+    <div class="disclaimer">
+        Disclaimer: The planets and objects in this simulator are <strong>not drawn to actual scale</strong>. Sizes are stylized representations and do not reflect their real proportions.
+    </div>
+    <script src="./balance.js"></script>
+</body>
+</html>

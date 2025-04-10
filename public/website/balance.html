@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Balance Challenge</title>
+    <link rel="stylesheet" href="css/balance.css">
+</head>
+<body>
+    
+    <h1>Psyche Balance Challenge</h1>
+    <div style="position: relative;">
+        <canvas id="gameCanvas" width="800" height="500"></canvas>
+        <div class="planet-selects">
+            <div class="planet-control">
+                <!-- Notice: We keep the raw numeric values in m/s²; display will adjust dynamically. -->
+                <select id="leftGravitySelect" class="gravity-select">
+                    <option value="0.18" selected>🌑 Psyche (0.18 m/s²)</option>
+                    <option value="274">☀️ Sun (274 m/s²)</option>
+                    <option value="10.44">🪐 Saturn (10.44 m/s²)</option>
+                    <option value="9.81">🌍 Earth (9.81 m/s²)</option>
+                    <option value="3.72">🔴 Mars (3.72 m/s²)</option>
+                    <option value="1.62">🌙 Moon (1.62 m/s²)</option>
+                </select>
+                <button class="calc-weight-btn" id="leftCalcBtn">Calculate Weight</button>
+                <div class="weight-display" id="leftWeightDisplay"></div>
+            </div>
+            <div class="planet-control">
+                <select id="rightGravitySelect" class="gravity-select">
+                    <option value="274">☀️ Sun (274 m/s²)</option>
+                    <option value="10.44">🪐 Saturn (10.44 m/s²)</option>
+                    <option value="9.81" selected>🌍 Earth (9.81 m/s²)</option>
+                    <option value="3.72">🔴 Mars (3.72 m/s²)</option>
+                    <option value="1.62">🌙 Moon (1.62 m/s²)</option>
+                    <option value="0.18">🌑 Psyche (0.18 m/s²)</option>
+                </select>
+                <button class="calc-weight-btn" id="rightCalcBtn">Calculate Weight</button>
+                <div class="weight-display" id="rightWeightDisplay"></div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <!-- A toggle button for SI <-> US units -->
+        <button class="unit-toggle-btn" id="unitToggleBtn">Switch to US Units</button>
+
+        <div class="objects">
+            <button class="object-btn" data-mass="0.001" data-si-label="Feather (1g)" data-us-label="Feather (~0.035oz)">🪶 <span>Feather (1g)</span></button>
+            <button class="object-btn" data-mass="0.1" data-si-label="Phone (100g)" data-us-label="Phone (~3.53oz)">📱 <span>Phone (100g)</span></button>
+            <button class="object-btn" data-mass="0.3" data-si-label="Guitar (300g)" data-us-label="Guitar (~10.58oz)">🎸 <span>Guitar (300g)</span></button>
+            <button class="object-btn" data-mass="0.5" data-si-label="Book (500g)" data-us-label="Book (~17.64oz)">📖 <span>Book (500g)</span></button>
+            <button class="object-btn" data-mass="1" data-si-label="Brick (1kg)" data-us-label="Brick (~2.2lb)">🧱 <span>Brick (1kg)</span></button>
+            <button class="object-btn" data-mass="1" data-si-label="Backpack (1kg)" data-us-label="Backpack (~2.2lb)">🎒 <span>Backpack (1kg)</span></button>
+            <button class="object-btn" data-mass="2.5" data-si-label="Laptop (2.5kg)" data-us-label="Laptop (~5.5lb)">💻 <span>Laptop (2.5kg)</span></button>
+            <button class="object-btn" data-mass="5" data-si-label="Skateboard (5kg)" data-us-label="Skateboard (~11lb)">🛹 <span>Skateboard (5kg)</span></button>
+            <button class="object-btn" data-mass="10" data-si-label="Bicycle (10kg)" data-us-label="Bicycle (~22lb)">🚲 <span>Bicycle (10kg)</span></button>
+            <button class="object-btn" data-mass="75" data-si-label="Sofa (75kg)" data-us-label="Sofa (~165lb)">🛋️ <span>Sofa (75kg)</span></button>
+            <button class="object-btn" data-mass="80" data-si-label="Goat (80kg)" data-us-label="Goat (~176lb)">🐐 <span>Goat (80kg)</span></button>
+            <button class="object-btn" data-mass="100" data-si-label="Bed (100kg)" data-us-label="Bed (~220lb)">🛏️ <span>Bed (100kg)</span></button>
+            <button class="object-btn" data-mass="150" data-si-label="Dining Table (150kg)" data-us-label="Dining Table (~330lb)">🪑 <span>Dining Table (150kg)</span></button>
+            <button class="object-btn" data-mass="250" data-si-label="Refrigerator (250kg)" data-us-label="Refrigerator (~551lb)">🌡️ <span>Refrigerator (250kg)</span></button>
+            <button class="object-btn" data-mass="300" data-si-label="Pony (300kg)" data-us-label="Pony (~661lb)">🐎 <span>Pony (300kg)</span></button>
+            <button class="object-btn" data-mass="400" data-si-label="Piano (400kg)" data-us-label="Piano (~882lb)">🎹 <span>Piano (400kg)</span></button>
+            <button class="object-btn" data-mass="1500" data-si-label="Car (1500kg)" data-us-label="Car (~3307lb)">🚗 <span>Car (1500kg)</span></button>
+            <button class="object-btn" data-mass="2300" data-si-label="Rhino (2300kg)" data-us-label="Rhino (~5071lb)">🦏 <span>Rhino (2300kg)</span></button>
+            <button class="object-btn" data-mass="5000" data-si-label="Elephant (5000kg)" data-us-label="Elephant (~11023lb)">🐘 <span>Elephant (5000kg)</span></button>
+            <button class="object-btn" data-mass="10000" data-si-label="Firetruck (10000kg)" data-us-label="Firetruck (~22046lb)">🚒 <span>Firetruck (10000kg)</span></button>
+            <button class="object-btn" data-mass="12000" data-si-label="Bus (12000kg)" data-us-label="Bus (~26455lb)">🚌 <span>Bus (12000kg)</span></button>
+        </div>
+        <div class="hint" id="hint"></div>
+        <div class="stats">
+            <div>Score: <span id="balanceScore">0</span></div>
+            <div class="multiplier">Multiplier: x<span id="multiplier">1</span></div>
+        </div>
+        <div class="challenge" id="challenge"></div>
+        <button class="clear-btn" id="clearBtn">Clear All Objects</button>
+        <div class="instructions">
+            🖱️ Drag objects from buttons to the balance beam • Move objects after placing • Drag outside to delete
+        </div>
+    </div>
+    <div class="disclaimer">
+        Disclaimer: The planets and objects in this simulator are <strong>not drawn to actual scale</strong>. Sizes are stylized representations and do not reflect their real proportions.
+    </div>
+    <script>
+        // GLOBAL / SETUP
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const leftGravitySelect = document.getElementById('leftGravitySelect');
+        const rightGravitySelect = document.getElementById('rightGravitySelect');
+        const balanceScoreElement = document.getElementById('balanceScore');
+        const multiplierElement = document.getElementById('multiplier');
+        const hintElement = document.getElementById('hint');
+        const challengeElement = document.getElementById('challenge');
+        const clearBtn = document.getElementById('clearBtn');
+        const unitToggleBtn = document.getElementById('unitToggleBtn');
+        // Track which unit system to use: SI (true) or US (false)
+        let useSI = true;
+        // Planet sizes (in px) for each gravity value (m/s²).
+        const planetSizeMap = {
+            "0.18": 20,
+            "1.62": 30,
+            "3.72": 40,
+            "9.81": 60,
+            "10.44": 80,
+            "274": 100
+        };
+        // Main balance beam configuration object
+        let balance = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            width: 400,
+            height: 10,
+            angle: 0,
+            pivotHeight: 100
+        };
+        // Storage for objects on each side
+        let objects = {
+            left: [],
+            right: []
+        };
+        // Scoring mechanics
+        let balanceScore = 0;
+        let scoreMultiplier = 1;
+        let balanceTime = 0;
+        let lastTime = performance.now();
+        let draggedObject = null;
+        let mouseX = 0;
+        let mouseY = 0;
+        let dragOffsetX = 0;
+        let dragOffsetY = 0;
+        let particles = [];
+        let leftWeightEnabled = false;
+        let rightWeightEnabled = false;
+        // CONVERSION HELPERS
+        // 1 kg => 2.20462 lb, 1 N => 0.224809 lb_f, 1 m/s² => 3.28084 ft/s²
+        const KG_TO_LB = 2.20462;
+        const N_TO_LBF = 0.224809;
+        const M_S2_TO_FT_S2 = 3.28084;
+        function massToDisplay(massKg) {
+            if (useSI) {
+                if (massKg < 1) return `${(massKg * 1000).toFixed(0)}g`;
+                return `${massKg.toFixed(2)}kg`;
+            } else {
+                const massLb = massKg * KG_TO_LB;
+                if (massLb < 1) {
+                    return `${(massLb * 16).toFixed(1)}oz`;
+                }
+                return `${massLb.toFixed(2)}lb`;
+            }
+        }
+        function weightToDisplay(forceN) {
+            if (useSI) {
+                return `${forceN.toFixed(2)} N`;
+            } else {
+                const forceLbf = forceN * N_TO_LBF;
+                return `${forceLbf.toFixed(2)} lb_f`;
+            }
+        }
+        function gravityValueToDisplay(g) {
+            if (useSI) {
+                return `${g.toFixed(2)} m/s²`;
+            } else {
+                return `${(g * M_S2_TO_FT_S2).toFixed(2)} ft/s²`;
+            }
+        }
+        // Utility function to convert the raw "value" (m/s²) to display string
+        function formatGravityOptionText(emoji, gValue) {
+            const gNum = parseFloat(gValue);
+            return `${emoji} (${gravityValueToDisplay(gNum)})`;
+        }
+        // PARTICLE FX
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.life = 1;
+                this.color = `hsl(${Math.random() * 60 + 40}, 100%, 50%)`;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= 0.02;
+            }
+            draw(ctx) {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.life;
+                ctx.fillRect(this.x, this.y, 3, 3);
+                ctx.globalAlpha = 1;
+            }
+        }
+        // BALANCE OBJECT
+        class BalanceObject {
+            constructor(x, y, mass, side) {
+                this.x = x;
+                this.y = y;
+                this.mass = mass;
+                this.side = side;
+                this.size = Math.max(25, Math.min(60, Math.sqrt(mass) * 15));
+                this.emoji = this.getEmojiForMass(mass);
+            }
+            getEmojiForMass(mass) {
+                const emojis = {
+                    0.001: '🪶',
+                    0.1: '📱',
+                    0.3: '🎸',
+                    0.5: '📖',
+                    1: '🎒',
+                    2.5: '💻',
+                    5: '🛹',
+                    10: '🚲',
+                    75: '🛋️',
+                    80: '🐐',
+                    100: '🛏️',
+                    150: '🪑',
+                    250: '🌡️',
+                    300: '🐎',
+                    400: '🎹',
+                    1500: '🚗',
+                    2300: '🦏',
+                    5000: '🐘',
+                    10000: '🚒',
+                    12000: '🚌'
+                };
+                return emojis[mass] || '⚪';
+            }
+            isPointInside(x, y) {
+                const dx = x - this.x;
+                const dy = y - this.y;
+                return Math.sqrt(dx * dx + dy * dy) < this.size;
+            }
+        }
+        // Planet emoji lookup
+        function getPlanetEmoji(value) {
+            const planets = {
+                '274': '☀️',
+                '10.44': '🪐',
+                '9.81': '🌍',
+                '3.72': '🔴',
+                '1.62': '🌙',
+                '0.18': '🌑'
+            };
+            return planets[value] || '⚪';
+        }
+        // MAIN PHYSICS
+        function calculateWeights() {
+            const leftGravity = parseFloat(leftGravitySelect.value);
+            const rightGravity = parseFloat(rightGravitySelect.value);
+            const leftTotalMass = objects.left.reduce((sum, obj) => sum + obj.mass, 0);
+            const rightTotalMass = objects.right.reduce((sum, obj) => sum + obj.mass, 0);
+            const leftWeightN = leftTotalMass * leftGravity;
+            const rightWeightN = rightTotalMass * rightGravity;
+            if (leftWeightEnabled) {
+                document.getElementById('leftWeightDisplay').textContent =
+                    `Total Weight: ${weightToDisplay(leftWeightN)} (${massToDisplay(leftTotalMass)} × ${gravityValueToDisplay(leftGravity)})`;
+            }
+            if (rightWeightEnabled) {
+                document.getElementById('rightWeightDisplay').textContent =
+                    `Total Weight: ${weightToDisplay(rightWeightN)} (${massToDisplay(rightTotalMass)} × ${gravityValueToDisplay(rightGravity)})`;
+            }
+            return { leftWeightN, rightWeightN };
+        }
+        function updatePhysics(deltaTime) {
+            const { leftWeightN, rightWeightN } = calculateWeights();
+            const maxWeight = Math.max(leftWeightN, rightWeightN);
+            const minWeight = Math.min(leftWeightN, rightWeightN);
+            const weightDiff = maxWeight - minWeight;
+            const diffPercentage = maxWeight > 0 ? (weightDiff / maxWeight) * 100 : 0;
+            const targetAngle = (rightWeightN - leftWeightN) / Math.max(leftWeightN, rightWeightN, 1) * Math.PI / 6;
+            const angleSpeed = 0.005;
+            balance.angle += (targetAngle - balance.angle) * angleSpeed * deltaTime;
+            balance.angle = Math.max(Math.min(balance.angle, Math.PI / 6), -Math.PI / 6);
+            const isBalanced = diffPercentage <= 10 && objects.left.length > 0 && objects.right.length > 0;
+            if (isBalanced) {
+                balanceTime += deltaTime / 1000;
+                if (balanceTime >= 1) {
+                    scoreMultiplier = Math.min(10, Math.floor(balanceTime / 2) + 1);
+                    balanceScore += scoreMultiplier;
+                    balanceScoreElement.textContent = balanceScore;
+                    multiplierElement.textContent = scoreMultiplier;
+                    if (Math.random() < 0.1) {
+                        for (let i = 0; i < 5; i++) {
+                            particles.push(new Particle(balance.x, balance.y + Math.random() * 20 - 10));
+                        }
+                    }
+                }
+            } else {
+                balanceTime = 0;
+                scoreMultiplier = 1;
+                multiplierElement.textContent = 1;
+            }
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => p.update());
+            if (objects.left.length === 0 && objects.right.length === 0) {
+                hintElement.textContent = "Add objects to both sides to start balancing!";
+            } else if (objects.left.length === 0 || objects.right.length === 0) {
+                hintElement.textContent = "Add objects to the empty side!";
+            } else if (diffPercentage > 20) {
+                hintElement.textContent = "The difference is too large! Try objects with similar weights.";
+            } else if (diffPercentage <= 5) {
+                hintElement.textContent = "Perfect balance! Keep it steady to increase your multiplier!";
+            } else {
+                const heavierSide = leftWeightN > rightWeightN ? "left" : "right";
+                hintElement.textContent = `The ${heavierSide} side is heavier. Try adjusting the weights.`;
+            }
+        }
+        // DRAW / RENDER
+        function drawPlanet(ctx, x, y, size, emoji) {
+            ctx.font = `${size}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, x, y);
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#666';
+            ctx.fillRect(balance.x - 10, balance.y, 20, balance.pivotHeight);
+            ctx.save();
+            ctx.translate(balance.x, balance.y);
+            ctx.rotate(balance.angle);
+            ctx.fillStyle = '#888';
+            ctx.fillRect(-balance.width / 2, -balance.height / 2, balance.width, balance.height);
+            const leftGravity = leftGravitySelect.value;
+            const rightGravity = rightGravitySelect.value;
+            const leftEmoji = getPlanetEmoji(leftGravity);
+            const rightEmoji = getPlanetEmoji(rightGravity);
+            const leftSize = planetSizeMap[leftGravity] || 40;
+            const rightSize = planetSizeMap[rightGravity] || 40;
+            drawPlanet(ctx, -balance.width / 2, balance.height / 2 + 20, leftSize, leftEmoji);
+            drawPlanet(ctx, balance.width / 2, balance.height / 2 + 20, rightSize, rightEmoji);
+            ctx.restore();
+            particles.forEach(p => p.draw(ctx));
+            [...objects.left, ...objects.right].forEach(obj => {
+                if (obj === draggedObject) return;
+                ctx.save();
+                ctx.translate(balance.x, balance.y);
+                ctx.rotate(balance.angle);
+                const relativeX = obj.x - balance.x;
+                const relativeY = obj.y - balance.y;
+                ctx.font = `${obj.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(obj.emoji, relativeX, relativeY);
+                ctx.fillStyle = '#FFF';
+                ctx.font = '12px Arial';
+                const massText = massToDisplay(obj.mass);
+                ctx.fillText(massText, relativeX, relativeY + obj.size / 2 + 15);
+                ctx.restore();
+            });
+            if (draggedObject) {
+                ctx.font = `${draggedObject.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(draggedObject.emoji, draggedObject.x, draggedObject.y);
+                ctx.fillStyle = '#FFF';
+                ctx.font = '12px Arial';
+                const massText = massToDisplay(draggedObject.mass);
+                ctx.fillText(massText, draggedObject.x, draggedObject.y + draggedObject.size / 2 + 15);
+            }
+            const leftGnum = parseFloat(leftGravitySelect.value);
+            const rightGnum = parseFloat(rightGravitySelect.value);
+            ctx.fillStyle = `rgba(255, 255, 0, ${Math.min(leftGnum / 274, 0.3)})`;
+            ctx.fillRect(0, 0, canvas.width / 2, canvas.height);
+            ctx.fillStyle = `rgba(255, 255, 0, ${Math.min(rightGnum / 274, 0.3)})`;
+            ctx.fillRect(canvas.width / 2, 0, canvas.width / 2, canvas.height);
+        }
+        // OBJECT MANAGEMENT
+        function addObject(mass, side) {
+            const xOffset = side === 'left' ? -balance.width / 4 : balance.width / 4;
+            const yOffset = -50 - (objects[side].length * 30);
+            const newObject = new BalanceObject(balance.x + xOffset, balance.y + yOffset, mass, side);
+            objects[side].push(newObject);
+            if (leftWeightEnabled || rightWeightEnabled) {
+                calculateWeights();
+            }
+        }
+        function removeObject(obj) {
+            const side = obj.side;
+            const idx = objects[side].indexOf(obj);
+            if (idx > -1) {
+                objects[side].splice(idx, 1);
+                if (leftWeightEnabled || rightWeightEnabled) {
+                    calculateWeights();
+                }
+            }
+        }
+        function getObjectAtPosition(x, y) {
+            const allObjects = [...objects.left, ...objects.right].reverse();
+            return allObjects.find(obj => obj.isPointInside(x, y));
+        }
+        function getSideAtPosition(x) {
+            return x < balance.x ? 'left' : 'right';
+        }
+        // EVENT HANDLERS
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+            const clickedObject = getObjectAtPosition(mouseX, mouseY);
+            if (clickedObject) {
+                draggedObject = clickedObject;
+                dragOffsetX = mouseX - clickedObject.x;
+                dragOffsetY = mouseY - clickedObject.y;
+                removeObject(clickedObject);
+            }
+        });
+        document.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+            if (draggedObject) {
+                draggedObject.x = mouseX - dragOffsetX;
+                draggedObject.y = mouseY - dragOffsetY;
+            }
+        });
+        document.addEventListener('mouseup', (e) => {
+            if (draggedObject) {
+                const rect = canvas.getBoundingClientRect();
+                const canvasX = e.clientX - rect.left;
+                const canvasY = e.clientY - rect.top;
+                if (canvasX >= 0 && canvasX <= canvas.width &&
+                    canvasY >= 0 && canvasY <= canvas.height) {
+                    const side = getSideAtPosition(canvasX);
+                    const isInValidY = canvasY > balance.y - 100 && canvasY < balance.y + 100;
+                    const isInValidX = Math.abs(canvasX - balance.x) < balance.width / 2 + 50;
+                    if (isInValidY && isInValidX) {
+                        draggedObject.side = side;
+                        objects[side].push(draggedObject);
+                        if (leftWeightEnabled || rightWeightEnabled) {
+                            calculateWeights();
+                        }
+                    }
+                }
+                draggedObject = null;
+            }
+        });
+        // Button "drag" creation
+        document.querySelectorAll('.object-btn').forEach(btn => {
+            btn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                const mass = parseFloat(btn.dataset.mass);
+                const rect = canvas.getBoundingClientRect();
+                const canvasX = e.clientX - rect.left;
+                const canvasY = e.clientY - rect.top;
+                draggedObject = new BalanceObject(
+                    canvasX,
+                    canvasY,
+                    mass,
+                    getSideAtPosition(canvasX)
+                );
+                dragOffsetX = 0;
+                dragOffsetY = 0;
+            });
+        });
+        // Clear all
+        clearBtn.addEventListener('click', () => {
+            objects.left = [];
+            objects.right = [];
+            balanceScore = 0;
+            scoreMultiplier = 1;
+            balanceTime = 0;
+            balance.angle = 0;
+            particles = [];
+            balanceScoreElement.textContent = '0';
+            multiplierElement.textContent = '1';
+            if (leftWeightEnabled || rightWeightEnabled) {
+                calculateWeights();
+            }
+        });
+        leftGravitySelect.addEventListener('change', () => {
+            objects.left = [];
+            balanceScore = 0;
+            scoreMultiplier = 1;
+            balanceTime = 0;
+            if (leftWeightEnabled) calculateWeights();
+            updateGravitySelectLabels();
+        });
+        rightGravitySelect.addEventListener('change', () => {
+            objects.right = [];
+            balanceScore = 0;
+            scoreMultiplier = 1;
+            balanceTime = 0;
+            if (rightWeightEnabled) calculateWeights();
+            updateGravitySelectLabels();
+        });
+        document.getElementById('leftCalcBtn').addEventListener('click', () => {
+            leftWeightEnabled = true;  
+            calculateWeights();
+        });
+        document.getElementById('rightCalcBtn').addEventListener('click', () => {
+            rightWeightEnabled = true;
+            calculateWeights();
+        });
+        // UNIT TOGGLE
+        unitToggleBtn.addEventListener('click', () => {
+            useSI = !useSI;
+            if (useSI) {
+                unitToggleBtn.textContent = "Switch to US Units";
+            } else {
+                unitToggleBtn.textContent = "Switch to SI Units";
+            }
+            updateGravitySelectLabels();
+            updateObjectButtonLabels();
+            if (leftWeightEnabled || rightWeightEnabled) {
+                calculateWeights();
+            }
+        });
+        function updateGravitySelectLabels() {
+            [leftGravitySelect, rightGravitySelect].forEach(select => {
+                for (let i = 0; i < select.options.length; i++) {
+                    const opt = select.options[i];
+                    const rawVal = opt.value;
+                    const emoji = getPlanetEmoji(rawVal);
+                    opt.textContent = formatGravityOptionText(emoji, rawVal);
+                }
+            });
+        }
+        // Function to update object button labels
+        function updateObjectButtonLabels() {
+            document.querySelectorAll('.object-btn').forEach(btn => {
+                const siLabel = btn.getAttribute('data-si-label');
+                const usLabel = btn.getAttribute('data-us-label');
+                const labelSpan = btn.querySelector('span');
+                if (useSI) {
+                    labelSpan.textContent = siLabel;
+                } else {
+                    labelSpan.textContent = usLabel;
+                }
+            });
+        }
+        // MAIN LOOP
+        function gameLoop(currentTime) {
+            const deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+            updatePhysics(deltaTime);
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        // On load, do an initial label update
+        updateGravitySelectLabels();
+        updateObjectButtonLabels();
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>

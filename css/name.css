@@ -1,0 +1,198 @@
+@import "img/nav-bg.jpg";
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+    background-image: url('nav-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#psyche {
+    width: 25%;
+    left: 3%;
+    top: -5%;
+    position: relative;
+    animation: logo-move-in;
+    animation-duration: 2s;
+}
+#asteroid {
+    float: right;
+    position: relative;
+    width: 50%;
+    right: -5%;
+    top: -5%;
+    animation: header-move-in;
+    animation-duration: 2s;
+}
+#findOutButton {
+    background-color: greenyellow;
+    color: black;
+    border: 2px solid greenyellow;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#findOutButton:hover {
+    background-color: black;
+    color: greenyellow;
+    border-color: black;
+}
+@keyframes header-move-in {
+    from {right: -200px; top: -100px;}
+    to {right: -5%; top: -5%;}
+}
+@keyframes logo-move-in {
+    from {left: -200px; top: -100px;}
+    to {left: 3%; top: -5%;}
+}
+#wide-view {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin-top: 0;
+    min-height: 500px;
+    max-height: 500px;
+    background-image: url('nav-bg.jpg');
+    justify-content: center;
+    border: 3px solid black;
+}
+#wide-view h3, p {
+    text-align: center;
+    margin-left: 25%;
+    color: black;
+    background-image: url('nav-bg.jpg');
+}
+#wide-view h3 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+#wide-view p {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+#wide-img {
+    margin-left: 30%;
+    height: 500px;
+    width: 800px;
+    grid-column: 2 / 5;
+    grid-row: 1 / 4;
+}
+#main-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    grid-template-rows: repeat(2, 1fr);  
+    justify-items: center; 
+    align-items: center;  
+    background-color: black;
+    background-image: url('nav-bg.jpg');
+    width: 100%;
+    min-height: 30vh; 
+    border: 3px solid black;
+}
+#main-container h3 {
+    color: greenyellow;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;   
+    justify-self: center; 
+    align-self: center;   
+    margin-left: 30%;
+}
+#main-container p {
+    color: greenyellow; 
+    grid-column: 1 / 2; 
+    grid-row: 2 / 3; 
+    text-align: center;
+    margin-left: 30%;
+    background-image: url('nav-bg.jpg');
+}
+.image-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+    margin: 40px 0; 
+    padding: 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f9f9f9, #fdfdfd);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-container:hover {
+    transform: traslateY(-5px);
+    box-shadow: 0 12 px 24px rgba(0, 0, 0, 0.2);
+}
+.image-container h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+.text-image-container p {
+    flex: 1rem;
+    line-height: 1.6;
+    color: #555; 
+    margin: 0;
+}
+
+.image-container img {
+    flex: 0 0 auto; 
+    max-width: 280px; 
+    height: auto; 
+    border-radius: 16px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    transition: transform 0.3s ease;
+}
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
+#psyche-container {
+    grid-column: 2 / 5; 
+    grid-row: 1 / 3;
+    width: 80%;
+    margin-left: 20%;
+    height: 500px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+#top  {
+    background-color: black;
+    color: black;
+    border: 3px solid black;
+    background-image: url('nav-bg.jpg');
+}
+#top p {
+    margin-left: 0;
+    line-height: 2;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  

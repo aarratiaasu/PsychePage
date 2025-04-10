@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psyche Temperature Control Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a2a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        header {
+            background-color: #1a1a4a;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #FF4500;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: #aaccff;
+        }
+        
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: 20px auto;
+            border: 2px solid #FF4500;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.3);
+        }
+        
+        canvas {
+            background-color: #1a1a2a;
+            display: block;
+        }
+        
+        #game-menu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(26, 26, 74, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            min-width: 300px;
+        }
+        
+        .game-btn {
+            background-color: #FF4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .game-btn:hover {
+            background-color: #FF6347;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: rgba(26, 26, 74, 0.7);
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-label {
+            margin-right: 5px;
+            font-weight: bold;
+            color: #aaccff;
+        }
+        
+        .leaderboard {
+            margin: 15px 0;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .leaderboard h4 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #FF4500;
+        }
+        
+        .leaderboard-entry {
+            display: grid;
+            grid-template-columns: 30px 1fr 80px 80px;
+            padding: 5px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .leaderboard-entry:nth-child(odd) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .upgrade-panel {
+            margin: 15px 0;
+            text-align: left;
+        }
+        
+        .upgrade-panel h4 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #FF4500;
+        }
+        
+        .upgrade-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .upgrade-item {
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+        
+        .upgrade-bar {
+            display: flex;
+            gap: 5px;
+            margin: 5px 0;
+        }
+        
+        .upgrade-level {
+            width: 20px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        
+        .upgrade-item p {
+            font-size: 0.8rem;
+            color: #aaccff;
+        }
+        
+        .upgrade-info {
+            font-size: 0.9rem;
+            color: #FF4500;
+            margin-bottom: 10px;
+        }
+        
+        .name-input {
+            margin: 15px 0;
+        }
+        
+        .controls-info {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #aaccff;
+            text-align: center;
+        }
+        
+        .controls-info p {
+            margin: 5px 0;
+        }
+        
+        .controls-info strong {
+            color: #FF4500;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px rgba(255, 69, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(255, 69, 0, 0.5); }
+        }
+        
+        .glow-effect {
+            animation: glow 2s infinite;
+        }
+
+        /* Added styles from landing page */
+        .landing-container { /* Renamed from .container to avoid conflicts */
+            background-color: rgba(42, 67, 101, 0.8);
+            padding: 40px 60px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            max-width: 600px;
+            position: relative; /* Changed from absolute positioning */
+            overflow: hidden;
+            margin: 20px auto; /* Center it */
+            text-align: center; /* Added */
+            color: #e0e0e0; /* Added */
+            animation: fadeIn 0.8s ease-out; /* Added */
+        }
+
+        .landing-graphic { /* Renamed */
+            position: absolute;
+            bottom: -30px;
+            right: -40px;
+            width: 150px; /* Smaller */
+            opacity: 0.6;
+            pointer-events: none;
+            transform: rotate(15deg);
+        }
+
+        .landing-graphic-2 { /* Renamed */
+            position: absolute;
+            top: -20px;
+            left: -30px;
+            width: 130px; /* Smaller */
+            opacity: 0.5;
+            pointer-events: none;
+            transform: rotate(-10deg);
+        }
+
+        .landing-container h1 { /* Scoped */
+            color: #f0a500;
+            font-size: 2.5em; /* Adjusted */
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .landing-container p { /* Scoped */
+            font-size: 1.1em; /* Adjusted */
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .play-button { /* Keep name, add ID later */
+            display: inline-block;
+            background-color: #f0a500;
+            color: #1a1a2e;
+            padding: 15px 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-button:hover {
+            background-color: #ffbf40;
+            transform: translateY(-2px);
+        }
+
+        .play-button:active {
+            transform: translateY(1px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Added rule to hide game initially */
+        .game-container, .game-info {
+            display: none;
+        }
+        /* End added styles */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PSYCHE TEMPERATURE CONTROL GAME</h1>
+        <p class="subtitle">Navigate through extreme temperature zones on Psyche's surface</p>
+    </header>
+
+    <!-- Added Landing Page Content -->
+    <div class="landing-container" id="landingContainer">
+        <h1>Calling All Space Explorers!</h1>
+        <p>Hey brave astronaut! Guide your rover across Psyche's mysterious surface, dodging hazards and asteroids along the way. Are you ready for this exciting mission? Let's blast off!</p>
+        <a href="#" class="play-button" id="startButton">Start Your Mission!</a>
+        <img src="../../../img/PsycheTransparent.png" alt="Psyche Asteroid Graphic" class="landing-graphic">
+        <img src="../../../img/PsycheTransparent.png" alt="Psyche Asteroid Graphic 2" class="landing-graphic-2">
+    </div>
+    <!-- End Landing Page Content -->
+
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="game-menu">
+            <h3>PSYCHE ROVER MISSION</h3>
+            <p>Navigate your rover through Psyche's extreme temperature zones</p>
+            <div class="controls-info">
+                <p>Use <strong>Arrow Keys</strong> to move</p>
+                <p>Press <strong>Space</strong> to activate shield</p>
+                <p>Press <strong>Esc</strong> to pause</p>
+            </div>
+            <button class="game-btn" onclick="startGame('easy')">EASY MODE</button>
+            <button class="game-btn" onclick="startGame('medium')">MEDIUM MODE</button>
+            <button class="game-btn" onclick="startGame('hard')">HARD MODE</button>
+        </div>
+    </div>
+    
+    <div class="game-info">
+        <div class="info-item">
+            <span class="info-label">SCORE:</span>
+            <span id="score"><span>0</span></span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">SHIELDS:</span>
+            <span id="power-ups"><span>0</span></span>
+        </div>
+    </div>
+    
+    <script src="../../games/temperature-game.js"></script>
+    <script>
+        const landingContainer = document.getElementById('landingContainer');
+        const startButton = document.getElementById('startButton');
+        const gameContainer = document.querySelector('.game-container');
+        const gameInfo = document.querySelector('.game-info');
+
+        // Function to show the actual game menu (originally called on load)
+        // Assumes showMainMenu() is defined in temperature-game.js and makes the menu visible
+        function displayGameMenu() {
+             if (typeof showMainMenu === 'function') {
+                 showMainMenu(); // This should display the #game-menu div
+             } else {
+                 console.error('showMainMenu function not found. Cannot display game menu.');
+                 // Fallback: maybe just make the game menu div visible directly?
+                 const gameMenu = document.getElementById('game-menu');
+                 if(gameMenu) gameMenu.style.display = 'block';
+             }
+        }
+
+        // Add event listener for the landing page button
+        startButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            if (landingContainer) landingContainer.style.display = 'none'; // Hide landing page
+            if (gameContainer) gameContainer.style.display = 'block'; // Show game container
+            if (gameInfo) gameInfo.style.display = 'flex'; // Show game info (original was flex)
+            displayGameMenu(); // Show the game's own menu (Easy, Medium, Hard)
+        });
+
+        // Note: No automatic call to showMainMenu() on load anymore
+        // The game starts only when the "Start Your Mission!" button is clicked.
+    </script>
+</body>
+</html>
