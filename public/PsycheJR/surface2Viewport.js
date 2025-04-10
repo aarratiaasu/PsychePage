@@ -219,7 +219,7 @@ export function showSurface2Viewport() {
     
     // Create iframe to load the surface2 content
     iframe = document.createElement('iframe');
-    iframe.src = '/public/PsycheJR/surface2.html';  // Use absolute path from project root
+    iframe.src = `${import.meta.env.BASE_URL}public/PsycheJR/surface2.html`;  // Use absolute path from project root
     ViewportStyling.applyIframeStyles(iframe, {
         backgroundColor: 'rgba(0, 0, 0, 0.0)' // Completely transparent background
     });

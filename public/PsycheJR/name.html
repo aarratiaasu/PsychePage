@@ -22,7 +22,6 @@
      <!-- Three.js Scene (Canvas) -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
-     <script src="script.js"></script>
     <style>
         body {
             margin: 0;
@@ -161,7 +160,7 @@
         let loader = new THREE.GLTFLoader();
         loader.load(
             "asteroid",
-            "./res/models/psyche_new.glb",
+            `${import.meta.env.BASE_URL}res/models/psyche_new.glb`,
         function (gltf) {
         let model = gltf.scene;
         model.scale.set(0.5, 0.5, 0.5); // scale

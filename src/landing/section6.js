@@ -59,7 +59,7 @@ export function loadSection6(scene, camera, sections, renderer) {
     try {
       loadModel(
         "controller",
-        "./../../res/models/arcade_controller.glb",
+        `${import.meta.env.BASE_URL}res/models/arcade_controller.glb`,
         modelPosition,
         2,
         objRotation,

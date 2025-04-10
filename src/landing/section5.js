@@ -36,7 +36,7 @@ export function loadSection5(scene, camera, sections, renderer) {
       try {
         loadModel(
           "probe",
-          "./../../res/models/nasaLogo.glb",
+          `${import.meta.env.BASE_URL}res/models/nasaLogo.glb`,
           modelPosition, // position
           .7, // scale
           objRotation, // rotation

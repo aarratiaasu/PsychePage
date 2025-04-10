@@ -234,7 +234,7 @@ export function loadSection4(scene, camera, sections, renderer) {
 
         loadModel(
             "balance",
-            "./../../res/models/balance_scale.glb",
+            `${import.meta.env.BASE_URL}res/models/balance_scale.glb`,
             modelPosition,
             .9,
             objRotation,

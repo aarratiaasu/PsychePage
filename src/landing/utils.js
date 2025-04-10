@@ -117,7 +117,7 @@ async function loadShader(url) {
 export async function createTextMesh(text, position, rotation, size = 1.5, scene) {
   return new Promise((resolve, reject) => {
     const fontLoader = new FontLoader();
-    fontLoader.load('./../../res/font/GenosThin_Regular.json', async (font) => {
+    fontLoader.load(`${import.meta.env.BASE_URL}res/font/GenosThin_Regular.json`, async (font) => {
       try {
         const textGeometry = new TextGeometry(text, {
           font: font,
@@ -131,8 +131,8 @@ export async function createTextMesh(text, position, rotation, size = 1.5, scene
           bevelSegments: 5
         });
 
-        const vertexShader = await loadShader('./../../res/shaders/textVertexShader.glsl');
-        const fragmentShader = await loadShader('./../../res/shaders/textFragmentShader.glsl');
+        const vertexShader = await loadShader(`${import.meta.env.BASE_URL}res/shaders/textVertexShader.glsl`);
+        const fragmentShader = await loadShader(`${import.meta.env.BASE_URL}res/shaders/textFragmentShader.glsl`);
 
         const textMaterial = new THREE.ShaderMaterial({
           uniforms: {
@@ -339,7 +339,7 @@ export function createMenuItem(text, position, scene, onClick, size = 0.5) {
   const textMesh = new THREE.Mesh();
 
   // Load the custom font for text geometry
-  fontLoader.load('./../../res/font/GenosThin_Regular.json', (font) => {
+  fontLoader.load(`${import.meta.env.BASE_URL}res/font/GenosThin_Regular.json`, (font) => {
     // Create text geometry with beveling and depth for a 3D look
     const textGeometry = new TextGeometry(text, {
       font: font,
@@ -624,7 +624,7 @@ export async function triggerButton3D(label, position, rotation, size = 0.7, sce
   return new Promise((resolve, reject) => {
     const fontLoader = new FontLoader();
 
-    fontLoader.load('/res/font/Roboto_Regular.json', async (font) => {
+    fontLoader.load(`${import.meta.env.BASE_URL}res/font/Roboto_Regular.json`, async (font) => {
       try {
         const textGeometry = new TextGeometry(label, {
           font: font,
@@ -641,8 +641,8 @@ export async function triggerButton3D(label, position, rotation, size = 0.7, sce
         textGeometry.computeBoundingBox();
         textGeometry.center();
 
-        const vertexShader = await loadShader('/res/shaders/textVertexShader.glsl');
-        const fragmentShader = await loadShader('/res/shaders/textFragmentShader.glsl');
+        const vertexShader = await loadShader(`${import.meta.env.BASE_URL}res/shaders/textVertexShader.glsl`);
+        const fragmentShader = await loadShader(`${import.meta.env.BASE_URL}res/shaders/textFragmentShader.glsl`);
 
         const textMaterial = new THREE.ShaderMaterial({
           uniforms: {

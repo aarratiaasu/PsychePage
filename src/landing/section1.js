@@ -64,7 +64,7 @@ export function loadSection1(scene, camera, sections) {
 
     loadModel(
       "asteroid",
-      "/res/models/psyche_new.glb",
+      `${import.meta.env.BASE_URL}res/models/psyche_new.glb`,
       { x: 80, y: 60, z: 20 },
       6,
       { x: 0, y: 0, z: 0 },

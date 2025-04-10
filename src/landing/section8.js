@@ -47,7 +47,7 @@ export function loadSection8(scene, camera, sections, renderer) {
       try {
         loadModel(
           "controller",
-          "./../../res/models/navigation_pin.glb",
+          `${import.meta.env.BASE_URL}res/models/navigation_pin.glb`,
           modelPosition, // position
           1, // scale
           objRotation, // rotation
