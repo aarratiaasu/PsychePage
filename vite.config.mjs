@@ -15,6 +15,8 @@ export default defineConfig({
             ]
         })
     ],
+    base: '/PsychePage/', // Add this line for GitHub Pages deployment
+    optimizeDeps: {
     optimizeDeps: {
         include: ["three"]
     },
